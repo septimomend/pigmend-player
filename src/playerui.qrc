@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>pigmend.ico</file>
+    </qresource>
+    <qresource prefix="/buttons">
+        <file>img/buttons/add-file-16.ico</file>
+        <file>img/buttons/add-folder-16.ico</file>
+        <file>img/buttons/arrow-44-16.ico</file>
+        <file>img/buttons/author.ico</file>
+        <file>img/buttons/check-mark-16.ico</file>
+        <file>img/buttons/delete-column-16.ico</file>
+        <file>img/buttons/fullscreen-enter-16.ico</file>
+        <file>img/buttons/info-2-16.ico</file>
+        <file>img/buttons/media-pause-16.ico</file>
+        <file>img/buttons/media-skip-backward-16.ico</file>
+        <file>img/buttons/media-skip-forward-16.ico</file>
+        <file>img/buttons/mute-2-16.ico</file>
+        <file>img/buttons/paint-brush-16.ico</file>
+        <file>img/buttons/play-16.ico</file>
+        <file>img/buttons/repeat-16.ico</file>
+        <file>img/buttons/search-3-16.ico</file>
+        <file>img/buttons/shuffle-16.ico</file>
+        <file>img/buttons/stop-16.ico</file>
+        <file>img/buttons/volume-down-5-16.ico</file>
+        <file>img/buttons/volume-up-4-16.ico</file>
+        <file>img/buttons/window-5-16.ico</file>
+        <file>img/buttons/x-mark-16.ico</file>
+        <file>img/buttons/fast-forward-16.ico</file>
+    </qresource>
+    <qresource prefix="/custom">
+        <file>img/custom/bluemend.ico</file>
+        <file>img/custom/darkgreymend.ico</file>
+        <file>img/custom/equalizer.gif</file>
+        <file>img/custom/greymend.ico</file>
+        <file>img/custom/load2.gif</file>
+        <file>img/custom/loader.gif</file>
+        <file>img/custom/music.gif</file>
+        <file>img/custom/okload.gif</file>
+        <file>img/custom/orangemend.ico</file>
+        <file>img/custom/pigmendback.png</file>
+    </qresource>
+</RCC>
