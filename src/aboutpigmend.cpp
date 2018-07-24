@@ -12,11 +12,11 @@ AboutPigmend::AboutPigmend(QWidget *parent) :
     ui->author_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->author_label->setOpenExternalLinks(true);
     ui->version->setText("<font color=\"grey\">Version: </font><font color=\"#F05A2F\">1.0</font>");
-    ui->description->setText("<font color=\"grey\">Pigmend Player is simple, fast and crossplatformed application.<br/>"
-                             "Supported OS: Windows, Linux, Mac.<br/>"
-                             "Currently supported formats:<br/>"
-                             "    Audio: MP3, WAV, FLAC;<br/>"
-                             "    Video: MP4, AVI, MKV.</font>");
+    ui->description->setText("<font color=\"grey\">Pigmend Player is simple, fast and crossplatformed<br/>application.<br/>"
+                             "Supported OS: Windows, Linux, Mac.<br/><br/>"
+                             "<u>Currently supported formats:</u><br/>"
+                             " • Audio: MP3, WAV, FLAC;<br/>"
+                             " • Video: MP4, AVI, MKV.</font>");
     connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
