@@ -29,7 +29,12 @@ void MediafileController::openFile()
     QFileDialog fileDialog(this);
 
     // open file dialog for choosing media files
-    QStringList filenames = fileDialog.getOpenFileNames(this,tr("Add files"), m_lastPath, tr("Media (*.mp3 *.mp4);;Audio (*.mp3);;Video (*.mp4);;Film (*.avi)"));
+    QStringList filenames = fileDialog.getOpenFileNames(this,tr("Add files"), m_lastPath,
+        tr("All files (*);;"
+           "Media (*.mp3 *.mp4);;"
+           "Audio (*.mp3, *.wav, *.flac);;"
+           "Video (*.mp4);;"
+           "Film (*.avi, *.mkv)"));
 
     // writing chosen files to QMap container by pair of filename and its path
     if (!filenames.isEmpty() )
