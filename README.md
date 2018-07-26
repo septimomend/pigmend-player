@@ -1,9 +1,17 @@
 # pigmend-player  
   
+![Pigmend Player Icon](https://github.com/septimomend/pigmend-player/blob/master/src/pigmend.ico)  
+**Pigmend Player**  
+Version: 1.0 (demo)  
+Ivan Chapkailo © 2018  
+  
+---  
+  
 # About Pigmend Player  
 ![Pigmend Player](https://github.com/septimomend/pigmend-player/blob/master/doc/pigmend_screen_m.png)  
 
-Pigmend Player is 'open source' media application based on Qt v5.11. It is fast and simpler to use with convenient interface that allows to perform media without redundant adjusting.  
+Pigmend Player is 'open source' media application based on [Qt v5.11](https://wiki.qt.io/New_Features_in_Qt_5.11 "About Qt 5.11"). It is fast and simpler to use with convenient interface that allows to perform media without redundant adjusting.  
+  
 Pigmend Player currently supports next formates:  
 * Audio  
   + MP3  
