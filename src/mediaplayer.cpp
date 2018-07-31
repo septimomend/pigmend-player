@@ -144,6 +144,16 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
         else if (keyEvent->key() == Qt::Key_Left)
             ui->progressSlider->setValue(ui->progressSlider->value() - SLIDER_STEP);
     }
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *mouseEvent = (QMouseEvent *)event;
+        if (mouseEvent->button() == Qt::LeftButton)
+        {
+            ui->progressSlider->setValue(ui->progressSlider->minimum() +
+                ((ui->progressSlider->maximum() - ui->progressSlider->minimum()) * mouseEvent->x()) /
+                ui->progressSlider->width());
+        }
+    }
 
     event->accept();
 
