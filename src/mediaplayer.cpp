@@ -14,6 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include "ui_mediaplayer.h"
 
 #define THEME_CONFIG_FILE "/config/theme.sst"
+#define SLIDER_STEP 10
 
 MediaPlayer::MediaPlayer(QWidget *parent) : QMainWindow(parent), ui(new Ui::MediaPlayer), m_videoWidget(0),
     m_theme_config_path(PRO_FILE_PWD)
@@ -40,6 +41,7 @@ MediaPlayer::MediaPlayer(QWidget *parent) : QMainWindow(parent), ui(new Ui::Medi
     m_isPlaylistLoaded = false;
     m_shuffleMode = false;
     ui->volumeSlider->setRange(0, 100);
+    ui->progressSlider->installEventFilter(this);
 
     // adjust video widget
     m_videoWidget = new VideoWidget(this);          // define video widget
@@ -90,6 +92,7 @@ MediaPlayer::MediaPlayer(QWidget *parent) : QMainWindow(parent), ui(new Ui::Medi
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
     connect(ui->playlistWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), m_playerControls, SLOT(setMediaFile(QListWidgetItem*)));
     connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
+    connect(ui->progressSlider, SIGNAL(valueChanged(int)), m_playerControls, SLOT(seek(int)));
     connect(ui->fast2Button, SIGNAL(clicked(bool)), m_playerControls, SLOT(fastForward()));
     connect(ui->fast4Button, SIGNAL(clicked(bool)), m_playerControls, SLOT(fastForward()));
     connect(ui->repeatBox, SIGNAL(toggled(bool)), m_playerControls, SLOT(setRepeatMode(bool)));
@@ -129,6 +132,22 @@ MediaPlayer::~MediaPlayer()
     delete m_nextSC;
     delete m_prevSC;
     delete m_stopSC;
+}
+
+bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
+{
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = (QKeyEvent*)event;
+        if (keyEvent->key() == Qt::Key_Right)
+            ui->progressSlider->setValue(ui->progressSlider->value() + SLIDER_STEP);
+        else if (keyEvent->key() == Qt::Key_Left)
+            ui->progressSlider->setValue(ui->progressSlider->value() - SLIDER_STEP);
+    }
+
+    event->accept();
+
+    return QMainWindow::eventFilter(watched, event);
 }
 
 void MediaPlayer::initMenu()

@@ -22,6 +22,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QMenuBar>
 #include <QDesktopServices>
 #include <QMovie>
+#include <QKeyEvent>
 
 #include "playlistSingleton.h"
 #include "videoWidget.h"
@@ -49,6 +50,9 @@ private:
     void loadTheme();
     void updateTheme(QString theme);
     int volume() const;
+
+protected:
+    bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
     void fullScreenChanged(bool fullScreen);
