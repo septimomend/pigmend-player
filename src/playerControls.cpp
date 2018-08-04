@@ -35,6 +35,9 @@ PlayerControls::PlayerControls(QWidget *parent) : m_vw(0)
     m_repeatMode = false;
     m_shuffleMode = false;
     m_handleSelected = false;
+
+    std::thread thr(&captureMousePosition, this);
+    thr.detach();
 }
 
 PlayerControls::~PlayerControls()
@@ -345,4 +348,15 @@ bool PlayerControls::prevInShuffle()
     }
 
     return false;
+}
+
+void PlayerControls::captureMousePosition(PlayerControls *pc)
+{
+    std::lock_guard<std::mutex> locker(pc->m_mtx);
+
+    while (true)
+    {
+        QPoint cursor_position = pc->mapFromGlobal(QCursor::pos());
+        emit pc->mousePositionChanged(&cursor_position);
+    }
 }

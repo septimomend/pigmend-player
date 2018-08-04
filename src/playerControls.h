@@ -19,6 +19,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QListWidgetItem>
 #include <QMediaMetaData>
 #include <QPushButton>
+#include <mutex>
+#include <thread>
 
 #include "playlistSingleton.h"
 #include "videoWidget.h"
@@ -35,6 +37,8 @@ public:
     bool nextInShuffle();                       // sets next media file in accordance with shuffled data
     bool prevInShuffle();                       // sets previous media file in accordance with shuffled data
 
+    static void captureMousePosition(PlayerControls *pc);
+
 private:
     void setVideoContent();                     // sets video content in accordance what media kind is chosen (music or video)
 
@@ -45,14 +49,14 @@ public slots:
     void next();
     void nextForced();
     void prev();
-    void setMediaFile(QListWidgetItem* item);   // sets media file for playing
-    void setVideoWidget(VideoWidget* vw);       // sets QWidget for video output
+    void setMediaFile(QListWidgetItem *item);   // sets media file for playing
+    void setVideoWidget(VideoWidget *vw);       // sets QWidget for video output
     void setTimeProgress(qint64 timeProgress);  // set time position
     void seek(int progressValue);               // sets progress if value at progress slider is changed
     void fastForward();                         // sets fast forward (2x, 4x)
     void setRepeatMode(bool checkRepeat);       // sets m_repeatMode true or false
     void setShuffleMode(bool checkShuffle);     // sets m_shuffleMode calling m_playlist.makeShuffle() which shuffles data
-    void setFirstFile(QListWidgetItem* item);   // sets playing first file after pressing `play` at once after playlist filling
+    void setFirstFile(QListWidgetItem *item);   // sets playing first file after pressing `play` at once after playlist filling
     void setVolume(int volume);
 
 private slots:
@@ -67,6 +71,7 @@ signals:
     void timeProgressChanged(int);              // sends current time of media playing
     void changeVolumeValue(float);
     void setVolumeToPlayer(int);
+    void mousePositionChanged(QPoint *);
 
 private:
     QMediaPlayer *m_player, *m_musicPlayer;
@@ -76,6 +81,7 @@ private:
     bool m_handleSelected;
     PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();
     static int m_mediaOrder;
+    std::mutex m_mtx;
 };
 
 #endif // PLAYER_H

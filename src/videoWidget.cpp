@@ -15,11 +15,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QKeyEvent>
 #include <QMouseEvent>
 
-VideoWidget::VideoWidget(QWidget *parent) : QVideoWidget(parent)
+VideoWidget::VideoWidget(bool isMainScreen, QWidget *parent) : QVideoWidget(parent),
+    m_isGlobalWidget(!isMainScreen)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
+    m_globalVideoWidget = (QVideoWidget *)parent;
+
+    if (isMainScreen)
+        setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
 }
 
 void VideoWidget::keyPressEvent(QKeyEvent *event)
@@ -40,7 +44,7 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 
 void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    this->setFullScreen(!isFullScreen());
+    m_globalVideoWidget->setFullScreen(!m_globalVideoWidget->isFullScreen());
     event->accept();
 }
 

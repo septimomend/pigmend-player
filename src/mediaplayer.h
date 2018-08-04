@@ -23,6 +23,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QDesktopServices>
 #include <QMovie>
 #include <QKeyEvent>
+#include <QHBoxLayout>
+#include <QLabel>
 
 #include "playlistSingleton.h"
 #include "videoWidget.h"
@@ -41,7 +43,7 @@ class MediaPlayer : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MediaPlayer(QWidget *parent = 0);
+    explicit MediaPlayer(QRect screen_size, QWidget *parent = 0);
     ~MediaPlayer();
 
 private:
@@ -50,6 +52,7 @@ private:
     void loadTheme();
     void updateTheme(QString theme);
     int volume() const;
+    void clearLayout(QLayout *layout);
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -58,6 +61,7 @@ signals:
     void fullScreenChanged(bool fullScreen);
     void videoWidgetDefined(VideoWidget *vw);
     void changeVolume(int volume);
+    void progressSliderValueChanged(int);   // use this signal while silder value changes instead of QSlider::valueChanged(int) - it is slow and bugged
 
 private slots:
     void updatePlaylist();                  // read playlist QMap to playlist widget
@@ -79,12 +83,16 @@ private slots:
     void onVolumeButtonUpChanged();
     void onVolumeButtonDownChanged();
     void onVolumeMute();
+    void updateCursorPosition(QPoint *);
 
 private:
+    int m_global_height;
+    int m_global_width;
     Ui::MediaPlayer *ui;
     bool m_shuffleMode;
     bool m_isPlaylistLoaded;
     VideoWidget *m_videoWidget;
+    VideoWidget *m_globalVideoWidget;
     PlayerControls *m_playerControls;
     MediafileController *m_mediaFile;
     PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();   // singleton instance
@@ -92,6 +100,8 @@ private:
     AboutPigmend *m_aboutPlayer;
     QMovie *m_movieLoading, *m_movieDone;
     QString m_theme_config_path;
+    QSlider *m_sliderInFullScreen;
+    QLabel *m_titleInFullScreen;
 
     // shortcuts
     QShortcut *m_playSC;
@@ -122,6 +132,11 @@ private:
     QAction *m_smallWindowAction;
     QAction *m_middleWindowAction;
     QAction *m_wideWindowAction;
+
+    QHBoxLayout *m_videoControlLayout;
+    QHBoxLayout *m_videoTitleLayout;
+    QHBoxLayout *m_videoScreenLayout;
+    QGridLayout *m_videoGridLayout;
 };
 
 #endif // MEDIAPLAYER_H

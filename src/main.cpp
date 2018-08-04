@@ -14,11 +14,16 @@ LINK: https://github.com/septimomend/pigmend-player
 
 #include "mediaplayer.h"
 #include <QApplication>
+#include <QScreen>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MediaPlayer *mediaPlayer = new MediaPlayer;
+
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect  screen_geometry = screen->geometry();
+
+    MediaPlayer *mediaPlayer = new MediaPlayer(screen_geometry);
     mediaPlayer->show();
 
     return a.exec();

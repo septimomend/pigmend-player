@@ -14,7 +14,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
 
-
 #include <QVideoWidget>
 #include <QStyleOption>
 #include <QPainter>
@@ -24,7 +23,7 @@ class VideoWidget : public QVideoWidget
     Q_OBJECT
 
 public:
-    VideoWidget(QWidget *parent = 0);
+    VideoWidget(bool isMainScreen = false, QWidget *parent = 0);
 
 public slots:
     void enableFullScreen();    // sets full screen after fullScreenButton is clicked
@@ -34,6 +33,10 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *pe) override;
+
+private:
+    bool m_isGlobalWidget;
+    QVideoWidget *m_globalVideoWidget;
 };
 
 #endif // VIDEOWIDGET_H
