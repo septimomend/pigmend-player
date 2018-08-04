@@ -35,6 +35,7 @@ PlayerControls::PlayerControls(QWidget *parent) : m_vw(0)
     m_repeatMode = false;
     m_shuffleMode = false;
     m_handleSelected = false;
+    m_position = 0;
 
     std::thread thr(&captureMousePosition, this);
     thr.detach();
@@ -72,6 +73,7 @@ void PlayerControls::setVideoContent()
 void PlayerControls::play()
 {
     emit currentMediaItem(QString(m_player->currentMedia().canonicalUrl().toString()));  // send signal with path of current media file
+    m_player->setMedia(m_player->currentMedia().canonicalUrl());
 
     if (m_vw == nullptr)
     {
@@ -82,8 +84,10 @@ void PlayerControls::play()
     setVideoContent();
 
     m_player->setPlaybackRate(1.0); // set normal playback rate if press `play` after some fast forward button
+    m_player->setPosition(m_position);
     m_player->play();
     setVolume(m_player->volume());
+    m_position = 0;
 
     m_isKeyClicked = false;
     m_handleSelected = false;
@@ -92,8 +96,9 @@ void PlayerControls::play()
 void PlayerControls::pause()
 {
     m_isKeyClicked = true;
+    m_position = m_player->position();
     m_player->pause();      // pause play track
-    m_musicPlayer->pause(); // and pause gif
+    //m_musicPlayer->pause(); // and pause gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
 }
 
@@ -101,7 +106,7 @@ void PlayerControls::stop()
 {
     m_isKeyClicked = true;
     m_player->stop();       // stop play
-    m_musicPlayer->stop();  // and stop gif
+    //m_musicPlayer->stop();  // and stop gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
 }
 

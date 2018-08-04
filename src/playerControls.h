@@ -79,6 +79,7 @@ private:
     bool m_isMusic, m_isKeyClicked;
     bool m_repeatMode, m_shuffleMode;
     bool m_handleSelected;
+    int m_position;
     PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();
     static int m_mediaOrder;
     std::mutex m_mtx;
