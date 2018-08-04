@@ -2,7 +2,7 @@
   
 ![Pigmend Player Icon](https://github.com/septimomend/pigmend-player/blob/master/src/pigmend.ico)  
 **Pigmend Player**  
-Version: 1.0 (demo)  
+Version: 1.1 (**demo, not stable**)  
 Ivan Chapkailo © 2018  
   
 ---  
@@ -28,7 +28,7 @@ Pigmend Player currently supports next formates:
   
 However codecs support a lot of formats and it will be available with next version.  
   
-Version 1.0 is demo and not including a lot of properties, which can be found in next version 1.1 to soon.  
+[Version 1.0](https://github.com/septimomend/pigmend-player/tree/master) is demo and not including a lot of properties, which can be found in this version 1.1 to soon.  
   
 ## License
 [MIT License](https://github.com/septimomend/pigmend-player/blob/master/LICENSE)
