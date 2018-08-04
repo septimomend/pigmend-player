@@ -124,7 +124,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     connect(ui->volumeDownButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
     connect(ui->muteButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
 
-    // insternal operations
+    // internal operations
     connect(m_playerControls, SIGNAL(currentMediaItem(QString)), this, SLOT(focusItem(QString)));
     connect(m_playerControls, SIGNAL(titleChanged( QStringList*)), this, SLOT(updateTitle( QStringList*)));
     connect(m_playerControls, SIGNAL(durationChanged(int)), this, SLOT(updateDuration(int)));
@@ -619,7 +619,6 @@ void MediaPlayer::updateVolumeValue(float volume)
 
 void MediaPlayer::updateCursorPosition(QPoint *position)
 {
-
     if (m_globalVideoWidget->isFullScreen() && position->y() <= m_global_height &&
         position->y() >= (m_global_height - (m_global_height * 0.05)) &&
         m_videoControlLayout->isEmpty())
