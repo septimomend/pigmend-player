@@ -12,6 +12,8 @@ Ivan Chapkailo © 2018
 
 Pigmend Player is 'open source' media application based on [Qt v5.11](https://wiki.qt.io/New_Features_in_Qt_5.11 "About Qt 5.11"). It is fast and simpler to use with convenient interface that allows to perform media without redundant adjusting.  
   
+It is very usable for watching serials! Just choose folder with serial episodes or separate episodes and it will be added to playlist that allows to turn episodes automatically. By the way it is not only about serials.
+  
 Pigmend Player currently supports next formates:  
 * Audio  
   + MP3  
