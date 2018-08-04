@@ -102,6 +102,8 @@ private:
     QString m_theme_config_path;
     QSlider *m_sliderInFullScreen;
     QLabel *m_titleInFullScreen;
+    QLabel *m_durationInFullScreen;
+    QLabel *m_progressTimeInFullScreen;
 
     // shortcuts
     QShortcut *m_playSC;

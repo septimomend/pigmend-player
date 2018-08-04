@@ -28,6 +28,11 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     m_aboutPlayer = new AboutPigmend(this);
     m_sliderInFullScreen = new QSlider(Qt::Horizontal);
     m_titleInFullScreen = new QLabel;
+    m_progressTimeInFullScreen = new QLabel;
+    m_durationInFullScreen = new QLabel;
+
+    m_progressTimeInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    m_durationInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
     // shortcuts
     m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -60,10 +65,15 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     m_videoGridLayout->addLayout(m_videoScreenLayout, 1, 0);
     m_videoGridLayout->addLayout(m_videoControlLayout, 2, 0);
     m_videoScreenLayout->addWidget(m_videoWidget);
+    m_videoControlLayout->addWidget(m_progressTimeInFullScreen);
     m_videoControlLayout->addWidget(m_sliderInFullScreen);
+    m_videoControlLayout->addWidget(m_durationInFullScreen);
     m_videoTitleLayout->addWidget(m_titleInFullScreen);
+
     m_sliderInFullScreen->hide();
     m_titleInFullScreen->hide();
+    m_durationInFullScreen->hide();
+    m_progressTimeInFullScreen->hide();
 
     // set QWidget for video output
     connect(this, SIGNAL(videoWidgetDefined(VideoWidget*)), m_playerControls, SLOT(setVideoWidget(VideoWidget*)));
@@ -140,6 +150,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
 
 MediaPlayer::~MediaPlayer()
 {
+    delete m_durationInFullScreen;
+    delete m_progressTimeInFullScreen;
     delete m_globalVideoWidget;
     delete m_videoTitleLayout;
     delete m_videoControlLayout;
@@ -338,6 +350,7 @@ void MediaPlayer::updateDuration(int duration)
 
     QTime time(hours, minutes,seconds);
     ui->durationLabel->setText(time.toString());
+    m_durationInFullScreen->setText(time.toString());
     ui->progressSlider->setMaximum(duration / 1000);   // set maximum value of slider progress
     m_sliderInFullScreen->setMaximum(duration / 1000);
 }
@@ -350,6 +363,7 @@ void MediaPlayer::updateTimeProgress(int playTime)
 
     QTime time(hours, minutes,seconds);
     ui->progressTimeLabel->setText(time.toString());
+    m_progressTimeInFullScreen->setText(time.toString());
     ui->progressSlider->setValue(playTime / 1000);     // set current progress value
      m_sliderInFullScreen->setValue(playTime / 1000);
 }
@@ -488,6 +502,8 @@ void MediaPlayer::updateTheme(QString theme)
     m_menuBar->setStyleSheet(menucolor);
     m_sliderInFullScreen->setStyleSheet(transbackcolor);
     m_titleInFullScreen->setStyleSheet(color);
+    m_durationInFullScreen->setStyleSheet(color);
+    m_progressTimeInFullScreen->setStyleSheet(color);
 }
 
 void MediaPlayer::rememberTheme(QString &style_id)
@@ -625,12 +641,16 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
     {
         m_sliderInFullScreen->show();
         m_titleInFullScreen->show();
+        m_durationInFullScreen->show();
+        m_progressTimeInFullScreen->show();
     }
     else if (m_globalVideoWidget->isFullScreen() &&
         position->y() < (m_global_height - (m_global_height * 0.05)))
     {
         m_sliderInFullScreen->hide();
         m_titleInFullScreen->hide();
+        m_durationInFullScreen->hide();
+        m_progressTimeInFullScreen->hide();
     }
 }
 
