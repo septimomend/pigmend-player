@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QVideoWidget>
 #include <QStyleOption>
 #include <QPainter>
+#include <QTimer>
 
 class VideoWidget : public QVideoWidget
 {
@@ -24,19 +25,25 @@ class VideoWidget : public QVideoWidget
 
 public:
     VideoWidget(bool isMainScreen = false, QWidget *parent = 0);
+    ~VideoWidget();
 
 public slots:
     void enableFullScreen();    // sets full screen after fullScreenButton is clicked
+
+private slots:
+    void hideCursorOnFullScreen();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *pe) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     bool m_isGlobalWidget;
     QVideoWidget *m_globalVideoWidget;
+    QTimer *m_timer;
 };
 
 #endif // VIDEOWIDGET_H

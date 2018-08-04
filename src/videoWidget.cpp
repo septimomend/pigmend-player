@@ -15,15 +15,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QKeyEvent>
 #include <QMouseEvent>
 
+#define TIME_TO_HIDE_CURSOR_MS 1000
+
 VideoWidget::VideoWidget(bool isMainScreen, QWidget *parent) : QVideoWidget(parent),
     m_isGlobalWidget(!isMainScreen)
 {
+    this->setMouseTracking(true);
+    m_timer = new QTimer(this);
+
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     m_globalVideoWidget = (QVideoWidget *)parent;
 
     if (isMainScreen)
         setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
+
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(hideCursorOnFullScreen()));
+}
+
+VideoWidget::~VideoWidget()
+{
+    delete m_timer;
 }
 
 void VideoWidget::keyPressEvent(QKeyEvent *event)
@@ -45,6 +57,10 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
     m_globalVideoWidget->setFullScreen(!m_globalVideoWidget->isFullScreen());
+
+    if (m_globalVideoWidget->isFullScreen())
+        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+
     event->accept();
 }
 
@@ -53,9 +69,24 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     QVideoWidget::mousePressEvent(event);
 }
 
+void VideoWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    this->setCursor(Qt::CustomCursor);
+
+    if (m_globalVideoWidget->isFullScreen())
+        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+
+    event->accept();
+}
+
 void VideoWidget::enableFullScreen()
 {
     this->setFullScreen(true);
+}
+
+void VideoWidget::hideCursorOnFullScreen()
+{
+    this->setCursor(Qt::BlankCursor);
 }
 
 void VideoWidget::paintEvent(QPaintEvent *pe)
