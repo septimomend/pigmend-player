@@ -42,6 +42,14 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Escape && isFullScreen())
     {
+        // @fullScreenDiasbling
+        // This is some magic
+        // If do that the turning from full screen mode to normal is fine
+        // but if use only
+        // this->setFullScreen(false);
+        // the video widget will be detached and video will not be shown
+        this->setFullScreen(false);
+        this->setFullScreen(true);
         this->setFullScreen(false);
         event->accept();
     }
@@ -56,7 +64,16 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 
 void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    m_globalVideoWidget->setFullScreen(!m_globalVideoWidget->isFullScreen());
+    if (m_globalVideoWidget->isFullScreen())
+    {
+        // This is magic again
+        // see @fullScreenDisabling comment for more info
+        m_globalVideoWidget->setFullScreen(false);
+        m_globalVideoWidget->setFullScreen(true);
+        m_globalVideoWidget->setFullScreen(false);
+    }
+    else
+        m_globalVideoWidget->setFullScreen(true);
 
     if (m_globalVideoWidget->isFullScreen())
         m_timer->start(TIME_TO_HIDE_CURSOR_MS);
@@ -81,7 +98,15 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 
 void VideoWidget::enableFullScreen()
 {
-    this->setFullScreen(true);
+    if (isFullScreen())
+    {
+        // @fullScreenDiasbling
+        this->setFullScreen(false);
+        this->setFullScreen(true);
+        this->setFullScreen(false);
+    }
+    else
+        this->setFullScreen(true);
 }
 
 void VideoWidget::hideCursorOnFullScreen()
