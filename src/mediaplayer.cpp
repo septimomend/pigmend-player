@@ -43,6 +43,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
 
     // initialize menu and load stylr
     initMenu();
+    adjustVideoWidget();
     loadTheme();
 
     //
@@ -50,33 +51,13 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     m_shuffleMode = false;
     ui->volumeSlider->setRange(0, 100);
 
-    // adjust video widget
-    m_globalVideoWidget = new VideoWidget(false, this);
-    m_videoWidget = new VideoWidget(true, m_globalVideoWidget);          // define video widget
-    ui->videoLayout->addWidget(m_globalVideoWidget);      // add video widget to layout
-    m_videoGridLayout = new QGridLayout(m_globalVideoWidget);
-    m_videoControlLayout = new QHBoxLayout;
-    m_videoTitleLayout = new QHBoxLayout;
-    m_videoScreenLayout = new QHBoxLayout;
-    m_videoGridLayout->addLayout(m_videoTitleLayout, 0, 0);
-    m_videoGridLayout->addLayout(m_videoScreenLayout, 1, 0);
-    m_videoGridLayout->addLayout(m_videoControlLayout, 2, 0);
-    m_videoScreenLayout->addWidget(m_videoWidget);
-    m_videoControlLayout->addWidget(m_progressTimeInFullScreen);
-    m_videoControlLayout->addWidget(m_sliderInFullScreen);
-    m_videoControlLayout->addWidget(m_durationInFullScreen);
-    m_videoTitleLayout->addWidget(m_titleInFullScreen);
-
-    m_sliderInFullScreen->hide();
-    m_titleInFullScreen->hide();
-    m_durationInFullScreen->hide();
-    m_progressTimeInFullScreen->hide();
     m_sliderInFullScreen->setObjectName("sliderInFullScreen");
-
 	m_globalVideoWidget->setObjectName("globalVideoWidget");
+    m_videoWidget->setObjectName("videoWidget");
     ui->progressSlider->installEventFilter(this);
     m_sliderInFullScreen->installEventFilter(this);
     m_globalVideoWidget->installEventFilter(this);
+    m_videoWidget->installEventFilter(this);
 
     // set QWidget for video output
     connect(this, SIGNAL(videoWidgetDefined(VideoWidget*)), m_playerControls, SLOT(setVideoWidget(VideoWidget*)));
@@ -153,11 +134,12 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
 
 MediaPlayer::~MediaPlayer()
 {
+    delete m_videoButtonsLayout;
     delete m_durationInFullScreen;
     delete m_progressTimeInFullScreen;
     delete m_globalVideoWidget;
     delete m_videoTitleLayout;
-    delete m_videoControlLayout;
+    delete m_videoControlGridLayout;
     delete m_videoScreenLayout;
     delete m_videoGridLayout;
     delete m_sliderInFullScreen;
@@ -196,6 +178,8 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
                     ui->progressSlider->setValue(ui->progressSlider->value() + SLIDER_STEP);
                     m_sliderInFullScreen->setValue(ui->progressSlider->value());
                 }
+
+                emit progressSliderValueChanged(ui->progressSlider->value());
             }
             else if (keyEvent->key() == Qt::Key_Left)
             {
@@ -209,15 +193,17 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
                     ui->progressSlider->setValue(ui->progressSlider->value() - SLIDER_STEP);
                     m_sliderInFullScreen->setValue(ui->progressSlider->value());
                 }
+
+                emit progressSliderValueChanged(ui->progressSlider->value());
             }
 
-            emit progressSliderValueChanged(ui->progressSlider->value());
             break;
         }
         case QEvent::MouseButtonPress:
         {
             QMouseEvent *mouseEvent = (QMouseEvent *)event;
-            if (mouseEvent->button() == Qt::LeftButton && watched->objectName() != "globalVideoWidget")
+            if (mouseEvent->button() == Qt::LeftButton && watched->objectName() != "globalVideoWidget" &&
+                watched->objectName() != "videoWidget")
             {
                 if (m_globalVideoWidget->isFullScreen())
                 {
@@ -235,9 +221,11 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 
                     m_sliderInFullScreen->setValue(ui->progressSlider->value());
                 }
+
+                emit progressSliderValueChanged(ui->progressSlider->value());
             }
 
-            emit progressSliderValueChanged(ui->progressSlider->value());
+
             break;
         }
         default:
@@ -298,6 +286,104 @@ void MediaPlayer::initMenu()
 
     ui->menuLayout->addWidget(m_menuBar);
     ui->menuLayout->setAlignment(m_menuBar, Qt::AlignRight);
+}
+
+void MediaPlayer::adjustVideoWidget()
+{
+    // adjust video widget
+    m_globalVideoWidget = new VideoWidget(false, this);
+    m_videoWidget = new VideoWidget(true, m_globalVideoWidget);
+    m_videoGridLayout = new QGridLayout(m_globalVideoWidget);
+    m_videoControlGridLayout = new QGridLayout;
+    m_videoProgressLayout = new QHBoxLayout;
+    m_videoTitleLayout = new QHBoxLayout;
+    m_videoScreenLayout = new QHBoxLayout;
+    m_videoButtonsLayout = new QHBoxLayout;
+    m_controlVLayout = new QVBoxLayout;
+    m_playInFullScreen = new QPushButton;
+    m_pauseInFullScreen = new QPushButton;
+    m_stopInFullScreen = new QPushButton;
+    m_nextInFullScreen = new QPushButton;
+    m_prevInFullScreen = new QPushButton;
+    m_disableFullScreen = new QPushButton;
+    m_volumeUpInFullScreen = new QPushButton;
+    m_volumeDownInFullScreen = new QPushButton;
+    m_volumeMuteInFullScreen = new QPushButton;
+    m_spaceInFullScreenButtons = new QSpacerItem(0, 0);
+
+    // buttons size and style policy
+    m_playInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_pauseInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_stopInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_nextInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_prevInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_disableFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_volumeUpInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_volumeDownInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    m_volumeMuteInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+    m_playInFullScreen->setFlat(true);
+    m_pauseInFullScreen->setFlat(true);
+    m_stopInFullScreen->setFlat(true);
+    m_nextInFullScreen->setFlat(true);
+    m_prevInFullScreen->setFlat(true);
+    m_disableFullScreen->setFlat(true);
+    m_volumeUpInFullScreen->setFlat(true);
+    m_volumeDownInFullScreen->setFlat(true);
+    m_volumeMuteInFullScreen->setFlat(true);
+
+    m_playInFullScreen->setIcon(QIcon(":/buttons/img/buttons/play-16.ico"));
+    m_pauseInFullScreen->setIcon(QIcon(":/buttons/img/buttons/media-pause-16.ico"));
+    m_stopInFullScreen->setIcon(QIcon(":/buttons/img/buttons/stop-16.ico"));
+    m_nextInFullScreen->setIcon(QIcon(":/buttons/img/buttons/media-skip-forward-16.ico"));
+    m_prevInFullScreen->setIcon(QIcon(":/buttons/img/buttons/media-skip-backward-16.ico"));
+    m_disableFullScreen->setIcon(QIcon(":/buttons/img/buttons/fullscreen-exit-16.ico"));
+    m_volumeUpInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-up-4-16.ico"));
+    m_volumeDownInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-down-5-16.ico"));
+    m_volumeMuteInFullScreen->setIcon(QIcon(":/buttons/img/buttons/mute-2-16.ico"));
+
+    ui->videoLayout->addWidget(m_globalVideoWidget);
+
+    m_videoGridLayout->addLayout(m_videoTitleLayout, 0, 0);
+    m_videoGridLayout->addLayout(m_videoScreenLayout, 1, 0);
+    m_videoGridLayout->addLayout(m_videoControlGridLayout, 2, 0);
+
+    m_videoScreenLayout->addWidget(m_videoWidget);
+
+    m_videoControlGridLayout->addLayout(m_videoProgressLayout, 0, 0);
+    m_videoControlGridLayout->addLayout(m_videoButtonsLayout, 1, 0);
+
+    m_videoProgressLayout->addWidget(m_progressTimeInFullScreen);
+    m_videoProgressLayout->addWidget(m_sliderInFullScreen);
+    m_videoProgressLayout->addWidget(m_durationInFullScreen);
+
+    m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtons);
+    m_videoButtonsLayout->addWidget(m_prevInFullScreen);
+    m_videoButtonsLayout->addWidget(m_stopInFullScreen);
+    m_videoButtonsLayout->addWidget(m_playInFullScreen);
+    m_videoButtonsLayout->addWidget(m_pauseInFullScreen);
+    m_videoButtonsLayout->addWidget(m_nextInFullScreen);
+    m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtons);
+    //m_videoButtonsLayout->addWidget(m_disableFullScreen);
+    m_videoButtonsLayout->addWidget(m_disableFullScreen, 0, Qt::AlignRight);
+    //m_videoButtonsLayout->addWidget(m_volumeUpInFullScreen);
+    //m_videoButtonsLayout->addWidget(m_volumeDownInFullScreen);
+    //m_videoButtonsLayout->addWidget(m_volumeMuteInFullScreen);
+    m_videoTitleLayout->addWidget(m_titleInFullScreen);
+
+    m_sliderInFullScreen->hide();
+    m_titleInFullScreen->hide();
+    m_durationInFullScreen->hide();
+    m_progressTimeInFullScreen->hide();
+    m_playInFullScreen->hide();
+    m_pauseInFullScreen->hide();
+    m_stopInFullScreen->hide();
+    m_nextInFullScreen->hide();
+    m_prevInFullScreen->hide();
+    m_disableFullScreen->hide();
+    m_volumeUpInFullScreen->hide();
+    m_volumeDownInFullScreen->hide();
+    m_volumeMuteInFullScreen->hide();
 }
 
 void MediaPlayer::updatePlaylist()
@@ -519,10 +605,21 @@ void MediaPlayer::updateTheme(QString theme)
     ui->titleLabel->setStyleSheet(color);
     ui->indexInfoLabel->setStyleSheet(color);
     m_menuBar->setStyleSheet(menucolor);
+
+    // full screen mode
     m_sliderInFullScreen->setStyleSheet(transbackcolor);
     m_titleInFullScreen->setStyleSheet(color);
     m_durationInFullScreen->setStyleSheet(color);
     m_progressTimeInFullScreen->setStyleSheet(color);
+    m_playInFullScreen->setStyleSheet(backcolor);
+    m_pauseInFullScreen->setStyleSheet(backcolor);
+    m_stopInFullScreen->setStyleSheet(backcolor);
+    m_nextInFullScreen->setStyleSheet(backcolor);
+    m_prevInFullScreen->setStyleSheet(backcolor);
+    m_disableFullScreen->setStyleSheet(backcolor);
+    m_volumeUpInFullScreen->setStyleSheet(backcolor);
+    m_volumeDownInFullScreen->setStyleSheet(backcolor);
+    m_volumeMuteInFullScreen->setStyleSheet(backcolor);
 }
 
 void MediaPlayer::rememberTheme(QString &style_id)
@@ -655,21 +752,41 @@ void MediaPlayer::updateVolumeValue(float volume)
 void MediaPlayer::updateCursorPosition(QPoint *position)
 {
     if (m_globalVideoWidget->isFullScreen() && position->y() <= m_global_height &&
-        position->y() >= (m_global_height - (m_global_height * 0.05)) &&
-        m_videoControlLayout->isEmpty())
+        position->y() >= (m_global_height - (m_global_height * 0.1)) &&
+        m_videoControlGridLayout->isEmpty())
     {
+        m_spaceInFullScreenButtons->changeSize(m_global_width * 0.4, 0);
         m_sliderInFullScreen->show();
         m_titleInFullScreen->show();
         m_durationInFullScreen->show();
         m_progressTimeInFullScreen->show();
+        m_playInFullScreen->show();
+        m_pauseInFullScreen->show();
+        m_stopInFullScreen->show();
+        m_nextInFullScreen->show();
+        m_prevInFullScreen->show();
+        m_disableFullScreen->show();
+        //m_volumeUpInFullScreen->show();
+        //m_volumeDownInFullScreen->show();
+        //m_volumeMuteInFullScreen->show();
     }
     else if (m_globalVideoWidget->isFullScreen() &&
-        position->y() < (m_global_height - (m_global_height * 0.05)))
+        position->y() < (m_global_height - (m_global_height * 0.1)))
     {
+        m_spaceInFullScreenButtons->changeSize(0, 0);
         m_sliderInFullScreen->hide();
         m_titleInFullScreen->hide();
         m_durationInFullScreen->hide();
         m_progressTimeInFullScreen->hide();
+        m_playInFullScreen->hide();
+        m_pauseInFullScreen->hide();
+        m_stopInFullScreen->hide();
+        m_nextInFullScreen->hide();
+        m_prevInFullScreen->hide();
+        m_disableFullScreen->hide();
+        m_volumeUpInFullScreen->hide();
+        m_volumeDownInFullScreen->hide();
+        m_volumeMuteInFullScreen->hide();
     }
 }
 

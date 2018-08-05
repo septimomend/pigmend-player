@@ -26,6 +26,7 @@
         <file>img/buttons/window-5-16.ico</file>
         <file>img/buttons/x-mark-16.ico</file>
         <file>img/buttons/fast-forward-16.ico</file>
+        <file>img/buttons/fullscreen-exit-16.ico</file>
     </qresource>
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>

@@ -53,6 +53,7 @@ private:
     void updateTheme(QString theme);
     int volume() const;
     void clearLayout(QLayout *layout);
+    void adjustVideoWidget();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -135,10 +136,24 @@ private:
     QAction *m_middleWindowAction;
     QAction *m_wideWindowAction;
 
-    QHBoxLayout *m_videoControlLayout;
+    // Full screen controls
+    QSpacerItem *m_spaceInFullScreenButtons;
+    QHBoxLayout *m_videoProgressLayout;
     QHBoxLayout *m_videoTitleLayout;
     QHBoxLayout *m_videoScreenLayout;
+    QHBoxLayout *m_videoButtonsLayout;
+    QVBoxLayout *m_controlVLayout;
     QGridLayout *m_videoGridLayout;
+    QGridLayout *m_videoControlGridLayout;
+    QPushButton *m_playInFullScreen;
+    QPushButton *m_pauseInFullScreen;
+    QPushButton *m_stopInFullScreen;
+    QPushButton *m_nextInFullScreen;
+    QPushButton *m_prevInFullScreen;
+    QPushButton *m_disableFullScreen;
+    QPushButton *m_volumeUpInFullScreen;
+    QPushButton *m_volumeDownInFullScreen;
+    QPushButton *m_volumeMuteInFullScreen;
 };
 
 #endif // MEDIAPLAYER_H
