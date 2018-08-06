@@ -96,7 +96,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
     event->accept();
 }
 
-void VideoWidget::enableFullScreen()
+void VideoWidget::manageFullScreen()
 {
     if (isFullScreen())
     {

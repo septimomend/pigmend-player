@@ -85,6 +85,7 @@ private slots:
     void onVolumeButtonDownChanged();
     void onVolumeMute();
     void updateCursorPosition(QPoint *);
+    void hideControlPanelInNormalMode(bool forcedHide);
 
 private:
     int m_global_height;

@@ -28,7 +28,7 @@ public:
     ~VideoWidget();
 
 public slots:
-    void enableFullScreen();    // sets full screen after fullScreenButton is clicked
+    void manageFullScreen();    // sets full screen after fullScreenButton is clicked
 
 private slots:
     void hideCursorOnFullScreen();
