@@ -31,4 +31,4 @@ However codecs support a lot of formats and it will be available with next versi
 [Version 1.0](https://github.com/septimomend/pigmend-player/tree/master) is demo and not including a lot of properties, which can be found in this version 1.1 to soon.  
   
 ## License
-[MIT License](https://github.com/septimomend/pigmend-player/blob/master/LICENSE)
+[GPL-2.0](https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE)
