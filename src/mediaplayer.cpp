@@ -762,9 +762,9 @@ void MediaPlayer::updateVolumeValue(float volume)
 
 void MediaPlayer::updateCursorPosition(QPoint *position)
 {
-    if (m_globalVideoWidget->isFullScreen() && position->y() <= m_global_height &&
-        position->y() >= (m_global_height - (m_global_height * 0.1)) &&
-        m_videoControlGridLayout->isEmpty())
+    if (m_globalVideoWidget->isFullScreen() && ((position->y() <= m_global_height &&
+        position->y() >= (m_global_height - (m_global_height * 0.06))) ||
+        (position->y() >= 0 && position->y() <= m_global_height * 0.035)))
     {
         m_spaceInFullScreenButtons->changeSize(m_global_width * 0.4, 0);
         m_sliderInFullScreen->show();
@@ -781,11 +781,8 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
         //m_volumeDownInFullScreen->show();
         //m_volumeMuteInFullScreen->show();
     }
-    else if (m_globalVideoWidget->isFullScreen() &&
-        position->y() < (m_global_height - (m_global_height * 0.1)))
-    {
+    else
         hideControlPanelInNormalMode(true);
-    }
 }
 
 void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
