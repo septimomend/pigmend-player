@@ -237,8 +237,8 @@ void PlayerControls::setMetaData()
 {
     // read metadata and write it to string list
     QStringList title;
-    title << m_player->metaData(QMediaMetaData::Title).toString() <<
-             m_player->metaData(QMediaMetaData::Author).toString() <<
+    title << m_player->metaData(QMediaMetaData::ContributingArtist).toString() <<
+             m_player->metaData(QMediaMetaData::Title).toString() <<
              m_player->metaData(QMediaMetaData::Genre).toString() <<
              m_player->metaData(QMediaMetaData::Year).toString();
 

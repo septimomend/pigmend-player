@@ -433,7 +433,7 @@ void MediaPlayer::updatePlaylist()
 void MediaPlayer::updateTitle(QStringList* title)
 {
     // set metadata: artist, title, genre and release date
-    QString title_line, delimiter(" ◄► ");
+    QString title_line, delimiter(" ⸪ ");
     int index = 0;
     int counter = title->count();
 
@@ -446,6 +446,8 @@ void MediaPlayer::updateTitle(QStringList* title)
             QString title_item = title->at(index);
             if (!title_item.isEmpty() && !index)
                 title_line = title->at(index);
+            else if (title_item.isEmpty() && !index)
+                title_line = "unknown";
             if (!title_item.isEmpty() && index)
                 title_line += delimiter + title->at(index);
 
