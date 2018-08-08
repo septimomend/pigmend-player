@@ -26,13 +26,6 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     m_mediaFile = new MediafileController(this);
     m_search = new SearchDialog(this);
     m_aboutPlayer = new AboutPigmend(this);
-    m_sliderInFullScreen = new QSlider(Qt::Horizontal);
-    m_titleInFullScreen = new QLabel;
-    m_progressTimeInFullScreen = new QLabel;
-    m_durationInFullScreen = new QLabel;
-
-    m_progressTimeInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-    m_durationInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
     // shortcuts
     m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -118,6 +111,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     connect(ui->volumeDownButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
     connect(ui->muteButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
     connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
+    connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
     // full screen
     connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
     connect(m_pauseInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(pause()));
@@ -145,16 +139,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
 
 MediaPlayer::~MediaPlayer()
 {
-    delete m_videoButtonsLayout;
-    delete m_durationInFullScreen;
-    delete m_progressTimeInFullScreen;
-    delete m_globalVideoWidget;
-    delete m_videoTitleLayout;
-    delete m_videoControlGridLayout;
-    delete m_videoScreenLayout;
-    delete m_videoGridLayout;
-    delete m_sliderInFullScreen;
-    delete m_titleInFullScreen;
+    deleteObjectsInFullScreen();
+
     delete ui;
     delete m_playerControls;
     delete m_videoWidget;
@@ -168,6 +154,35 @@ MediaPlayer::~MediaPlayer()
     delete m_nextSC;
     delete m_prevSC;
     delete m_stopSC;
+}
+
+void MediaPlayer::deleteObjectsInFullScreen()
+{
+    delete m_globalVideoWidget;
+    delete m_videoWidget;
+    delete m_videoGridLayout;
+    delete m_videoControlGridLayout;
+    delete m_videoProgressLayout;
+    delete m_videoTitleLayout;
+    delete m_videoScreenLayout;
+    delete m_videoButtonsLayout;
+    delete m_controlVLayout;
+    delete m_playInFullScreen;
+    delete m_pauseInFullScreen;
+    delete m_stopInFullScreen;
+    delete m_nextInFullScreen;
+    delete m_prevInFullScreen;
+    delete m_disableFullScreen;
+    delete m_volumeUpInFullScreen;
+    delete m_volumeDownInFullScreen;
+    delete m_volumeMuteInFullScreen;
+    delete m_spaceInFullScreenButtonsLeft;
+    delete m_spaceInFullScreenButtonsRight;
+    delete m_sliderInFullScreen;
+    delete m_volumeSliderInFullScreen;
+    delete m_titleInFullScreen;
+    delete m_progressTimeInFullScreen;
+    delete m_durationInFullScreen;
 }
 
 bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
@@ -320,7 +335,18 @@ void MediaPlayer::adjustVideoWidget()
     m_volumeUpInFullScreen = new QPushButton;
     m_volumeDownInFullScreen = new QPushButton;
     m_volumeMuteInFullScreen = new QPushButton;
-    m_spaceInFullScreenButtons = new QSpacerItem(0, 0);
+    m_spaceInFullScreenButtonsLeft = new QSpacerItem(0, 0);
+    m_spaceInFullScreenButtonsRight = new QSpacerItem(0, 0);
+    m_sliderInFullScreen = new QSlider(Qt::Horizontal);
+    m_volumeSliderInFullScreen = new QSlider(Qt::Horizontal);
+    m_titleInFullScreen = new QLabel;
+    m_progressTimeInFullScreen = new QLabel;
+    m_durationInFullScreen = new QLabel;
+
+    m_volumeSliderInFullScreen->setBaseSize(m_global_width * 0.2, 0);
+
+    m_progressTimeInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    m_durationInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
     // buttons size and style policy
     m_playInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -329,9 +355,6 @@ void MediaPlayer::adjustVideoWidget()
     m_nextInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     m_prevInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     m_disableFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    m_volumeUpInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    m_volumeDownInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    m_volumeMuteInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     m_playInFullScreen->setFlat(true);
     m_pauseInFullScreen->setFlat(true);
@@ -368,33 +391,21 @@ void MediaPlayer::adjustVideoWidget()
     m_videoProgressLayout->addWidget(m_sliderInFullScreen);
     m_videoProgressLayout->addWidget(m_durationInFullScreen);
 
-    m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtons);
+    m_videoButtonsLayout->addWidget(m_volumeMuteInFullScreen, 0, Qt::AlignLeft);
+    m_videoButtonsLayout->addWidget(m_volumeDownInFullScreen, 0, Qt::AlignLeft);
+    m_videoButtonsLayout->addWidget(m_volumeSliderInFullScreen);
+    m_videoButtonsLayout->addWidget(m_volumeUpInFullScreen, 0, Qt::AlignLeft);
+    m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtonsLeft);
     m_videoButtonsLayout->addWidget(m_prevInFullScreen);
     m_videoButtonsLayout->addWidget(m_stopInFullScreen);
     m_videoButtonsLayout->addWidget(m_playInFullScreen);
     m_videoButtonsLayout->addWidget(m_pauseInFullScreen);
     m_videoButtonsLayout->addWidget(m_nextInFullScreen);
-    m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtons);
-    //m_videoButtonsLayout->addWidget(m_disableFullScreen);
+    m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtonsRight);
     m_videoButtonsLayout->addWidget(m_disableFullScreen, 0, Qt::AlignRight);
-    //m_videoButtonsLayout->addWidget(m_volumeUpInFullScreen);
-    //m_videoButtonsLayout->addWidget(m_volumeDownInFullScreen);
-    //m_videoButtonsLayout->addWidget(m_volumeMuteInFullScreen);
     m_videoTitleLayout->addWidget(m_titleInFullScreen);
 
-    m_sliderInFullScreen->hide();
-    m_titleInFullScreen->hide();
-    m_durationInFullScreen->hide();
-    m_progressTimeInFullScreen->hide();
-    m_playInFullScreen->hide();
-    m_pauseInFullScreen->hide();
-    m_stopInFullScreen->hide();
-    m_nextInFullScreen->hide();
-    m_prevInFullScreen->hide();
-    m_disableFullScreen->hide();
-    m_volumeUpInFullScreen->hide();
-    m_volumeDownInFullScreen->hide();
-    m_volumeMuteInFullScreen->hide();
+    hideControlPanelInNormalMode(true);
 }
 
 void MediaPlayer::updatePlaylist()
@@ -555,6 +566,8 @@ void MediaPlayer::updateTheme(QString theme)
     QString color;
     QString transbackcolor;
     QString menucolor;
+    QString progressSliderTheme;
+    QString volumeSliderTheme;
 
     if (theme == "blue mend")
     {
@@ -562,6 +575,18 @@ void MediaPlayer::updateTheme(QString theme)
         color = "color: rgb(0, 170, 127)";
         transbackcolor = "background-color: rgb(0, 170, 127, 127); color: rgb(255, 255, 255);";
         menucolor = "selection-background-color: rgb(0, 170, 127); background-color: rgb(0, 170, 127, 125); color: rgb(255, 255, 255);";
+        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127)); } "
+                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
+                                "QSlider::handle:horizontal { background: rgb(0, 170, 127); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
+        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(0, 170, 127)); } "
+                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127));} "
+                                "QSlider::handle:horizontal { background: rgb(0, 170, 127); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
     }
     else if (theme == "orange mend")
     {
@@ -569,6 +594,18 @@ void MediaPlayer::updateTheme(QString theme)
         color = "color: rgb(255, 85, 0)";
         transbackcolor = "background-color: rgb(255, 85, 0, 127); color: rgb(255, 255, 255);";
         menucolor = "selection-background-color: rgb(255, 85, 0); background-color: rgb(255, 85, 0, 125); color: rgb(255, 255, 255);";
+        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0)); } "
+                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
+                                "QSlider::handle:horizontal { background: rgb(255, 85, 0); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
+        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(255, 85, 0)); } "
+                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(255, 85, 0));} "
+                                "QSlider::handle:horizontal { background: rgb(255, 85, 0); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
     }
     else if (theme == "grey mend")
     {
@@ -576,6 +613,18 @@ void MediaPlayer::updateTheme(QString theme)
         color = "color: rgb(105, 105, 105)";
         transbackcolor = "background-color: rgb(105, 105, 105, 127); color: rgb(255, 255, 255);";
         menucolor = "selection-background-color: rgb(105, 105, 105); background-color: rgb(105, 105, 105, 125); color: rgb(255, 255, 255);";
+        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105)); } "
+                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
+                                "QSlider::handle:horizontal { background: rgb(105, 105, 105); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
+        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(105, 105, 105)); } "
+                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(105, 105, 105));} "
+                                "QSlider::handle:horizontal { background: rgb(105, 105, 105); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
     }
     else if (theme == "dark grey mend")
     {
@@ -583,6 +632,18 @@ void MediaPlayer::updateTheme(QString theme)
         color = "color: rgb(47, 79, 79)";
         transbackcolor = "background-color: rgb(47, 79, 79, 127); color: rgb(255, 255, 255);";
         menucolor = "selection-background-color: rgb(47, 79, 79); background-color: rgb(47, 79, 79, 125); color: rgb(255, 255, 255);";
+        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79)); } "
+                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
+                                "QSlider::handle:horizontal { background: rgb(47, 79, 79); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
+        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
+                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(47, 79, 79)); } "
+                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(47, 79, 79));} "
+                                "QSlider::handle:horizontal { background: rgb(47, 79, 79); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
+                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
+                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
     }
     else
     {
@@ -606,8 +667,8 @@ void MediaPlayer::updateTheme(QString theme)
     ui->playButton->setStyleSheet(backcolor);
     ui->playlistWidget->setStyleSheet(transbackcolor);
     ui->prevButton->setStyleSheet(backcolor);
-    ui->progressSlider->setStyleSheet(transbackcolor);
-    ui->volumeSlider->setStyleSheet(transbackcolor);
+    ui->progressSlider->setStyleSheet(progressSliderTheme);
+    ui->volumeSlider->setStyleSheet(volumeSliderTheme);
     ui->searchButton->setStyleSheet(backcolor);
     ui->stopButton->setStyleSheet(backcolor);
     ui->stopButton->setStyleSheet(backcolor);
@@ -620,7 +681,8 @@ void MediaPlayer::updateTheme(QString theme)
     m_menuBar->setStyleSheet(menucolor);
 
     // full screen mode
-    m_sliderInFullScreen->setStyleSheet(transbackcolor);
+    m_sliderInFullScreen->setStyleSheet(progressSliderTheme);
+    m_volumeSliderInFullScreen->setStyleSheet(volumeSliderTheme);
     m_titleInFullScreen->setStyleSheet(color);
     m_durationInFullScreen->setStyleSheet(color);
     m_progressTimeInFullScreen->setStyleSheet(color);
@@ -727,8 +789,18 @@ void MediaPlayer::setWindowSize()
 
 int MediaPlayer::volume() const
 {
-    qreal linearVolume =  QAudio::convertVolume(ui->volumeSlider->value() / qreal(100),
+    qreal linearVolume;
+
+    if (m_globalVideoWidget->isFullScreen())
+    {
+        linearVolume = QAudio::convertVolume(m_volumeSliderInFullScreen->value() / qreal(100),
+            QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
+    }
+    else
+    {
+        linearVolume = QAudio::convertVolume(ui->volumeSlider->value() / qreal(100),
         QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
+    }
 
     return qRound(linearVolume * 100);
 }
@@ -743,6 +815,7 @@ void MediaPlayer::onVolumeButtonUpChanged()
     int sliderValue = ui->volumeSlider->value();
     sliderValue += 10;
     ui->volumeSlider->setValue(sliderValue);
+    m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
 }
 
 void MediaPlayer::onVolumeButtonDownChanged()
@@ -750,16 +823,19 @@ void MediaPlayer::onVolumeButtonDownChanged()
     int sliderValue = ui->volumeSlider->value();
     sliderValue -= 10;
     ui->volumeSlider->setValue(sliderValue);
+    m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
 }
 
 void MediaPlayer::onVolumeMute()
 {
     ui->volumeSlider->setValue(0);
+    m_volumeSliderInFullScreen->setValue(0);
 }
 
 void MediaPlayer::updateVolumeValue(float volume)
 {
     ui->volumeSlider->setValue(volume);
+    m_volumeSliderInFullScreen->setValue(volume);
 }
 
 void MediaPlayer::updateCursorPosition(QPoint *position)
@@ -768,8 +844,10 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
         position->y() >= (m_global_height - (m_global_height * 0.06))) ||
         (position->y() >= 0 && position->y() <= m_global_height * 0.035)))
     {
-        m_spaceInFullScreenButtons->changeSize(m_global_width * 0.4, 0);
+        m_spaceInFullScreenButtonsLeft->changeSize(m_global_width * 0.26, 0, QSizePolicy::Expanding);
+        m_spaceInFullScreenButtonsRight->changeSize(m_global_width * 0.35, 0, QSizePolicy::Expanding);
         m_sliderInFullScreen->show();
+        m_volumeSliderInFullScreen->show();
         m_titleInFullScreen->show();
         m_durationInFullScreen->show();
         m_progressTimeInFullScreen->show();
@@ -779,9 +857,9 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
         m_nextInFullScreen->show();
         m_prevInFullScreen->show();
         m_disableFullScreen->show();
-        //m_volumeUpInFullScreen->show();
-        //m_volumeDownInFullScreen->show();
-        //m_volumeMuteInFullScreen->show();
+        m_volumeUpInFullScreen->show();
+        m_volumeDownInFullScreen->show();
+        m_volumeMuteInFullScreen->show();
     }
     else
         hideControlPanelInNormalMode(true);
@@ -792,7 +870,8 @@ void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
     if (m_globalVideoWidget->isFullScreen() && !forcedHide)
         return;
 
-    m_spaceInFullScreenButtons->changeSize(0, 0);
+    m_spaceInFullScreenButtonsLeft->changeSize(0, 0);
+    m_spaceInFullScreenButtonsRight->changeSize(0, 0);
     m_sliderInFullScreen->hide();
     m_titleInFullScreen->hide();
     m_durationInFullScreen->hide();
@@ -806,6 +885,7 @@ void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
     m_volumeUpInFullScreen->hide();
     m_volumeDownInFullScreen->hide();
     m_volumeMuteInFullScreen->hide();
+    m_volumeSliderInFullScreen->hide();
 }
 
 void MediaPlayer::clearLayout(QLayout *layout)

@@ -54,6 +54,7 @@ private:
     int volume() const;
     void clearLayout(QLayout *layout);
     void adjustVideoWidget();
+    void deleteObjectsInFullScreen();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -102,10 +103,6 @@ private:
     AboutPigmend *m_aboutPlayer;
     QMovie *m_movieLoading, *m_movieDone;
     QString m_theme_config_path;
-    QSlider *m_sliderInFullScreen;
-    QLabel *m_titleInFullScreen;
-    QLabel *m_durationInFullScreen;
-    QLabel *m_progressTimeInFullScreen;
 
     // shortcuts
     QShortcut *m_playSC;
@@ -138,7 +135,8 @@ private:
     QAction *m_wideWindowAction;
 
     // Full screen controls
-    QSpacerItem *m_spaceInFullScreenButtons;
+    QSpacerItem *m_spaceInFullScreenButtonsLeft;
+    QSpacerItem *m_spaceInFullScreenButtonsRight;
     QHBoxLayout *m_videoProgressLayout;
     QHBoxLayout *m_videoTitleLayout;
     QHBoxLayout *m_videoScreenLayout;
@@ -155,6 +153,11 @@ private:
     QPushButton *m_volumeUpInFullScreen;
     QPushButton *m_volumeDownInFullScreen;
     QPushButton *m_volumeMuteInFullScreen;
+    QSlider *m_sliderInFullScreen;
+    QSlider *m_volumeSliderInFullScreen;
+    QLabel *m_titleInFullScreen;
+    QLabel *m_durationInFullScreen;
+    QLabel *m_progressTimeInFullScreen;
 };
 
 #endif // MEDIAPLAYER_H
