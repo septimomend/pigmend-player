@@ -396,8 +396,8 @@ void MediaPlayer::adjustVideoWidget()
     m_videoButtonsLayout->addWidget(m_volumeSliderInFullScreen);
     m_videoButtonsLayout->addWidget(m_volumeUpInFullScreen, 0, Qt::AlignLeft);
     m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtonsLeft);
-    m_videoButtonsLayout->addWidget(m_prevInFullScreen);
     m_videoButtonsLayout->addWidget(m_stopInFullScreen);
+    m_videoButtonsLayout->addWidget(m_prevInFullScreen);
     m_videoButtonsLayout->addWidget(m_playInFullScreen);
     m_videoButtonsLayout->addWidget(m_pauseInFullScreen);
     m_videoButtonsLayout->addWidget(m_nextInFullScreen);
