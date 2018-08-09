@@ -8,7 +8,7 @@ QT       += core gui multimedia multimediawidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = myMediaPlayer
+TARGET = PigmendPlayer
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -39,7 +39,8 @@ HEADERS += \
     playlistSingleton.h \
     mediafileController.h \
     search.h \
-    aboutpigmend.h
+    aboutpigmend.h \
+    constants.h
 
 FORMS += \
         mediaplayer.ui \
