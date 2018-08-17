@@ -392,6 +392,7 @@ void MediaPlayer::adjustVideoWidget()
 
     ui->videoLayout->addWidget(m_globalVideoWidget);
 
+	m_videoGridLayout->setMargin(0);
     m_videoGridLayout->addLayout(m_videoTitleLayout, 0, 0);
     m_videoGridLayout->addLayout(m_videoScreenLayout, 1, 0);
     m_videoGridLayout->addLayout(m_videoControlGridLayout, 2, 0);
@@ -417,7 +418,7 @@ void MediaPlayer::adjustVideoWidget()
     m_videoButtonsLayout->addWidget(m_nextInFullScreen);
     m_videoButtonsLayout->addSpacerItem(m_spaceInFullScreenButtonsRight);
     m_videoButtonsLayout->addWidget(m_disableFullScreen, 0, Qt::AlignRight);
-    m_videoTitleLayout->addWidget(m_titleInFullScreen);
+	m_videoTitleLayout->addWidget(m_titleInFullScreen, 0, Qt::AlignCenter);
 
     hideControlPanelInNormalMode(true);
 }
@@ -855,10 +856,12 @@ void MediaPlayer::updateVolumeValue(float volume)
 void MediaPlayer::updateCursorPosition(QPoint *position)
 {
     if (m_globalVideoWidget->isFullScreen() && ((position->y() <= m_global_height &&
-        position->y() >= (m_global_height - (m_global_height * 0.06))) ||
-        (position->y() >= 0 && position->y() <= m_global_height * 0.035)))
+		position->y() >= (m_global_height - (m_global_height * 0.07))) ||
+		(position->y() >= 0 && position->y() <= m_global_height * 0.04)))
     {
-        m_spaceInFullScreenButtonsLeft->changeSize(m_global_width * 0.26, 0, QSizePolicy::Expanding);
+		m_videoTitleLayout->setMargin(10);
+		m_videoControlGridLayout->setMargin(10);
+		m_spaceInFullScreenButtonsLeft->changeSize(m_global_width * 0.26, 0, QSizePolicy::Expanding);
         m_spaceInFullScreenButtonsRight->changeSize(m_global_width * 0.35, 0, QSizePolicy::Expanding);
         m_sliderInFullScreen->show();
         m_volumeSliderInFullScreen->show();
@@ -884,6 +887,8 @@ void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
     if (m_globalVideoWidget->isFullScreen() && !forcedHide)
         return;
 
+	m_videoTitleLayout->setMargin(0);
+	m_videoControlGridLayout->setMargin(0);
     m_spaceInFullScreenButtonsLeft->changeSize(0, 0);
     m_spaceInFullScreenButtonsRight->changeSize(0, 0);
     m_sliderInFullScreen->hide();
