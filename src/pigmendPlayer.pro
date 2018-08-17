@@ -30,7 +30,8 @@ SOURCES += \
     playlistSingleton.cpp \
     mediafileController.cpp \
     search.cpp \
-    aboutpigmend.cpp
+    aboutpigmend.cpp \
+    ../lib/tinyxml2/tinyxml2.cpp
 
 HEADERS += \
         mediaplayer.h \
@@ -54,3 +55,5 @@ win32: RC_FILE += mediaplayer.rc
 
 DISTFILES += \
     mediaplayer.rc
+
+INCLUDEPATH += "../lib"

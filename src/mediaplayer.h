@@ -56,6 +56,8 @@ private:
     void adjustVideoWidget();
     void deleteObjectsInFullScreen();
 
+	void testingXML();
+
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
 

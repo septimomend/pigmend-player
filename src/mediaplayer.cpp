@@ -10,8 +10,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include "tinyxml2/tinyxml2.h"
+#include "rapidxml-1.13/rapidxml.hpp"
 #include "mediaplayer.h"
 #include "ui_mediaplayer.h"
+
+#include <string.h>
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+using namespace rapidxml;
+using namespace  tinyxml2;
 
 #define THEME_CONFIG_FILE "/config/theme.sst"
 #define SLIDER_STEP 10
@@ -135,6 +147,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
     connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
     connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
+
+	testingXML();
 }
 
 MediaPlayer::~MediaPlayer()
@@ -903,4 +917,76 @@ void MediaPlayer::clearLayout(QLayout *layout)
 
         delete item;
     }
+}
+
+void MediaPlayer::testingXML()
+{
+	cout << "Parsing my beer journal..." << endl;
+	xml_document<> doc;
+	xml_node<> * root_node;
+	// Read the xml file into a vector
+	ifstream theFile("../config/start_cfg.xml");
+	vector<char> buffer((istreambuf_iterator<char>(theFile)), istreambuf_iterator<char>());
+	buffer.push_back('\0');
+		// Parse the buffer using the xml file parsing library into doc
+	doc.parse<rapidxml::parse_full | rapidxml::parse_no_data_nodes>(&buffer[0]);
+		// Find our root node
+	root_node = doc.first_node("PigmendPlayer");
+		// Iterate over the brewerys
+	xml_node<> *version_node = root_node->first_node("Version");
+	cout << version_node->first_attribute("name")->value() << ", " << version_node->first_attribute("author")->value()
+		 << ", " << version_node->first_attribute("year")->value() << " - " << version_node->value() << endl;
+	for (xml_node<> *themes_node = root_node->first_node("Themes"); themes_node; themes_node = themes_node->next_sibling())
+	{
+		xml_node<> *current_theme = themes_node->first_node("CurrentTheme");
+		cout << "Current theme: " << current_theme->value() << endl;
+
+		for(xml_node<> *theme_data_node = themes_node->first_node("Theme"); theme_data_node; theme_data_node = theme_data_node->next_sibling())
+		{
+			cout << "Backcolor: " << theme_data_node->first_node("backcolor")->value();
+			cout << "Transbackcolor: " << theme_data_node->first_node("transbackcolor")->value();
+			cout << "Color: " << theme_data_node->first_node("color")->value();
+			cout << "Menucolor: " << theme_data_node->first_node("menucolor")->value();
+			cout << "Progress Slider Theme: " << theme_data_node->first_node("progressSliderTheme")->value();
+			cout << "Volume Slider Theme: " << theme_data_node->first_node("volumeSliderTheme")->value();
+			QString backcolor;
+			QString color;
+			QString transbackcolor;
+			QString menucolor;
+			QString progressSliderTheme = theme_data_node->first_node("progressSliderTheme")->value();
+			QString volumeSliderTheme;
+			ui->progressSlider->setStyleSheet(progressSliderTheme);
+		}
+
+		string new_theme = "grey mend";
+		root_node->first_node("Themes")->first_node("CurrentTheme")->value(new_theme.c_str());
+
+		cout << endl;
+
+		tinyxml2::XMLDocument xml_doc;
+
+		tinyxml2::XMLError eResult = xml_doc.LoadFile("../config/start_cfg.xml");
+		if (eResult != tinyxml2::XML_SUCCESS) return;
+		tinyxml2::XMLNode *root = xml_doc.FirstChildElement("PigmendPlayer");
+		if (root == nullptr) return;
+
+		tinyxml2::XMLElement *themes = root->FirstChildElement("Themes");
+		if (!themes)
+		{
+			cout << "No themes" << endl;
+			return;
+		}
+
+		tinyxml2::XMLElement *curr_theme = themes->FirstChildElement("CurrentTheme");
+		if (!curr_theme)
+		{
+			cout << "No current theme" << endl;
+			return;
+		}
+
+		cout  << "tinyxml! - " << curr_theme->GetText() << endl;
+		curr_theme->SetText(new_theme.c_str());
+
+		xml_doc.SaveFile("../config/start_cfg.xml");
+	}
 }
