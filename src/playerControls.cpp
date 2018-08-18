@@ -72,6 +72,12 @@ void PlayerControls::setVideoContent()
 
 void PlayerControls::play()
 {
+	if (!m_player->media().isNull() && m_player->playbackRate() != 1.0)
+	{
+		m_player->setPlaybackRate(1.0); // set normal playback rate if press `play` after some fast forward button
+		return;
+	}
+
     emit currentMediaItem(QString(m_player->currentMedia().canonicalUrl().toString()));  // send signal with path of current media file
     m_player->setMedia(m_player->currentMedia().canonicalUrl());
 
@@ -83,7 +89,6 @@ void PlayerControls::play()
 
     setVideoContent();
 
-    m_player->setPlaybackRate(1.0); // set normal playback rate if press `play` after some fast forward button
     m_player->setPosition(m_position);
     m_player->play();
     setVolume(m_player->volume());
