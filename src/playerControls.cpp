@@ -72,11 +72,7 @@ void PlayerControls::setVideoContent()
 
 void PlayerControls::play()
 {
-<<<<<<< HEAD
 	if (!m_player->media().isNull() && m_player->playbackRate() != 1.0)
-=======
-	if (m_player->playbackRate() != 1.0)
->>>>>>> e757ea90bca20553ed5f9afab474bdbcd1bf541c
 	{
 		m_player->setPlaybackRate(1.0); // set normal playback rate if press `play` after some fast forward button
 		return;
