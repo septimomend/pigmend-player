@@ -63,6 +63,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     m_sliderInFullScreen->installEventFilter(this);
     m_globalVideoWidget->installEventFilter(this);
     m_videoWidget->installEventFilter(this);
+	this->installEventFilter(this);
 
     // set QWidget for video output
     connect(this, SIGNAL(videoWidgetDefined(VideoWidget*)), m_playerControls, SLOT(setVideoWidget(VideoWidget*)));
@@ -109,7 +110,6 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
     connect(ui->playlistWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), m_playerControls, SLOT(setMediaFile(QListWidgetItem*)));
     connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
-    connect(this, SIGNAL(progressSliderValueChanged(int)), m_playerControls, SLOT(seek(int)));
     connect(m_sliderInFullScreen, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
     connect(this, SIGNAL(progressSliderValueChanged(int)), m_playerControls, SLOT(seek(int)));
     connect(ui->fast2Button, SIGNAL(clicked(bool)), m_playerControls, SLOT(fastForward()));
@@ -205,45 +205,64 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
     {
         case QEvent::KeyPress:
         {
-            QKeyEvent *keyEvent = (QKeyEvent*)event;
-            if (keyEvent->key() == Qt::Key_Right)
-            {
-                if (m_globalVideoWidget->isFullScreen())
-                {
-                    m_sliderInFullScreen->setValue(m_sliderInFullScreen->value() + SLIDER_STEP);
-                    ui->progressSlider->setValue(m_sliderInFullScreen->value());
-                }
-                else
-                {
-                    ui->progressSlider->setValue(ui->progressSlider->value() + SLIDER_STEP);
-                    m_sliderInFullScreen->setValue(ui->progressSlider->value());
-                }
+			QKeyEvent *keyEvent = (QKeyEvent*)event;
+			switch (keyEvent->key())
+			{
+				case Qt::Key_Right:
+					if (m_globalVideoWidget->isFullScreen())
+					{
+						m_sliderInFullScreen->setValue(m_sliderInFullScreen->value() + SLIDER_STEP);
+						ui->progressSlider->setValue(m_sliderInFullScreen->value());
+					}
+					else
+					{
+						ui->progressSlider->setValue(ui->progressSlider->value() + SLIDER_STEP);
+						m_sliderInFullScreen->setValue(ui->progressSlider->value());
+					}
 
-                emit progressSliderValueChanged(ui->progressSlider->value());
-            }
-            else if (keyEvent->key() == Qt::Key_Left)
-            {
-                if (m_globalVideoWidget->isFullScreen())
-                {
-                    m_sliderInFullScreen->setValue(m_sliderInFullScreen->value() - SLIDER_STEP);
-                    ui->progressSlider->setValue(m_sliderInFullScreen->value());
-                }
-                else
-                {
-                    ui->progressSlider->setValue(ui->progressSlider->value() - SLIDER_STEP);
-                    m_sliderInFullScreen->setValue(ui->progressSlider->value());
-                }
+					emit progressSliderValueChanged(ui->progressSlider->value());
+					break;
+				case Qt::Key_Left:
+					if (m_globalVideoWidget->isFullScreen())
+					{
+						m_sliderInFullScreen->setValue(m_sliderInFullScreen->value() - SLIDER_STEP);
+						ui->progressSlider->setValue(m_sliderInFullScreen->value());
+					}
+					else
+					{
+						ui->progressSlider->setValue(ui->progressSlider->value() - SLIDER_STEP);
+						m_sliderInFullScreen->setValue(ui->progressSlider->value());
+					}
 
-                emit progressSliderValueChanged(ui->progressSlider->value());
-            }
+					emit progressSliderValueChanged(ui->progressSlider->value());
+					break;
+// XXX Add key up/down for volume slider
+				case Qt::Key_1:
+					m_smallWindowAction->triggered(true);
+					break;
+				case Qt::Key_2:
+					m_middleWindowAction->triggered(true);
+					break;
+				case Qt::Key_3:
+					m_normalWindowAction->triggered(true);
+					break;
+				case Qt::Key_4:
+					m_wideWindowAction->triggered(true);
+					break;
+				case Qt::Key_5:
+					m_maximizeAction->triggered(true);
+					break;
+				default:
+					break;
+			}
 
             break;
         }
         case QEvent::MouseButtonPress:
         {
             QMouseEvent *mouseEvent = (QMouseEvent *)event;
-            if (mouseEvent->button() == Qt::LeftButton && watched->objectName() != "globalVideoWidget" &&
-                watched->objectName() != "videoWidget")
+			if (mouseEvent->button() == Qt::LeftButton && (watched->objectName() == "sliderInFullScreen" ||
+				watched->objectName() == "progressSlider"))
             {
                 if (m_globalVideoWidget->isFullScreen())
                 {
@@ -509,7 +528,7 @@ void MediaPlayer::updateTimeProgress(int playTime)
     ui->progressTimeLabel->setText(time.toString());
     m_progressTimeInFullScreen->setText(time.toString());
     ui->progressSlider->setValue(playTime / 1000);     // set current progress value
-     m_sliderInFullScreen->setValue(playTime / 1000);
+	m_sliderInFullScreen->setValue(playTime / 1000);
 }
 
 void MediaPlayer::focusItem(QString path)
@@ -960,7 +979,6 @@ void MediaPlayer::testingXML()
 			QString menucolor;
 			QString progressSliderTheme = theme_data_node->first_node("progressSliderTheme")->value();
 			QString volumeSliderTheme;
-			ui->progressSlider->setStyleSheet(progressSliderTheme);
 		}
 
 		string new_theme = "grey mend";
