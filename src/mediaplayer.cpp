@@ -25,12 +25,12 @@ using namespace std;
 using namespace rapidxml;
 using namespace  tinyxml2;
 
-#define THEME_CONFIG_FILE "/config/theme.sst"
+#define THEME_CONFIG_FILE "/config_src/theme.sst"
 #define SLIDER_STEP 10
 
 MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(parent),
     m_global_height(screen_size.height()), m_global_width(screen_size.width()),
-    ui(new Ui::MediaPlayer), m_videoWidget(0), m_theme_config_path(PRO_FILE_PWD)
+	ui(new Ui::MediaPlayer), m_videoWidget(nullptr), m_theme_config_path(PRO_FILE_PWD)
 {
     ui->setupUi(this);
 
@@ -205,7 +205,7 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
     {
         case QEvent::KeyPress:
         {
-			QKeyEvent *keyEvent = (QKeyEvent*)event;
+			QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 			switch (keyEvent->key())
 			{
 				case Qt::Key_Right:
@@ -260,7 +260,7 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
         }
         case QEvent::MouseButtonPress:
         {
-            QMouseEvent *mouseEvent = (QMouseEvent *)event;
+			QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 			if (mouseEvent->button() == Qt::LeftButton && (watched->objectName() == "sliderInFullScreen" ||
 				watched->objectName() == "progressSlider"))
             {
@@ -376,7 +376,7 @@ void MediaPlayer::adjustVideoWidget()
     m_progressTimeInFullScreen = new QLabel;
     m_durationInFullScreen = new QLabel;
 
-    m_volumeSliderInFullScreen->setBaseSize(m_global_width * 0.2, 0);
+	m_volumeSliderInFullScreen->setBaseSize(int(m_global_width * 0.2), 0);
 
     m_progressTimeInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     m_durationInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
@@ -446,7 +446,7 @@ void MediaPlayer::updatePlaylist()
 {
     ui->playlistWidget->clear();    // delete all playlist widget items
 
-    static size_t row = 0;          // row count
+	static int row = 0;          // row count
 
     // insert filenames from QMap as items to playlist widget
     for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
@@ -868,8 +868,8 @@ void MediaPlayer::onVolumeMute()
 
 void MediaPlayer::updateVolumeValue(float volume)
 {
-    ui->volumeSlider->setValue(volume);
-    m_volumeSliderInFullScreen->setValue(volume);
+	ui->volumeSlider->setValue(int(volume));
+	m_volumeSliderInFullScreen->setValue(int(volume));
 }
 
 void MediaPlayer::updateCursorPosition(QPoint *position)
@@ -880,8 +880,8 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
     {
 		m_videoTitleLayout->setMargin(10);
 		m_videoControlGridLayout->setMargin(10);
-		m_spaceInFullScreenButtonsLeft->changeSize(m_global_width * 0.26, 0, QSizePolicy::Expanding);
-        m_spaceInFullScreenButtonsRight->changeSize(m_global_width * 0.35, 0, QSizePolicy::Expanding);
+		m_spaceInFullScreenButtonsLeft->changeSize(int(m_global_width * 0.26), 0, QSizePolicy::Expanding);
+		m_spaceInFullScreenButtonsRight->changeSize(int(m_global_width * 0.35), 0, QSizePolicy::Expanding);
         m_sliderInFullScreen->show();
         m_volumeSliderInFullScreen->show();
         m_titleInFullScreen->show();

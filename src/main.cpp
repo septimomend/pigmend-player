@@ -13,11 +13,23 @@ LINK: https://github.com/septimomend/pigmend-player
 */
 
 #include "mediaplayer.h"
+#include "config_src/config.h"
 #include <QApplication>
 #include <QScreen>
 
+#define CONFIG_INIT_PATH PRO_FILE_PWD "/../config/config.ini"
+
 int main(int argc, char *argv[])
 {
+	conf_data_t *conf_data;
+	const char *init_config_file = CONFIG_INIT_PATH;
+
+	if (!(conf_data = config_init(init_config_file)))
+		return 1;
+
+	char *theme_config_file = static_cast<char*>(config_get_data(THEME_CONFIG, conf_data));
+	qDebug() << theme_config_file;
+
     QApplication a(argc, argv);
 
     QScreen *screen = QGuiApplication::primaryScreen();

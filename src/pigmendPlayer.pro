@@ -31,7 +31,8 @@ SOURCES += \
     mediafileController.cpp \
     search.cpp \
     aboutpigmend.cpp \
-    ../lib/tinyxml2/tinyxml2.cpp
+    ../lib/tinyxml2/tinyxml2.cpp \
+    config_src/config.c
 
 HEADERS += \
         mediaplayer.h \
@@ -41,7 +42,8 @@ HEADERS += \
     mediafileController.h \
     search.h \
     aboutpigmend.h \
-    constants.h
+    constants.h \
+    config_src/config.h
 
 FORMS += \
         mediaplayer.ui \

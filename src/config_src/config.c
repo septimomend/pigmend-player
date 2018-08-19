@@ -1,23 +1,25 @@
-#include "config.h"
-#include "debug_log.h"
+#include "config_src/config.h"
+//#include "debug_log.h"
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
 #include <ctype.h>
-#include <arpa/inet.h>
+//#include <arpa/inet.h>
 
 #define DEFAULT_HTTP_PORT 80
 #define DEFAULT_HTTPS_PORT 443
-#define DEFAULT_PATH "/home/"
+#define DEFAULT_PATH PRO_FILE_PWD
 #define DEFAULT_FILENAME "index.html"
 #define DEFAULT_W3C_FILE "w3c.log"
 #define DEFAULT_ADDRESS "127.0.0.1"
 #define DEFAULT_SSL_KEY	"ssl_cert_key/my_private_key"
 #define DEFAULT_SSL_CRT "ssl_cert_key/my_cert_req"
 #define EQUAL_SIGN	"="
+
+#ifndef INET6_ADDRSTRLEN
+#define INET6_ADDRSTRLEN 46
+#endif
 
 struct conf_data
 {
@@ -30,6 +32,7 @@ struct conf_data
 	int chunk_encoding;
 	char ssl_key[PATH_MAX];
 	char ssl_crt[PATH_MAX];
+	char theme_config[PATH_MAX];
 	int tokens_checker[NUMBER_OF_TOKENS];
 };
 
@@ -45,6 +48,7 @@ static char *conf_str_token[NUMBER_OF_TOKENS] =
 	[W3C_FILE] = "W3C_FILE",
 	[SSL_KEY] = "SSL_KEY",
 	[SSL_CRT] = "SSL_CRT",
+	[THEME_CONFIG] = "THEME_CONFIG",
 };
 
 static char *conf_type2str(conf_type_t conf_type)
@@ -68,28 +72,28 @@ static conf_type_t str2conf_type(char *str)
 		}
 	}
 		
-	return 0;
+	return NOT_FOUND_IN_CONF;
 }
 
 static uint16_t check_port(char *port, uint16_t default_port)
 {
-	uint16_t value;
+	int value;
 	
 	if (!strlen(port))
 		return default_port;
 
-	for (value = 0; value < strlen(port) - 1; value++)
+	for (value = 0; value < (int)strlen(port) - 1; value++)
 	{
 		if (!isdigit(port[value]))
 		{
 			fprintf(stderr, "Port field must contain only "
 				"non negative digits.\n");
 					
-			return -1;
+			return (uint16_t)-1;
 		}
 	}
 	
-	if ((value = atoi(port)) > USHRT_MAX || !value)
+	if ((value = (uint16_t)atoi(port)) > USHRT_MAX || !value)
 	{
 		fprintf(stdout, "Port value %d is out of range. Default port value is "
 			"assigned.\n", value);
@@ -97,11 +101,11 @@ static uint16_t check_port(char *port, uint16_t default_port)
 		return default_port;
 	}
 	
-	return value;
+	return (uint16_t)value;
 }
 
 static int check_and_set_value(char *conf_data, char *value, 
-		char *default_value, int max_len)
+		char *default_value, unsigned long max_len)
 {
 	if (strlen(value) > max_len)
 	{
@@ -119,7 +123,7 @@ static int check_and_set_value(char *conf_data, char *value,
 
 static int str2num(char *value)
 {
-	int num;
+	unsigned int num;
 	
 	if (!strlen(value))
 		return 0;
@@ -143,66 +147,70 @@ static int config_set_value(conf_type_t conf_type, conf_data_t *conf_data,
 {
 	switch (conf_type)
 	{
-	case ROOT:
-		if (check_and_set_value(conf_data->root_path, value, DEFAULT_PATH,
-			PATH_MAX))
-		{
+		case ROOT:
+			if (check_and_set_value(conf_data->root_path, value, DEFAULT_PATH,
+				PATH_MAX))
+			{
+				goto Error;
+			}
+			break;
+		case DEFAULT_FILE:
+			if (check_and_set_value((conf_data->default_file), value,
+				DEFAULT_FILENAME, NAME_MAX))
+			{
+				goto Error;
+			}
+			break;
+		case ADDRESS:
+			if (check_and_set_value((conf_data->address), value, DEFAULT_ADDRESS,
+				INET6_ADDRSTRLEN))
+			{
+				goto Error;
+			}
+			break;
+		case HTTP_PORT:
+			if ((conf_data->http_port = check_port(value, HTTP_PORT)) == (uint16_t)-1)
+				goto Error;
+			break;
+		case HTTPS_PORT:
+			if ((conf_data->https_port = check_port(value, HTTPS_PORT)) == (uint16_t)-1)
+				goto Error;
+			break;
+		case DEBUG_LEVEL:
+			//if ((debug_lvl = str2num(value)) == -1)
+			//	goto Error;
+			break;
+		case CHUNCK_ENCODING:
+			if ((conf_data->chunk_encoding = str2num(value)) == -1)
+				goto Error;
+			break;
+		case W3C_FILE:
+			if (check_and_set_value((conf_data->w3c_file), value, DEFAULT_W3C_FILE,
+				NAME_MAX))
+			{
+				goto Error;
+			}
+			break;
+		case SSL_KEY:
+			if (check_and_set_value(conf_data->ssl_key, value, DEFAULT_SSL_KEY,
+				PATH_MAX))
+			{
+				goto Error;
+			}
+			break;
+		case SSL_CRT:
+			if (check_and_set_value(conf_data->ssl_crt, value, DEFAULT_SSL_CRT,
+				PATH_MAX))
+			{
+				goto Error;
+			}
+			break;
+		case THEME_CONFIG:
+			if (check_and_set_value(conf_data->theme_config, value, NULL, PATH_MAX))
+				goto Error;
+			break;
+		default:
 			goto Error;
-		}
-		break;
-	case DEFAULT_FILE:
-		if (check_and_set_value((conf_data->default_file), value,
-			DEFAULT_FILENAME, NAME_MAX))
-		{
-			goto Error;
-		}
-		break;
-	case ADDRESS:
-		if (check_and_set_value((conf_data->address), value, DEFAULT_ADDRESS,
-			INET6_ADDRSTRLEN))
-		{
-			goto Error;
-		}
-		break;
-	case HTTP_PORT:
-		if ((conf_data->http_port = check_port(value, HTTP_PORT)) == -1)
-			goto Error;
-		break;
-	case HTTPS_PORT:
-		if ((conf_data->https_port = check_port(value, HTTPS_PORT)) == -1)
-			goto Error;
-		break;
-	case DEBUG_LEVEL:
-		if ((debug_lvl = str2num(value)) == -1)
-			goto Error;
-		break;
-	case CHUNCK_ENCODING:
-		if ((conf_data->chunk_encoding = str2num(value)) == -1)
-			goto Error;
-		break;
-	case W3C_FILE:
-		if (check_and_set_value((conf_data->w3c_file), value, DEFAULT_W3C_FILE,
-			NAME_MAX))
-		{
-			goto Error;
-		}
-		break;
-	case SSL_KEY:
-		if (check_and_set_value(conf_data->ssl_key, value, DEFAULT_SSL_KEY,
-			PATH_MAX))
-		{
-			goto Error;
-		}
-		break;
-	case SSL_CRT:
-		if (check_and_set_value(conf_data->ssl_crt, value, DEFAULT_SSL_CRT,
-			PATH_MAX))
-		{
-			goto Error;
-		}
-		break;
-	default:
-		goto Error;
 	}
 
 	conf_data->tokens_checker[conf_type]++;
@@ -214,7 +222,7 @@ Error:
 
 static int check_config_fields(conf_data_t *conf_data)
 {
-	int field_num;
+	conf_type_t field_num;
 	
 	for (field_num = 1; field_num < NUMBER_OF_TOKENS; field_num++)
 	{
@@ -268,7 +276,7 @@ static int parse_line(conf_data_t *conf_data, char *buffer, int line_counter)
 	return 0;
 }
 
-static int read_file(char *config_file, conf_data_t *conf_data)
+static int read_file(const char *config_file, conf_data_t *conf_data)
 {
 	char *buffer;
 	int line_counter = 0, rc = -1;
@@ -298,7 +306,7 @@ Exit:
 	return rc;
 }
 
-conf_data_t *config_init(char *config_file)
+conf_data_t *config_init(const char *config_file)
 {
 	conf_data_t *conf_data = calloc(1, sizeof(conf_data_t));
 
@@ -323,26 +331,28 @@ void *config_get_data(conf_type_t conf_type, conf_data_t *conf_data)
 {
 	switch (conf_type)
 	{
-	case ROOT:
-		return conf_data->root_path;
-	case DEFAULT_FILE:
-		return conf_data->default_file;
-	case ADDRESS:
-		return conf_data->address;
-	case HTTP_PORT:
-		return &conf_data->http_port;
-	case HTTPS_PORT:
-		return &conf_data->https_port;
-	case CHUNCK_ENCODING:
-		return &conf_data->chunk_encoding;
-	case W3C_FILE:
-		return conf_data->w3c_file;
-	case SSL_KEY:
-		return conf_data->ssl_key;
-	case SSL_CRT:
-		return conf_data->ssl_crt;
-	default:
-		return NULL;
+		case ROOT:
+			return conf_data->root_path;
+		case DEFAULT_FILE:
+			return conf_data->default_file;
+		case ADDRESS:
+			return conf_data->address;
+		case HTTP_PORT:
+			return &conf_data->http_port;
+		case HTTPS_PORT:
+			return &conf_data->https_port;
+		case CHUNCK_ENCODING:
+			return &conf_data->chunk_encoding;
+		case W3C_FILE:
+			return conf_data->w3c_file;
+		case SSL_KEY:
+			return conf_data->ssl_key;
+		case SSL_CRT:
+			return conf_data->ssl_crt;
+		case THEME_CONFIG:
+			return conf_data->theme_config;
+		default:
+			return NULL;
 	}
 }
 
