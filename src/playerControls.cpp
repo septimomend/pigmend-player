@@ -14,9 +14,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 int PlayerControls::m_mediaOrder = -1;
 
-PlayerControls::PlayerControls(QWidget *parent) : m_vw(0)
+PlayerControls::PlayerControls(QWidget *parent) : m_vw(static_cast<VideoWidget*>(parent))
 {
-    parent = parent;
     m_player = new QMediaPlayer();
     m_musicPlayer = new QMediaPlayer();
 
@@ -101,7 +100,7 @@ void PlayerControls::play()
 void PlayerControls::pause()
 {
     m_isKeyClicked = true;
-    m_position = m_player->position();
+	m_position = int(m_player->position());
     m_player->pause();      // pause play track
     //m_musicPlayer->pause(); // and pause gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
@@ -235,7 +234,7 @@ void PlayerControls::setVolume(int volume)
 
 void PlayerControls::changeDuration(qint64 duration)
 {
-    emit durationChanged(duration);
+	emit durationChanged(int(duration));
 }
 
 void PlayerControls::setMetaData()
@@ -261,7 +260,7 @@ void PlayerControls::setVideoWidget(VideoWidget *vw)
 
 void PlayerControls::setTimeProgress(qint64 timeProgress)
 {
-    emit timeProgressChanged(timeProgress);
+	emit timeProgressChanged(int(timeProgress));
 }
 
 void PlayerControls::processState(QMediaPlayer::State state)

@@ -14,7 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 PlaylistSingleton::PlaylistSingleton(QObject *parent)
 {
-    parent = parent;
+	parent = nullptr;
 }
 
 PlaylistSingleton::~PlaylistSingleton()
@@ -35,7 +35,7 @@ size_t PlaylistSingleton::clearPlaylistData()
         m_plData.clear();
         m_shuffledData.clear();
     }
-    return m_plData.size();
+	return size_t(m_plData.size());
 }
 
 size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
@@ -52,5 +52,5 @@ size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
     else
         m_shuffledData.clear();
 
-    return m_shuffledData.size();
+	return size_t(m_shuffledData.size());
 }
