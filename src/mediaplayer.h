@@ -26,6 +26,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QHBoxLayout>
 #include <QLabel>
 
+#include "config_src/config.h"
+#include "tinyxml2/tinyxml2.h"
+#include "rapidxml-1.13/rapidxml.hpp"
 #include "playlistSingleton.h"
 #include "videoWidget.h"
 #include "playerControls.h"
@@ -43,20 +46,16 @@ class MediaPlayer : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MediaPlayer(QRect screen_size, QWidget *parent = 0);
-    ~MediaPlayer();
+	explicit MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *parent = nullptr);
+	~MediaPlayer() override;
 
 private:
     void initMenu();
-    void rememberTheme(QString &style_id);
-    void loadTheme();
-    void updateTheme(QString theme);
+	int rememberTheme(QString &theme_name);
     int volume() const;
     void clearLayout(QLayout *layout);
     void adjustVideoWidget();
     void deleteObjectsInFullScreen();
-
-	void testingXML();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -75,10 +74,6 @@ private slots:
     void updateTimeProgress(int playTime);  // updates progress time
     void clearPlaylist();                   // clears playlist widget and data
     void checkShuffleMode(bool check);      // shuffled new data if playlist updated
-    void setBlueMendTheme();                // sets blue theme
-    void setOrangeMendTheme();              // sets orange theme
-    void setGreyMendTheme();                // sets grey theme
-    void setDarkGreyMendTheme();            // sets grey theme
     void showInfo();                        // info about author
     void updateIndexedData(int mp3count, int mp4count, bool status);// sets count of media files which are gotten from thread
     void setWindowSize();
@@ -89,6 +84,7 @@ private slots:
     void onVolumeMute();
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
+	void updateTheme();
 
 private:
     int m_global_height;
@@ -160,6 +156,12 @@ private:
     QLabel *m_titleInFullScreen;
     QLabel *m_durationInFullScreen;
     QLabel *m_progressTimeInFullScreen;
+
+	//xml
+	rapidxml::xml_document<> m_themes_xml;
+
+	//config
+	conf_data_t *m_conf_data;
 };
 
 #endif // MEDIAPLAYER_H

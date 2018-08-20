@@ -13,7 +13,6 @@ LINK: https://github.com/septimomend/pigmend-player
 */
 
 #include "mediaplayer.h"
-#include "config_src/config.h"
 #include <QApplication>
 #include <QScreen>
 
@@ -27,15 +26,12 @@ int main(int argc, char *argv[])
 	if (!(conf_data = config_init(init_config_file)))
 		return 1;
 
-	char *theme_config_file = static_cast<char*>(config_get_data(THEME_CONFIG, conf_data));
-	qDebug() << theme_config_file;
-
     QApplication a(argc, argv);
 
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect  screen_geometry = screen->geometry();
 
-    MediaPlayer *mediaPlayer = new MediaPlayer(screen_geometry);
+	MediaPlayer *mediaPlayer = new MediaPlayer(screen_geometry, conf_data);
     mediaPlayer->show();
 
     return a.exec();

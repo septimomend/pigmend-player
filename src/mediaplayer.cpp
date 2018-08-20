@@ -10,8 +10,6 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "tinyxml2/tinyxml2.h"
-#include "rapidxml-1.13/rapidxml.hpp"
 #include "mediaplayer.h"
 #include "ui_mediaplayer.h"
 
@@ -25,12 +23,11 @@ using namespace std;
 using namespace rapidxml;
 using namespace  tinyxml2;
 
-#define THEME_CONFIG_FILE "/config_src/theme.sst"
 #define SLIDER_STEP 10
 
-MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(parent),
+MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *parent) : QMainWindow(parent),
     m_global_height(screen_size.height()), m_global_width(screen_size.width()),
-	ui(new Ui::MediaPlayer), m_videoWidget(nullptr), m_theme_config_path(PRO_FILE_PWD)
+	ui(new Ui::MediaPlayer), m_videoWidget(nullptr), m_conf_data(conf_data)
 {
     ui->setupUi(this);
 
@@ -44,12 +41,11 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     m_nextSC = new QShortcut(Qt::Key_MediaNext, ui->nextButton, SLOT(click()));
     m_prevSC = new QShortcut(Qt::Key_MediaPrevious, ui->prevButton, SLOT(click()));
     m_stopSC = new QShortcut(Qt::Key_MediaStop, ui->stopButton, SLOT(click()));
-    m_theme_config_path.append(THEME_CONFIG_FILE);
 
     // initialize menu and load stylr
     initMenu();
     adjustVideoWidget();
-    loadTheme();
+	updateTheme();
 
     //
     m_isPlaylistLoaded = false;
@@ -83,10 +79,10 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     // menu actions
     connect(m_addFileAction, SIGNAL(triggered(bool)), m_mediaFile, SLOT(openFile()));
     connect(m_addFolderAction, SIGNAL(triggered(bool)), m_mediaFile, SLOT(openFolder()));
-    connect(m_orangeAction, SIGNAL(triggered(bool)), this, SLOT(setOrangeMendTheme()));
-    connect(m_blueAction, SIGNAL(triggered(bool)), this, SLOT(setBlueMendTheme()));
-    connect(m_greyAction, SIGNAL(triggered(bool)), this, SLOT(setGreyMendTheme()));
-    connect(m_darkGreyAction, SIGNAL(triggered(bool)), this, SLOT(setDarkGreyMendTheme()));
+	connect(m_orangeAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
+	connect(m_blueAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
+	connect(m_greyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
+	connect(m_darkGreyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
     connect(m_fullScreenAction, SIGNAL(triggered(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
     connect(m_clearAction, SIGNAL(triggered(bool)), this, SLOT(clearPlaylist()));
     connect(m_infoAction, SIGNAL(triggered(bool)), this, SLOT(showInfo()));
@@ -147,8 +143,6 @@ MediaPlayer::MediaPlayer(QRect screen_size, QWidget *parent) : QMainWindow(paren
     connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
     connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
     connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
-
-	testingXML();
 }
 
 MediaPlayer::~MediaPlayer()
@@ -322,6 +316,10 @@ void MediaPlayer::initMenu()
     m_blueAction = m_thememenu->addAction(QIcon(":/custom/img/custom/bluemend.ico"), "Blue Mend");
     m_greyAction = m_thememenu->addAction(QIcon(":/custom/img/custom/greymend.ico"), "Grey Mend");
     m_darkGreyAction = m_thememenu->addAction(QIcon(":/custom/img/custom/darkgreymend.ico"), "Dark Grey Mend");
+	m_orangeAction->setObjectName("orange mend");
+	m_blueAction->setObjectName("blue mend");
+	m_greyAction->setObjectName("grey mend");
+	m_darkGreyAction->setObjectName("dark grey mend");
     m_fullScreenAction = m_viewmenu->addAction(QIcon(":/buttons/img/buttons/fullscreen-enter-16.ico"), "Full Screen");
     m_fullScreenAction->setShortcut(QKeySequence(Qt::Key_F5));
     m_viewmenu->addSeparator();
@@ -573,29 +571,10 @@ void MediaPlayer::checkShuffleMode(bool check)
     m_shuffleMode = check;
 }
 
-void MediaPlayer::setOrangeMendTheme()
+void MediaPlayer::updateTheme()
 {
-    updateTheme("orange mend");
-}
-
-void MediaPlayer::setBlueMendTheme()
-{
-    updateTheme("blue mend");
-}
-
-void MediaPlayer::setGreyMendTheme()
-{
-    updateTheme("grey mend");
-}
-
-void MediaPlayer::setDarkGreyMendTheme()
-{
-    updateTheme("dark grey mend");
-}
-
-/* XXX Add enum instead of QString theme */
-void MediaPlayer::updateTheme(QString theme)
-{
+	QString theme_name = this->sender() ? this->sender()->objectName() : "";
+	QString theme_file = PRO_FILE_PWD;
     QString backcolor;
     QString color;
     QString transbackcolor;
@@ -603,90 +582,52 @@ void MediaPlayer::updateTheme(QString theme)
     QString progressSliderTheme;
     QString volumeSliderTheme;
 
-    if (theme == "blue mend")
-    {
-        backcolor = "background-color: rgb(0, 170, 127); color: rgb(0, 170, 127);";
-        color = "color: rgb(0, 170, 127)";
-        transbackcolor = "background-color: rgb(0, 170, 127, 127); color: rgb(255, 255, 255);";
-        menucolor = "selection-background-color: rgb(0, 170, 127); background-color: rgb(0, 170, 127, 125); color: rgb(255, 255, 255);";
-        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127)); } "
-                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
-                                "QSlider::handle:horizontal { background: rgb(0, 170, 127); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(0, 170, 127)); } "
-                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127));} "
-                                "QSlider::handle:horizontal { background: rgb(0, 170, 127); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-    }
-    else if (theme == "orange mend")
-    {
-        backcolor = "background-color: rgb(255, 85, 0); color: rgb(255, 85, 0);";
-        color = "color: rgb(255, 85, 0)";
-        transbackcolor = "background-color: rgb(255, 85, 0, 127); color: rgb(255, 255, 255);";
-        menucolor = "selection-background-color: rgb(255, 85, 0); background-color: rgb(255, 85, 0, 125); color: rgb(255, 255, 255);";
-        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0)); } "
-                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
-                                "QSlider::handle:horizontal { background: rgb(255, 85, 0); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(255, 85, 0)); } "
-                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(255, 85, 0));} "
-                                "QSlider::handle:horizontal { background: rgb(255, 85, 0); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-    }
-    else if (theme == "grey mend")
-    {
-        backcolor = "background-color: rgb(105, 105, 105); color: rgb(105, 105, 105);";
-        color = "color: rgb(105, 105, 105)";
-        transbackcolor = "background-color: rgb(105, 105, 105, 127); color: rgb(255, 255, 255);";
-        menucolor = "selection-background-color: rgb(105, 105, 105); background-color: rgb(105, 105, 105, 125); color: rgb(255, 255, 255);";
-        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105)); } "
-                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
-                                "QSlider::handle:horizontal { background: rgb(105, 105, 105); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(105, 105, 105)); } "
-                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(105, 105, 105));} "
-                                "QSlider::handle:horizontal { background: rgb(105, 105, 105); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-    }
-    else if (theme == "dark grey mend")
-    {
-        backcolor = "background-color: rgb(47, 79, 79); color: rgb(47, 79, 79);";
-        color = "color: rgb(47, 79, 79)";
-        transbackcolor = "background-color: rgb(47, 79, 79, 127); color: rgb(255, 255, 255);";
-        menucolor = "selection-background-color: rgb(47, 79, 79); background-color: rgb(47, 79, 79, 125); color: rgb(255, 255, 255);";
-        progressSliderTheme = "QSlider::groove:horizontal { background: white; height: 5px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79)); } "
-                                "QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} "
-                                "QSlider::handle:horizontal { background: rgb(47, 79, 79); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-        volumeSliderTheme = "QSlider::groove:horizontal { background: white; height: 10px; } "
-                                "QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(47, 79, 79)); } "
-                                "QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(47, 79, 79));} "
-                                "QSlider::handle:horizontal { background: rgb(47, 79, 79); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } "
-                                "QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); "
-                                    "border: 1px solid rgb(53, 53, 53); border-radius: 4px; } ";
-    }
-    else
-    {
-        qDebug() << "Undefined theme data";
-        return;
-    }
+	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
 
-    rememberTheme(theme);
-    m_search->updateTheme(theme);
+	xml_node<> *root_node;
+	ifstream themesFile(theme_file.toStdString().c_str());
+
+	if (!themesFile.is_open())
+	{
+		qCritical() << __FUNCTION__ << ": can't open file " << theme_file << endl;
+		abort();
+	}
+
+	vector<char> buffer((istreambuf_iterator<char>(themesFile)), istreambuf_iterator<char>());
+
+	buffer.push_back('\0');
+	m_themes_xml.parse<rapidxml::parse_full | rapidxml::parse_no_data_nodes>(&buffer[0]);
+	root_node = m_themes_xml.first_node("PigmendPlayer");
+
+	xml_node<> *themes_node = root_node->first_node("Themes");
+	QString compare_data = theme_name.isEmpty() ? themes_node->first_node("CurrentTheme")->value() : theme_name;
+
+	for(xml_node<> *theme_data_node = themes_node->first_node("Theme"); theme_data_node; theme_data_node = theme_data_node->next_sibling())
+	{
+		if (compare_data == theme_data_node->first_attribute()->value())
+		{
+			backcolor = theme_data_node->first_node("backcolor")->value();
+			color = theme_data_node->first_node("color")->value();
+			transbackcolor = theme_data_node->first_node("transbackcolor")->value();
+			menucolor = theme_data_node->first_node("menucolor")->value();
+			progressSliderTheme = theme_data_node->first_node("progressSliderTheme")->value();
+			volumeSliderTheme = theme_data_node->first_node("volumeSliderTheme")->value();
+		}
+	}
+
+	if (color.isEmpty())
+	{
+		qWarning() << __FUNCTION__ << ": Undefined theme" << endl;
+		return;
+	}
+
+	if (!theme_name.isEmpty() && rememberTheme(theme_name))
+	{
+		qWarning() << "Can't save theme " << theme_name;
+		return;
+	}
+
+	m_search->updateTheme(compare_data);
 
     ui->addFileButton->setStyleSheet(backcolor);
     ui->addFolderButton->setStyleSheet(backcolor);
@@ -731,39 +672,49 @@ void MediaPlayer::updateTheme(QString theme)
     m_volumeMuteInFullScreen->setStyleSheet(backcolor);
 }
 
-void MediaPlayer::rememberTheme(QString &style_id)
+int MediaPlayer::rememberTheme(QString &theme_name)
 {
+	int rc = -1;
+	QString theme_file = PRO_FILE_PWD;
+	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
+	tinyxml2::XMLDocument xml_doc;
 
-    QFile fs(m_theme_config_path);
+	tinyxml2::XMLError eResult = xml_doc.LoadFile(theme_file.toStdString().c_str());
 
-    if (!fs.open(QFile::WriteOnly | QFile::Text))
-    {
-        qCritical() << "could not open file for write";
-        return;
-    }
+	if (eResult != tinyxml2::XML_SUCCESS)
+	{
+		qCritical() << __FUNCTION__ << ": can't open file " << theme_file << endl;
+		abort();
+	}
 
-    QTextStream in(&fs);
-    in << style_id;
+	tinyxml2::XMLNode *root = xml_doc.FirstChildElement("PigmendPlayer");
 
-    fs.close();
-}
+	if (root == nullptr)
+	{
+		qWarning() << __FUNCTION__ << ": no root child" << endl;
+		return rc;
+	}
 
-void MediaPlayer::loadTheme()
-{
-    QFile fs(m_theme_config_path);
+	tinyxml2::XMLElement *themes = root->FirstChildElement("Themes");
+	if (!themes)
+	{
+		qWarning() << __FUNCTION__ << "No themes" << endl;
+		return rc;
+	}
 
-    if (!fs.open(QFile::ReadWrite | QFile::Text))
-    {
-        qCritical() << "could not open file for read";
-        return;
-    }
+	tinyxml2::XMLElement *curr_theme = themes->FirstChildElement("CurrentTheme");
+	if (!curr_theme)
+	{
+		qWarning() << __FUNCTION__ << "Can't set current theme" << endl;
+		return rc;
+	}
 
-    QTextStream out(&fs);
-    QString theme_name = out.readAll();
+	curr_theme->SetText(theme_name.toStdString().c_str());
 
-    updateTheme(theme_name);
+	xml_doc.SaveFile(theme_file.toStdString().c_str());
 
-    fs.close();
+	rc = 0;
+	return rc;
 }
 
 void MediaPlayer::showInfo()
@@ -941,75 +892,4 @@ void MediaPlayer::clearLayout(QLayout *layout)
 
         delete item;
     }
-}
-
-void MediaPlayer::testingXML()
-{
-	cout << "Parsing my beer journal..." << endl;
-	xml_document<> doc;
-	xml_node<> * root_node;
-	// Read the xml file into a vector
-	ifstream theFile("../config/start_cfg.xml");
-	vector<char> buffer((istreambuf_iterator<char>(theFile)), istreambuf_iterator<char>());
-	buffer.push_back('\0');
-		// Parse the buffer using the xml file parsing library into doc
-	doc.parse<rapidxml::parse_full | rapidxml::parse_no_data_nodes>(&buffer[0]);
-		// Find our root node
-	root_node = doc.first_node("PigmendPlayer");
-		// Iterate over the brewerys
-	xml_node<> *version_node = root_node->first_node("Version");
-	cout << version_node->first_attribute("name")->value() << ", " << version_node->first_attribute("author")->value()
-		 << ", " << version_node->first_attribute("year")->value() << " - " << version_node->value() << endl;
-	for (xml_node<> *themes_node = root_node->first_node("Themes"); themes_node; themes_node = themes_node->next_sibling())
-	{
-		xml_node<> *current_theme = themes_node->first_node("CurrentTheme");
-		cout << "Current theme: " << current_theme->value() << endl;
-
-		for(xml_node<> *theme_data_node = themes_node->first_node("Theme"); theme_data_node; theme_data_node = theme_data_node->next_sibling())
-		{
-			cout << "Backcolor: " << theme_data_node->first_node("backcolor")->value();
-			cout << "Transbackcolor: " << theme_data_node->first_node("transbackcolor")->value();
-			cout << "Color: " << theme_data_node->first_node("color")->value();
-			cout << "Menucolor: " << theme_data_node->first_node("menucolor")->value();
-			cout << "Progress Slider Theme: " << theme_data_node->first_node("progressSliderTheme")->value();
-			cout << "Volume Slider Theme: " << theme_data_node->first_node("volumeSliderTheme")->value();
-			QString backcolor;
-			QString color;
-			QString transbackcolor;
-			QString menucolor;
-			QString progressSliderTheme = theme_data_node->first_node("progressSliderTheme")->value();
-			QString volumeSliderTheme;
-		}
-
-		string new_theme = "grey mend";
-		root_node->first_node("Themes")->first_node("CurrentTheme")->value(new_theme.c_str());
-
-		cout << endl;
-
-		tinyxml2::XMLDocument xml_doc;
-
-		tinyxml2::XMLError eResult = xml_doc.LoadFile("../config/start_cfg.xml");
-		if (eResult != tinyxml2::XML_SUCCESS) return;
-		tinyxml2::XMLNode *root = xml_doc.FirstChildElement("PigmendPlayer");
-		if (root == nullptr) return;
-
-		tinyxml2::XMLElement *themes = root->FirstChildElement("Themes");
-		if (!themes)
-		{
-			cout << "No themes" << endl;
-			return;
-		}
-
-		tinyxml2::XMLElement *curr_theme = themes->FirstChildElement("CurrentTheme");
-		if (!curr_theme)
-		{
-			cout << "No current theme" << endl;
-			return;
-		}
-
-		cout  << "tinyxml! - " << curr_theme->GetText() << endl;
-		curr_theme->SetText(new_theme.c_str());
-
-		xml_doc.SaveFile("../config/start_cfg.xml");
-	}
 }
