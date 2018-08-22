@@ -120,6 +120,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->muteButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
     connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
     connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
+	connect(ui->showHidePlaylistButton, SIGNAL(clicked(bool)), this, SLOT(showHidePlaylist()));
     // full screen
     connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
     connect(m_pauseInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(pause()));
@@ -653,6 +654,7 @@ void MediaPlayer::updateTheme()
     ui->label->setStyleSheet(color);
     ui->titleLabel->setStyleSheet(color);
     ui->indexInfoLabel->setStyleSheet(color);
+	ui->showHidePlaylistButton->setStyleSheet(backcolor);
     m_menuBar->setStyleSheet(menucolor);
 
     // full screen mode
@@ -892,4 +894,33 @@ void MediaPlayer::clearLayout(QLayout *layout)
 
         delete item;
     }
+}
+
+void MediaPlayer::showHidePlaylist()
+{
+	ui->playlistLabel->setHidden(!ui->playlistLabel->isHidden());
+	ui->playlistWidget->setHidden(!ui->playlistWidget->isHidden());
+	ui->indexAudioLabel->setHidden(!ui->indexAudioLabel->isHidden());
+	ui->indexVideoLabel->setHidden(!ui->indexVideoLabel->isHidden());
+	ui->indexInfoLabel->setHidden(!ui->indexInfoLabel->isHidden());
+	ui->allItemsLabel->setHidden(!ui->allItemsLabel->isHidden());
+	ui->addFileButton->setHidden(!ui->addFileButton->isHidden());
+	ui->addFolderButton->setHidden(!ui->addFolderButton->isHidden());
+	ui->clearButton->setHidden(!ui->clearButton->isHidden());
+	ui->searchButton->setHidden(!ui->searchButton->isHidden());
+	ui->repeatBox->setHidden(!ui->repeatBox->isHidden());
+	ui->shuffleBox->setHidden(!ui->shuffleBox->isHidden());
+	ui->currentItemLabel->setHidden(!ui->currentItemLabel->isHidden());
+	ui->loadingLabel->setHidden(!ui->loadingLabel->isHidden());
+
+	if (ui->playlistWidget->isHidden())
+	{
+		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/show-arrow-48.ico"));
+		ui->showHidePlaylistButton->setToolTip("Show playlist");
+	}
+	else
+	{
+		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/hide-arrow-48.ico"));
+		ui->showHidePlaylistButton->setToolTip("Hide playlist");
+	}
 }

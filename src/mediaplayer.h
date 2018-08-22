@@ -85,6 +85,7 @@ private slots:
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
 	void updateTheme();
+	void showHidePlaylist();
 
 private:
     int m_global_height;
