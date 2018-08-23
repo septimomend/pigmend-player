@@ -59,6 +59,10 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_sliderInFullScreen->installEventFilter(this);
     m_globalVideoWidget->installEventFilter(this);
     m_videoWidget->installEventFilter(this);
+	ui->playButton->installEventFilter(this);
+	ui->pauseButton->installEventFilter(this);
+	ui->volumeSlider->installEventFilter(this);
+	m_volumeSliderInFullScreen->installEventFilter(this);
 	this->installEventFilter(this);
 
     // set QWidget for video output
@@ -231,7 +235,30 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 
 					emit progressSliderValueChanged(ui->progressSlider->value());
 					break;
-// XXX Add key up/down for volume slider
+				case Qt::Key_Up:
+					if (m_globalVideoWidget->isFullScreen())
+					{
+						m_volumeSliderInFullScreen->setValue(m_volumeSliderInFullScreen->value() + SLIDER_STEP);
+						ui->volumeSlider->setValue(m_volumeSliderInFullScreen->value());
+					}
+					else
+					{
+						ui->volumeSlider->setValue(ui->volumeSlider->value() + SLIDER_STEP);
+						m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
+					}
+					break;
+				case Qt::Key_Down:
+					if (m_globalVideoWidget->isFullScreen())
+					{
+						m_volumeSliderInFullScreen->setValue(m_volumeSliderInFullScreen->value() - SLIDER_STEP);
+						ui->volumeSlider->setValue(m_volumeSliderInFullScreen->value());
+					}
+					else
+					{
+						ui->volumeSlider->setValue(ui->volumeSlider->value() - SLIDER_STEP);
+						m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
+					}
+					break;
 				case Qt::Key_1:
 					m_smallWindowAction->triggered(true);
 					break;
@@ -278,8 +305,6 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 
                 emit progressSliderValueChanged(ui->progressSlider->value());
             }
-
-
             break;
         }
         default:
