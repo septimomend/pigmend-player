@@ -70,38 +70,9 @@ void SearchDialog::checkMatches()
         ui->noMatchesLabel->setText(QString("Please, input data or press cancel"));
 }
 
-void SearchDialog::updateTheme(QString theme)
+void SearchDialog::updateTheme(styles_data_t *style)
 {
-    QString backcolor;
-    QString color;
-
-    if(theme == "blue mend")
-    {
-        backcolor = "background-color: rgb(0, 170, 127); color: rgb(0, 170, 127);";
-        color = "color: rgb(0, 170, 127)";
-    }
-    else if(theme == "orange mend")
-    {
-        backcolor = "background-color: rgb(255, 85, 0); color: rgb(255, 85, 0);";
-        color = "color: rgb(255, 85, 0)";
-    }
-    else if (theme == "grey mend")
-    {
-        backcolor = "background-color: rgb(105, 105, 105); color: rgb(105, 105, 105);";
-        color = "color: rgb(105, 105, 105)";
-    }
-    else if (theme == "dark grey mend")
-    {
-        backcolor = "background-color: rgb(47, 79, 79); color: rgb(47, 79, 79);";
-        color = "color: rgb(47, 79, 79)";
-    }
-    else
-    {
-        qDebug() << "Undefined theme data";
-        return;
-    }
-
-    ui->cancelButton->setStyleSheet(backcolor);
-    ui->okButton->setStyleSheet(backcolor);
-    ui->searchLineEdit->setStyleSheet(color);
+	ui->cancelButton->setStyleSheet(style->backcolor);
+	ui->okButton->setStyleSheet(style->backcolor);
+	ui->searchLineEdit->setStyleSheet(style->color);
 }

@@ -45,7 +45,11 @@ HEADERS += \
     aboutpigmend.h \
     constants.h \
     xml-dp/xmldp.h \
-    config-dp/config.h
+    config-dp/config.h \
+    ../lib/rapidxml-1.13/rapidxml_iterators.hpp \
+    ../lib/rapidxml-1.13/rapidxml_print.hpp \
+    ../lib/rapidxml-1.13/rapidxml_utils.hpp \
+    ../lib/rapidxml-1.13/rapidxml.hpp
 
 FORMS += \
         mediaplayer.ui \

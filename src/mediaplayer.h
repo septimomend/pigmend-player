@@ -27,8 +27,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QLabel>
 
 #include "config-dp/config.h"
-#include "tinyxml2/tinyxml2.h"
-#include "rapidxml-1.13/rapidxml.hpp"
 #include "playlistSingleton.h"
 #include "videoWidget.h"
 #include "playerControls.h"
@@ -51,7 +49,6 @@ public:
 
 private:
     void initMenu();
-	int rememberTheme(QString &theme_name);
     int volume() const;
     void clearLayout(QLayout *layout);
     void adjustVideoWidget();
@@ -158,11 +155,11 @@ private:
     QLabel *m_durationInFullScreen;
     QLabel *m_progressTimeInFullScreen;
 
-	//xml
-	rapidxml::xml_document<> m_themes_xml;
-
 	//config
 	conf_data_t *m_conf_data;
+
+	//xml
+	XMLDP m_xmldp;
 };
 
 #endif // MEDIAPLAYER_H

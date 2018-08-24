@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QShortcut>
 
 #include "playlistSingleton.h"
+#include "xml-dp/xmldp.h"
 
 namespace Ui {
 class SearchDialog;
@@ -34,7 +35,7 @@ public:
     ~SearchDialog();
 
     void setPlaceholer();
-    void updateTheme(QString theme);
+	void updateTheme(styles_data_t *style);
 
 signals:
     void matchesFound(QListWidgetItem *);
