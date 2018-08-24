@@ -1,11 +1,22 @@
-#include "config_src/config.h"
+/*
+
+GPL-2.0 License
+Copyright (c) 2018 Ivan Chapkailo
+
+See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
+
+*/
+
+#include "config.h"
 //#include "debug_log.h"
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-//#include <arpa/inet.h>
 
 #define DEFAULT_HTTP_PORT 80
 #define DEFAULT_HTTPS_PORT 443

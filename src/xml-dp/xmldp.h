@@ -1,8 +1,21 @@
+/*
+
+GPL-2.0 License
+Copyright (c) 2018 Ivan Chapkailo
+
+See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
+
+*/
+
 #ifndef XMLDP_H
 #define XMLDP_H
 
 #include "tinyxml2/tinyxml2.h"
 #include "rapidxml-1.13/rapidxml.hpp"
+#include "constants.h"
 
 #include <QtWidgets>
 #include <fstream>
@@ -12,17 +25,6 @@ using namespace tinyxml2;
 using namespace  rapidxml;
 using namespace  std;
 
-struct styles_data_t
-{
-	QString current_theme;
-	QString backcolor;
-	QString color;
-	QString transbackcolor;
-	QString menucolor;
-	QString progressSliderTheme;
-	QString volumeSliderTheme;
-};
-
 class XMLDP
 {
 public:
@@ -31,6 +33,7 @@ public:
 
 	styles_data_t *getStylesXML(QString &path, QString &theme_name);
 	int setStylesXML(QString &path, QString &theme_name);
+	QStringList getInfoAbout();
 
 private:
 	rapidxml::xml_document<> m_themes_xml;

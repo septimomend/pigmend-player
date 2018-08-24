@@ -1,13 +1,13 @@
 /*
-MIT License
 
+GPL-2.0 License
 Copyright (c) 2018 Ivan Chapkailo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "videoWidget.h"
@@ -25,7 +25,7 @@ VideoWidget::VideoWidget(bool isMainScreen, QWidget *parent) : QVideoWidget(pare
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    m_globalVideoWidget = (QVideoWidget *)parent;
+	m_globalVideoWidget = static_cast<QVideoWidget*>(parent);
 
     if (isMainScreen)
         setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
@@ -116,7 +116,7 @@ void VideoWidget::hideCursorOnFullScreen()
 
 void VideoWidget::paintEvent(QPaintEvent *pe)
 {
-    pe = pe;
+	pe = nullptr;
     QStyleOption styleOption;
     styleOption.init(this);
     QPainter painter(this);

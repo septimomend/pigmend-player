@@ -3,6 +3,16 @@
 # Project created by QtCreator 2018-01-23T16:24:02
 #
 #-------------------------------------------------
+#
+# GPL-2.0 License
+# Copyright (c) 2018 Ivan Chapkailo
+#
+# See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+#
+# Author: Ivan Chapkailo (https://github.com/septimomend/)
+# E-mail: chapkailo.ivan@gmail.com
+#
+#-------------------------------------------------
 
 QT       += core gui multimedia multimediawidgets network
 
