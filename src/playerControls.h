@@ -30,7 +30,7 @@ class PlayerControls : public QWidget
     Q_OBJECT
 
 public:
-    PlayerControls(QWidget *parent = 0);
+	PlayerControls(QWidget *parent = nullptr);
     ~PlayerControls();
 
     bool isRepeatMode();                        // sets current media file again
@@ -58,6 +58,7 @@ public slots:
     void setShuffleMode(bool checkShuffle);     // sets m_shuffleMode calling m_playlist.makeShuffle() which shuffles data
     void setFirstFile(QListWidgetItem *item);   // sets playing first file after pressing `play` at once after playlist filling
     void setVolume(int volume);
+	void setVolumeMuted();
 
 private slots:
     void setMetaData();                         // reads and sets metadata of file
@@ -72,6 +73,7 @@ signals:
     void changeVolumeValue(float);
     void setVolumeToPlayer(int);
     void mousePositionChanged(QPoint *);
+	void volumeMutedChanged(bool isMuted);
 
 private:
     QMediaPlayer *m_player, *m_musicPlayer;

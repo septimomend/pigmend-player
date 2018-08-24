@@ -81,7 +81,7 @@ private slots:
     void onVolumeSliderValueChanged();
     void onVolumeButtonUpChanged();
     void onVolumeButtonDownChanged();
-    void onVolumeMute();
+	void onVolumeMute(bool isMuted);
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
 	void updateTheme();

@@ -369,3 +369,9 @@ void PlayerControls::captureMousePosition(PlayerControls *pc)
         emit pc->mousePositionChanged(&cursor_position);
     }
 }
+
+void PlayerControls::setVolumeMuted()
+{
+	m_player->setMuted(!m_player->isMuted());
+	emit volumeMutedChanged(m_player->isMuted());
+}

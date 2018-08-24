@@ -121,7 +121,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->searchButton, SIGNAL(clicked(bool)), m_search, SLOT(setStartTips()));
     connect(ui->volumeUpButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonUpChanged()));
     connect(ui->volumeDownButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
-    connect(ui->muteButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
+	connect(ui->muteButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(setVolumeMuted()));
     connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
     connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
 	connect(ui->showHidePlaylistButton, SIGNAL(clicked(bool)), this, SLOT(showHidePlaylist()));
@@ -134,7 +134,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(m_disableFullScreen, SIGNAL(clicked(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
     connect(m_volumeUpInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonUpChanged()));
     connect(m_volumeDownInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
-    connect(m_volumeMuteInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
+	connect(m_volumeMuteInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(setVolumeMuted()));
     connect(m_globalVideoWidget, SIGNAL(fullScreenChanged(bool)), this, SLOT(hideControlPanelInNormalMode(bool)));
 
     // internal operations
@@ -148,6 +148,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
     connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
     connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
+	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
 }
 
 MediaPlayer::~MediaPlayer()
@@ -432,6 +433,8 @@ void MediaPlayer::adjustVideoWidget()
     m_volumeUpInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-up-4-16.ico"));
     m_volumeDownInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-down-5-16.ico"));
     m_volumeMuteInFullScreen->setIcon(QIcon(":/buttons/img/buttons/mute-2-16.ico"));
+
+	m_volumeMuteInFullScreen->setCheckable(true);
 
     ui->videoLayout->addWidget(m_globalVideoWidget);
 
@@ -838,10 +841,18 @@ void MediaPlayer::onVolumeButtonDownChanged()
     m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
 }
 
-void MediaPlayer::onVolumeMute()
+void MediaPlayer::onVolumeMute(bool isMuted)
 {
-    ui->volumeSlider->setValue(0);
-    m_volumeSliderInFullScreen->setValue(0);
+	if (isMuted)
+	{
+		m_volumeMuteInFullScreen->setChecked(true);
+		ui->muteButton->setChecked(true);
+	}
+	else
+	{
+		m_volumeMuteInFullScreen->setChecked(false);
+		ui->muteButton->setChecked(false);
+	}
 }
 
 void MediaPlayer::updateVolumeValue(float volume)
