@@ -32,7 +32,8 @@ SOURCES += \
     search.cpp \
     aboutpigmend.cpp \
     ../lib/tinyxml2/tinyxml2.cpp \
-    config_src/config.c
+    xml-dp/xmldp.cpp \
+    config-dp/config.c
 
 HEADERS += \
         mediaplayer.h \
@@ -43,7 +44,8 @@ HEADERS += \
     search.h \
     aboutpigmend.h \
     constants.h \
-    config_src/config.h
+    xml-dp/xmldp.h \
+    config-dp/config.h
 
 FORMS += \
         mediaplayer.ui \

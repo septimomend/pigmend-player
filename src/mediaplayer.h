@@ -26,7 +26,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QHBoxLayout>
 #include <QLabel>
 
-#include "config_src/config.h"
+#include "config-dp/config.h"
 #include "tinyxml2/tinyxml2.h"
 #include "rapidxml-1.13/rapidxml.hpp"
 #include "playlistSingleton.h"

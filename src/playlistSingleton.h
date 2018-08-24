@@ -28,7 +28,7 @@ class PlaylistSingleton : public QObject
     Q_OBJECT
 
 private:
-    PlaylistSingleton(QObject *parent = 0);
+	PlaylistSingleton(QObject *parent = nullptr);
     ~PlaylistSingleton();
     PlaylistSingleton(const PlaylistSingleton &) = delete;
     PlaylistSingleton& operator=(const PlaylistSingleton &) = delete;
