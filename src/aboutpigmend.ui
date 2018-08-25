@@ -10,8 +10,15 @@
     <height>353</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>About Pigmend Player</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="playerui.qrc">
+    <normaloff>:/icon/pigmend.ico</normaloff>:/icon/pigmend.ico</iconset>
   </property>
   <widget class="QLabel" name="player_name">
    <property name="geometry">

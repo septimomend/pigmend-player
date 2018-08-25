@@ -17,7 +17,8 @@ AboutPigmend::AboutPigmend(conf_data_t *conf_data, QWidget *parent) :
 	QDialog(parent), ui(new Ui::AboutPigmend), m_conf_data(conf_data)
 {
     ui->setupUi(this);
-
+	setModal(true);
+	setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(close()));
 
 	loadInfoAbout();

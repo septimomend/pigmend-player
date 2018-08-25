@@ -18,6 +18,7 @@ SearchDialog::SearchDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Search
     ui->setupUi(this);
 
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+	setModal(true);
 
     connect(ui->cancelButton, SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(checkMatches()));
