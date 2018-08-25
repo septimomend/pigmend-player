@@ -17,18 +17,18 @@
         <file>img/buttons/mute-2-16.ico</file>
         <file>img/buttons/paint-brush-16.ico</file>
         <file>img/buttons/play-16.ico</file>
-        <file>img/buttons/repeat-16.ico</file>
         <file>img/buttons/search-3-16.ico</file>
-        <file>img/buttons/shuffle-16.ico</file>
         <file>img/buttons/stop-16.ico</file>
-        <file>img/buttons/volume-down-5-16.ico</file>
-        <file>img/buttons/volume-up-4-16.ico</file>
         <file>img/buttons/window-5-16.ico</file>
         <file>img/buttons/x-mark-16.ico</file>
-        <file>img/buttons/fast-forward-16.ico</file>
         <file>img/buttons/fullscreen-exit-16.ico</file>
         <file>img/buttons/hide-arrow-48.ico</file>
         <file>img/buttons/show-arrow-48.ico</file>
+        <file>img/buttons/arrow-playback-16.png</file>
+        <file>img/buttons/repeat-16.png</file>
+        <file>img/buttons/shuffle-16.png</file>
+        <file>img/buttons/volume-down-5-16.png</file>
+        <file>img/buttons/volume-up-4-16.png</file>
     </qresource>
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>

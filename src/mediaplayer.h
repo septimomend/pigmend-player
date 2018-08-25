@@ -68,7 +68,6 @@ private slots:
     void focusItem(QString path);           // focuses first item in playlist widget
     void updateTimeProgress(int playTime);  // updates progress time
     void clearPlaylist();                   // clears playlist widget and data
-    void checkShuffleMode(bool check);      // shuffled new data if playlist updated
     void showInfo();                        // info about author
     void updateIndexedData(int mp3count, int mp4count, bool status);// sets count of media files which are gotten from thread
     void setWindowSize();
@@ -81,6 +80,8 @@ private slots:
     void hideControlPanelInNormalMode(bool forcedHide);
 	void updateTheme();
 	void showHidePlaylist();
+	void onShuffleButton();
+	void onRepeatButton();
 
 private:
     int m_global_height;

@@ -114,9 +114,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(this, SIGNAL(progressSliderValueChanged(int)), m_playerControls, SLOT(seek(int)));
     connect(ui->fast2Button, SIGNAL(clicked(bool)), m_playerControls, SLOT(fastForward()));
     connect(ui->fast4Button, SIGNAL(clicked(bool)), m_playerControls, SLOT(fastForward()));
-    connect(ui->repeatBox, SIGNAL(toggled(bool)), m_playerControls, SLOT(setRepeatMode(bool)));
-    connect(ui->shuffleBox, SIGNAL(toggled(bool)), m_playerControls, SLOT(setShuffleMode(bool)));
-    connect(ui->shuffleBox, SIGNAL(toggled(bool)), this, SLOT(checkShuffleMode(bool)));
+	connect(ui->repeatButton, SIGNAL(toggled(bool)), this, SLOT(onRepeatButton()));
+	connect(ui->shuffleButton, SIGNAL(clicked(bool)), this, SLOT(onShuffleButton()));
     connect(ui->searchButton, SIGNAL(clicked(bool)), m_search, SLOT(show()));
     connect(ui->searchButton, SIGNAL(clicked(bool)), m_search, SLOT(setStartTips()));
     connect(ui->volumeUpButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonUpChanged()));
@@ -430,9 +429,9 @@ void MediaPlayer::adjustVideoWidget()
     m_nextInFullScreen->setIcon(QIcon(":/buttons/img/buttons/media-skip-forward-16.ico"));
     m_prevInFullScreen->setIcon(QIcon(":/buttons/img/buttons/media-skip-backward-16.ico"));
     m_disableFullScreen->setIcon(QIcon(":/buttons/img/buttons/fullscreen-exit-16.ico"));
-    m_volumeUpInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-up-4-16.ico"));
-    m_volumeDownInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-down-5-16.ico"));
-    m_volumeMuteInFullScreen->setIcon(QIcon(":/buttons/img/buttons/mute-2-16.ico"));
+	m_volumeUpInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-up-4-16.png"));
+	m_volumeDownInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-down-5-16.png"));
+	m_volumeMuteInFullScreen->setIcon(QIcon(":/buttons/img/buttons/mute-2-16.ico"));
 
 	m_volumeMuteInFullScreen->setCheckable(true);
 
@@ -483,7 +482,7 @@ void MediaPlayer::updatePlaylist()
         ++row;
     }
 
-    ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
+	ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
     ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->count()));   // set count of tracks
 
     // if added new files - shuffle it all
@@ -572,8 +571,8 @@ void MediaPlayer::focusItem(QString path)
         if (path == canonical_path)
         {
           ui->playlistWidget->item(row)->setSelected(true);
-          ui->playlistWidget->scrollToItem(ui->playlistWidget->item(row));
-          ui->currentItemLabel->setText(QString::number(row + 1));              // set number of current track
+		  ui->playlistWidget->scrollToItem(ui->playlistWidget->item(row));
+		  ui->currentItemLabel->setText(QString::number(row + 1));              // set number of current track
         }
         ++row;
     }
@@ -595,9 +594,15 @@ void MediaPlayer::clearPlaylist()
     m_isPlaylistLoaded = false;
 }
 
-void MediaPlayer::checkShuffleMode(bool check)
+void MediaPlayer::onShuffleButton()
 {
-    m_shuffleMode = check;
+	m_shuffleMode = ui->shuffleButton->isChecked();
+	m_playerControls->setShuffleMode(m_shuffleMode);
+}
+
+void MediaPlayer::onRepeatButton()
+{
+	m_playerControls->setRepeatMode(ui->repeatButton->isChecked());
 }
 
 void MediaPlayer::updateTheme()
@@ -648,6 +653,9 @@ void MediaPlayer::updateTheme()
 	ui->titleLabel->setStyleSheet(style->color);
 	ui->indexInfoLabel->setStyleSheet(style->color);
 	ui->showHidePlaylistButton->setStyleSheet(style->backcolor);
+	ui->shuffleButton->setStyleSheet(style->backcolor);
+	ui->repeatButton->setStyleSheet(style->backcolor);
+	ui->underPlaylistLabel->setStyleSheet(style->color);
 	m_menuBar->setStyleSheet(style->menucolor);
 
     // full screen mode
@@ -864,10 +872,11 @@ void MediaPlayer::showHidePlaylist()
 	ui->addFolderButton->setHidden(!ui->addFolderButton->isHidden());
 	ui->clearButton->setHidden(!ui->clearButton->isHidden());
 	ui->searchButton->setHidden(!ui->searchButton->isHidden());
-	ui->repeatBox->setHidden(!ui->repeatBox->isHidden());
-	ui->shuffleBox->setHidden(!ui->shuffleBox->isHidden());
+	ui->repeatButton->setHidden(!ui->repeatButton->isHidden());
+	ui->shuffleButton->setHidden(!ui->shuffleButton->isHidden());
 	ui->currentItemLabel->setHidden(!ui->currentItemLabel->isHidden());
 	ui->loadingLabel->setHidden(!ui->loadingLabel->isHidden());
+	ui->underPlaylistLabel->setHidden(!ui->underPlaylistLabel->isHidden());
 
 	if (ui->playlistWidget->isHidden())
 	{
