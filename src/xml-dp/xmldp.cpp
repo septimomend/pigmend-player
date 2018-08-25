@@ -22,6 +22,7 @@ XMLDP::~XMLDP()
 
 styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
 {
+	xml_document<> themes_xml;
 	styles_data_t *themes_data = new styles_data_t;
 
 	xml_node<> *root_node;
@@ -36,8 +37,8 @@ styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
 	vector<char> buffer((istreambuf_iterator<char>(themesFile)), istreambuf_iterator<char>());
 
 	buffer.push_back('\0');
-	m_themes_xml.parse<rapidxml::parse_full | rapidxml::parse_no_data_nodes>(&buffer[0]);
-	root_node = m_themes_xml.first_node("PigmendPlayer");
+	themes_xml.parse<parse_full | parse_no_data_nodes>(&buffer[0]);
+	root_node = themes_xml.first_node("PigmendPlayer");
 
 	xml_node<> *themes_node = root_node->first_node("Themes");
 	themes_data->current_theme = theme_name.isEmpty() ? themes_node->first_node("CurrentTheme")->value() : theme_name;
@@ -105,4 +106,49 @@ int XMLDP::setStylesXML(QString &path, QString &theme_name)
 
 	rc = 0;
 	return rc;
+}
+
+about_data_t *XMLDP::getInfoAbout(QString &path)
+{
+	xml_document<> about_xml;
+	about_data_t *about_data = new about_data_t;
+
+	if (!about_data)
+	{
+		qCritical() << __FUNCTION__ << ": fail to allocate memory." << endl;
+		return nullptr;
+	}
+
+	xml_node<> *root_node;
+	ifstream about_file(path.toStdString().c_str());
+
+	if (!about_file.is_open())
+	{
+		qCritical() << __FUNCTION__ << ": can't open file " << path << endl;
+		return nullptr;
+	}
+
+	vector<char> buffer((istreambuf_iterator<char>(about_file)), istreambuf_iterator<char>());
+
+	buffer.push_back('\0');
+	about_xml.parse<parse_validate_closing_tags>(&buffer[0]);
+
+	root_node = about_xml.first_node("PigmendPlayer");
+
+	about_data->software_name = root_node->first_node("SoftwareName")->value();
+	about_data->version = root_node->first_node("Version")->value();
+	about_data->author_name = root_node->first_node("Author")->first_node("Name")->value();
+	about_data->author_url = root_node->first_node("Author")->first_node("URL")->value();
+	about_data->year = root_node->first_node("Year")->value();
+	about_data->libs = root_node->first_node("Libs")->value();
+
+	xml_node<> *releases_node = root_node->first_node("Releases");
+
+	for (xml_node<> *release_data_node = releases_node->first_node("Release"); release_data_node; release_data_node = release_data_node->next_sibling())
+	{
+		about_data->releases_version.push_back(release_data_node->first_node("Version")->value());
+		about_data->releases_url.push_back(release_data_node->first_node("URL")->value());
+	}
+
+	return about_data;
 }

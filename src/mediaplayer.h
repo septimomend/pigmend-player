@@ -25,7 +25,6 @@ E-mail: chapkailo.ivan@gmail.com
 #include <QHBoxLayout>
 #include <QLabel>
 
-#include "config-dp/config.h"
 #include "playlistSingleton.h"
 #include "videoWidget.h"
 #include "playerControls.h"

@@ -35,6 +35,7 @@ typedef enum
 	SSL_KEY = 9,
 	SSL_CRT = 10,
 	THEME_CONFIG = 11,
+	ABOUT_CONFIG = 12,
 	NUMBER_OF_TOKENS,
 } conf_type_t;
 

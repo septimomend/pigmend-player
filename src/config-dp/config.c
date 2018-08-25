@@ -44,6 +44,7 @@ struct conf_data
 	char ssl_key[PATH_MAX];
 	char ssl_crt[PATH_MAX];
 	char theme_config[PATH_MAX];
+	char about_config[PATH_MAX];
 	int tokens_checker[NUMBER_OF_TOKENS];
 };
 
@@ -60,6 +61,7 @@ static char *conf_str_token[NUMBER_OF_TOKENS] =
 	[SSL_KEY] = "SSL_KEY",
 	[SSL_CRT] = "SSL_CRT",
 	[THEME_CONFIG] = "THEME_CONFIG",
+	[ABOUT_CONFIG] = "ABOUT_CONFIG",
 };
 
 static char *conf_type2str(conf_type_t conf_type)
@@ -220,6 +222,10 @@ static int config_set_value(conf_type_t conf_type, conf_data_t *conf_data,
 			if (check_and_set_value(conf_data->theme_config, value, NULL, PATH_MAX))
 				goto Error;
 			break;
+		case ABOUT_CONFIG:
+			if (check_and_set_value(conf_data->about_config, value, NULL, PATH_MAX))
+				goto Error;
+			break;
 		default:
 			goto Error;
 	}
@@ -362,6 +368,8 @@ void *config_get_data(conf_type_t conf_type, conf_data_t *conf_data)
 			return conf_data->ssl_crt;
 		case THEME_CONFIG:
 			return conf_data->theme_config;
+		case ABOUT_CONFIG:
+			return conf_data->about_config;
 		default:
 			return NULL;
 	}

@@ -28,7 +28,16 @@ struct styles_data_t
 
 struct about_data_t
 {
-	// TODO
+	QString software_name;
+	QString version;
+	QString author_name;
+	QString author_url;
+	QString year;
+	QString contributors;
+	QString libs;
+	QString resources;
+	QStringList releases_version;
+	QStringList releases_url;
 };
 
 #endif // CONSTANTS_H

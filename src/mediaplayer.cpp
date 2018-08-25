@@ -34,7 +34,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_playerControls = new PlayerControls();
     m_mediaFile = new MediafileController(this);
     m_search = new SearchDialog(this);
-    m_aboutPlayer = new AboutPigmend(this);
+	m_aboutPlayer = new AboutPigmend(conf_data, this);
 
     // shortcuts
     m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -608,6 +608,12 @@ void MediaPlayer::updateTheme()
 	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
 
 	styles_data_t *style = m_xmldp.getStylesXML(theme_file, theme_name);
+
+	if (!style)
+	{
+		qWarning() << __FUNCTION__ << ": nullptr detected" << endl;
+		return;
+	}
 
 	if (!theme_name.isEmpty() && m_xmldp.setStylesXML(theme_file, theme_name))
 	{

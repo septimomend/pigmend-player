@@ -33,10 +33,7 @@ public:
 
 	styles_data_t *getStylesXML(QString &path, QString &theme_name);
 	int setStylesXML(QString &path, QString &theme_name);
-	QStringList getInfoAbout();
-
-private:
-	rapidxml::xml_document<> m_themes_xml;
+	about_data_t *getInfoAbout(QString &path);
 };
 
 #endif // XMLDP_H
