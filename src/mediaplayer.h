@@ -1,14 +1,13 @@
 /*
 
-MIT License
-
+GPL-2.0 License
 Copyright (c) 2018 Ivan Chapkailo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifndef MEDIAPLAYER_H
@@ -26,9 +25,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QHBoxLayout>
 #include <QLabel>
 
-#include "config_src/config.h"
-#include "tinyxml2/tinyxml2.h"
-#include "rapidxml-1.13/rapidxml.hpp"
 #include "playlistSingleton.h"
 #include "videoWidget.h"
 #include "playerControls.h"
@@ -51,7 +47,6 @@ public:
 
 private:
     void initMenu();
-	int rememberTheme(QString &theme_name);
     int volume() const;
     void clearLayout(QLayout *layout);
     void adjustVideoWidget();
@@ -81,10 +76,11 @@ private slots:
     void onVolumeSliderValueChanged();
     void onVolumeButtonUpChanged();
     void onVolumeButtonDownChanged();
-    void onVolumeMute();
+	void onVolumeMute(bool isMuted);
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
 	void updateTheme();
+	void showHidePlaylist();
 
 private:
     int m_global_height;
@@ -157,11 +153,11 @@ private:
     QLabel *m_durationInFullScreen;
     QLabel *m_progressTimeInFullScreen;
 
-	//xml
-	rapidxml::xml_document<> m_themes_xml;
-
 	//config
 	conf_data_t *m_conf_data;
+
+	//xml
+	XMLDP m_xmldp;
 };
 
 #endif // MEDIAPLAYER_H

@@ -1,5 +1,17 @@
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+/*
+
+GPL-2.0 License
+Copyright (c) 2018 Ivan Chapkailo
+
+See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
+
+*/
+
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #include <stdint.h>
 
@@ -23,6 +35,7 @@ typedef enum
 	SSL_KEY = 9,
 	SSL_CRT = 10,
 	THEME_CONFIG = 11,
+	ABOUT_CONFIG = 12,
 	NUMBER_OF_TOKENS,
 } conf_type_t;
 

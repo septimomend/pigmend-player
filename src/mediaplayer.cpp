@@ -34,7 +34,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_playerControls = new PlayerControls();
     m_mediaFile = new MediafileController(this);
     m_search = new SearchDialog(this);
-    m_aboutPlayer = new AboutPigmend(this);
+	m_aboutPlayer = new AboutPigmend(conf_data, this);
 
     // shortcuts
     m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -59,6 +59,10 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_sliderInFullScreen->installEventFilter(this);
     m_globalVideoWidget->installEventFilter(this);
     m_videoWidget->installEventFilter(this);
+	ui->playButton->installEventFilter(this);
+	ui->pauseButton->installEventFilter(this);
+	ui->volumeSlider->installEventFilter(this);
+	m_volumeSliderInFullScreen->installEventFilter(this);
 	this->installEventFilter(this);
 
     // set QWidget for video output
@@ -117,9 +121,10 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->searchButton, SIGNAL(clicked(bool)), m_search, SLOT(setStartTips()));
     connect(ui->volumeUpButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonUpChanged()));
     connect(ui->volumeDownButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
-    connect(ui->muteButton, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
+	connect(ui->muteButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(setVolumeMuted()));
     connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
     connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
+	connect(ui->showHidePlaylistButton, SIGNAL(clicked(bool)), this, SLOT(showHidePlaylist()));
     // full screen
     connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
     connect(m_pauseInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(pause()));
@@ -129,7 +134,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(m_disableFullScreen, SIGNAL(clicked(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
     connect(m_volumeUpInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonUpChanged()));
     connect(m_volumeDownInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
-    connect(m_volumeMuteInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeMute()));
+	connect(m_volumeMuteInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(setVolumeMuted()));
     connect(m_globalVideoWidget, SIGNAL(fullScreenChanged(bool)), this, SLOT(hideControlPanelInNormalMode(bool)));
 
     // internal operations
@@ -143,6 +148,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
     connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
     connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
+	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
 }
 
 MediaPlayer::~MediaPlayer()
@@ -230,7 +236,30 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 
 					emit progressSliderValueChanged(ui->progressSlider->value());
 					break;
-// XXX Add key up/down for volume slider
+				case Qt::Key_Up:
+					if (m_globalVideoWidget->isFullScreen())
+					{
+						m_volumeSliderInFullScreen->setValue(m_volumeSliderInFullScreen->value() + SLIDER_STEP);
+						ui->volumeSlider->setValue(m_volumeSliderInFullScreen->value());
+					}
+					else
+					{
+						ui->volumeSlider->setValue(ui->volumeSlider->value() + SLIDER_STEP);
+						m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
+					}
+					break;
+				case Qt::Key_Down:
+					if (m_globalVideoWidget->isFullScreen())
+					{
+						m_volumeSliderInFullScreen->setValue(m_volumeSliderInFullScreen->value() - SLIDER_STEP);
+						ui->volumeSlider->setValue(m_volumeSliderInFullScreen->value());
+					}
+					else
+					{
+						ui->volumeSlider->setValue(ui->volumeSlider->value() - SLIDER_STEP);
+						m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
+					}
+					break;
 				case Qt::Key_1:
 					m_smallWindowAction->triggered(true);
 					break;
@@ -277,8 +306,6 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 
                 emit progressSliderValueChanged(ui->progressSlider->value());
             }
-
-
             break;
         }
         default:
@@ -406,6 +433,8 @@ void MediaPlayer::adjustVideoWidget()
     m_volumeUpInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-up-4-16.ico"));
     m_volumeDownInFullScreen->setIcon(QIcon(":/buttons/img/buttons/volume-down-5-16.ico"));
     m_volumeMuteInFullScreen->setIcon(QIcon(":/buttons/img/buttons/mute-2-16.ico"));
+
+	m_volumeMuteInFullScreen->setCheckable(true);
 
     ui->videoLayout->addWidget(m_globalVideoWidget);
 
@@ -575,146 +604,67 @@ void MediaPlayer::updateTheme()
 {
 	QString theme_name = this->sender() ? this->sender()->objectName() : "";
 	QString theme_file = PRO_FILE_PWD;
-    QString backcolor;
-    QString color;
-    QString transbackcolor;
-    QString menucolor;
-    QString progressSliderTheme;
-    QString volumeSliderTheme;
 
 	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
 
-	xml_node<> *root_node;
-	ifstream themesFile(theme_file.toStdString().c_str());
+	styles_data_t *style = m_xmldp.getStylesXML(theme_file, theme_name);
 
-	if (!themesFile.is_open())
+	if (!style)
 	{
-		qCritical() << __FUNCTION__ << ": can't open file " << theme_file << endl;
-		abort();
-	}
-
-	vector<char> buffer((istreambuf_iterator<char>(themesFile)), istreambuf_iterator<char>());
-
-	buffer.push_back('\0');
-	m_themes_xml.parse<rapidxml::parse_full | rapidxml::parse_no_data_nodes>(&buffer[0]);
-	root_node = m_themes_xml.first_node("PigmendPlayer");
-
-	xml_node<> *themes_node = root_node->first_node("Themes");
-	QString compare_data = theme_name.isEmpty() ? themes_node->first_node("CurrentTheme")->value() : theme_name;
-
-	for(xml_node<> *theme_data_node = themes_node->first_node("Theme"); theme_data_node; theme_data_node = theme_data_node->next_sibling())
-	{
-		if (compare_data == theme_data_node->first_attribute()->value())
-		{
-			backcolor = theme_data_node->first_node("backcolor")->value();
-			color = theme_data_node->first_node("color")->value();
-			transbackcolor = theme_data_node->first_node("transbackcolor")->value();
-			menucolor = theme_data_node->first_node("menucolor")->value();
-			progressSliderTheme = theme_data_node->first_node("progressSliderTheme")->value();
-			volumeSliderTheme = theme_data_node->first_node("volumeSliderTheme")->value();
-		}
-	}
-
-	if (color.isEmpty())
-	{
-		qWarning() << __FUNCTION__ << ": Undefined theme" << endl;
+		qWarning() << __FUNCTION__ << ": nullptr detected" << endl;
 		return;
 	}
 
-	if (!theme_name.isEmpty() && rememberTheme(theme_name))
+	if (!theme_name.isEmpty() && m_xmldp.setStylesXML(theme_file, theme_name))
 	{
-		qWarning() << "Can't save theme " << theme_name;
+		qWarning() << __FUNCTION__ << ": can't save " << theme_name << " theme to xml" << endl;
 		return;
 	}
 
-	m_search->updateTheme(compare_data);
+	m_search->updateTheme(style);
 
-    ui->addFileButton->setStyleSheet(backcolor);
-    ui->addFolderButton->setStyleSheet(backcolor);
-    ui->allItemsLabel->setStyleSheet(color);
-    ui->clearButton->setStyleSheet(backcolor);
-    ui->currentItemLabel->setStyleSheet(color);
-    ui->fast2Button->setStyleSheet(backcolor);
-    ui->fast4Button->setStyleSheet(backcolor);
-    ui->fullScreenButton->setStyleSheet(backcolor);
-    ui->nextButton->setStyleSheet(backcolor);
-    ui->pauseButton->setStyleSheet(backcolor);
-    ui->playButton->setStyleSheet(backcolor);
-    ui->playlistWidget->setStyleSheet(transbackcolor);
-    ui->prevButton->setStyleSheet(backcolor);
-    ui->progressSlider->setStyleSheet(progressSliderTheme);
-    ui->volumeSlider->setStyleSheet(volumeSliderTheme);
-    ui->searchButton->setStyleSheet(backcolor);
-    ui->stopButton->setStyleSheet(backcolor);
-    ui->stopButton->setStyleSheet(backcolor);
-    ui->volumeUpButton->setStyleSheet(backcolor);
-    ui->volumeDownButton->setStyleSheet(backcolor);
-    ui->muteButton->setStyleSheet(backcolor);
-    ui->label->setStyleSheet(color);
-    ui->titleLabel->setStyleSheet(color);
-    ui->indexInfoLabel->setStyleSheet(color);
-    m_menuBar->setStyleSheet(menucolor);
+	ui->addFileButton->setStyleSheet(style->backcolor);
+	ui->addFolderButton->setStyleSheet(style->backcolor);
+	ui->allItemsLabel->setStyleSheet(style->color);
+	ui->clearButton->setStyleSheet(style->backcolor);
+	ui->currentItemLabel->setStyleSheet(style->color);
+	ui->fast2Button->setStyleSheet(style->backcolor);
+	ui->fast4Button->setStyleSheet(style->backcolor);
+	ui->fullScreenButton->setStyleSheet(style->backcolor);
+	ui->nextButton->setStyleSheet(style->backcolor);
+	ui->pauseButton->setStyleSheet(style->backcolor);
+	ui->playButton->setStyleSheet(style->backcolor);
+	ui->playlistWidget->setStyleSheet(style->transbackcolor);
+	ui->prevButton->setStyleSheet(style->backcolor);
+	ui->progressSlider->setStyleSheet(style->progressSliderTheme);
+	ui->volumeSlider->setStyleSheet(style->volumeSliderTheme);
+	ui->searchButton->setStyleSheet(style->backcolor);
+	ui->stopButton->setStyleSheet(style->backcolor);
+	ui->stopButton->setStyleSheet(style->backcolor);
+	ui->volumeUpButton->setStyleSheet(style->backcolor);
+	ui->volumeDownButton->setStyleSheet(style->backcolor);
+	ui->muteButton->setStyleSheet(style->backcolor);
+	ui->label->setStyleSheet(style->color);
+	ui->titleLabel->setStyleSheet(style->color);
+	ui->indexInfoLabel->setStyleSheet(style->color);
+	ui->showHidePlaylistButton->setStyleSheet(style->backcolor);
+	m_menuBar->setStyleSheet(style->menucolor);
 
     // full screen mode
-    m_sliderInFullScreen->setStyleSheet(progressSliderTheme);
-    m_volumeSliderInFullScreen->setStyleSheet(volumeSliderTheme);
-    m_titleInFullScreen->setStyleSheet(color);
-    m_durationInFullScreen->setStyleSheet(color);
-    m_progressTimeInFullScreen->setStyleSheet(color);
-    m_playInFullScreen->setStyleSheet(backcolor);
-    m_pauseInFullScreen->setStyleSheet(backcolor);
-    m_stopInFullScreen->setStyleSheet(backcolor);
-    m_nextInFullScreen->setStyleSheet(backcolor);
-    m_prevInFullScreen->setStyleSheet(backcolor);
-    m_disableFullScreen->setStyleSheet(backcolor);
-    m_volumeUpInFullScreen->setStyleSheet(backcolor);
-    m_volumeDownInFullScreen->setStyleSheet(backcolor);
-    m_volumeMuteInFullScreen->setStyleSheet(backcolor);
-}
-
-int MediaPlayer::rememberTheme(QString &theme_name)
-{
-	int rc = -1;
-	QString theme_file = PRO_FILE_PWD;
-	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
-	tinyxml2::XMLDocument xml_doc;
-
-	tinyxml2::XMLError eResult = xml_doc.LoadFile(theme_file.toStdString().c_str());
-
-	if (eResult != tinyxml2::XML_SUCCESS)
-	{
-		qCritical() << __FUNCTION__ << ": can't open file " << theme_file << endl;
-		abort();
-	}
-
-	tinyxml2::XMLNode *root = xml_doc.FirstChildElement("PigmendPlayer");
-
-	if (root == nullptr)
-	{
-		qWarning() << __FUNCTION__ << ": no root child" << endl;
-		return rc;
-	}
-
-	tinyxml2::XMLElement *themes = root->FirstChildElement("Themes");
-	if (!themes)
-	{
-		qWarning() << __FUNCTION__ << "No themes" << endl;
-		return rc;
-	}
-
-	tinyxml2::XMLElement *curr_theme = themes->FirstChildElement("CurrentTheme");
-	if (!curr_theme)
-	{
-		qWarning() << __FUNCTION__ << "Can't set current theme" << endl;
-		return rc;
-	}
-
-	curr_theme->SetText(theme_name.toStdString().c_str());
-
-	xml_doc.SaveFile(theme_file.toStdString().c_str());
-
-	rc = 0;
-	return rc;
+	m_sliderInFullScreen->setStyleSheet(style->progressSliderTheme);
+	m_volumeSliderInFullScreen->setStyleSheet(style->volumeSliderTheme);
+	m_titleInFullScreen->setStyleSheet(style->color);
+	m_durationInFullScreen->setStyleSheet(style->color);
+	m_progressTimeInFullScreen->setStyleSheet(style->color);
+	m_playInFullScreen->setStyleSheet(style->backcolor);
+	m_pauseInFullScreen->setStyleSheet(style->backcolor);
+	m_stopInFullScreen->setStyleSheet(style->backcolor);
+	m_nextInFullScreen->setStyleSheet(style->backcolor);
+	m_prevInFullScreen->setStyleSheet(style->backcolor);
+	m_disableFullScreen->setStyleSheet(style->backcolor);
+	m_volumeUpInFullScreen->setStyleSheet(style->backcolor);
+	m_volumeDownInFullScreen->setStyleSheet(style->backcolor);
+	m_volumeMuteInFullScreen->setStyleSheet(style->backcolor);
 }
 
 void MediaPlayer::showInfo()
@@ -811,10 +761,18 @@ void MediaPlayer::onVolumeButtonDownChanged()
     m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
 }
 
-void MediaPlayer::onVolumeMute()
+void MediaPlayer::onVolumeMute(bool isMuted)
 {
-    ui->volumeSlider->setValue(0);
-    m_volumeSliderInFullScreen->setValue(0);
+	if (isMuted)
+	{
+		m_volumeMuteInFullScreen->setChecked(true);
+		ui->muteButton->setChecked(true);
+	}
+	else
+	{
+		m_volumeMuteInFullScreen->setChecked(false);
+		ui->muteButton->setChecked(false);
+	}
 }
 
 void MediaPlayer::updateVolumeValue(float volume)
@@ -892,4 +850,33 @@ void MediaPlayer::clearLayout(QLayout *layout)
 
         delete item;
     }
+}
+
+void MediaPlayer::showHidePlaylist()
+{
+	ui->playlistLabel->setHidden(!ui->playlistLabel->isHidden());
+	ui->playlistWidget->setHidden(!ui->playlistWidget->isHidden());
+	ui->indexAudioLabel->setHidden(!ui->indexAudioLabel->isHidden());
+	ui->indexVideoLabel->setHidden(!ui->indexVideoLabel->isHidden());
+	ui->indexInfoLabel->setHidden(!ui->indexInfoLabel->isHidden());
+	ui->allItemsLabel->setHidden(!ui->allItemsLabel->isHidden());
+	ui->addFileButton->setHidden(!ui->addFileButton->isHidden());
+	ui->addFolderButton->setHidden(!ui->addFolderButton->isHidden());
+	ui->clearButton->setHidden(!ui->clearButton->isHidden());
+	ui->searchButton->setHidden(!ui->searchButton->isHidden());
+	ui->repeatBox->setHidden(!ui->repeatBox->isHidden());
+	ui->shuffleBox->setHidden(!ui->shuffleBox->isHidden());
+	ui->currentItemLabel->setHidden(!ui->currentItemLabel->isHidden());
+	ui->loadingLabel->setHidden(!ui->loadingLabel->isHidden());
+
+	if (ui->playlistWidget->isHidden())
+	{
+		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/show-arrow-48.ico"));
+		ui->showHidePlaylistButton->setToolTip("Show playlist");
+	}
+	else
+	{
+		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/hide-arrow-48.ico"));
+		ui->showHidePlaylistButton->setToolTip("Hide playlist");
+	}
 }

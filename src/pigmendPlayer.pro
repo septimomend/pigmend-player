@@ -3,6 +3,16 @@
 # Project created by QtCreator 2018-01-23T16:24:02
 #
 #-------------------------------------------------
+#
+# GPL-2.0 License
+# Copyright (c) 2018 Ivan Chapkailo
+#
+# See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+#
+# Author: Ivan Chapkailo (https://github.com/septimomend/)
+# E-mail: chapkailo.ivan@gmail.com
+#
+#-------------------------------------------------
 
 QT       += core gui multimedia multimediawidgets network
 
@@ -32,7 +42,8 @@ SOURCES += \
     search.cpp \
     aboutpigmend.cpp \
     ../lib/tinyxml2/tinyxml2.cpp \
-    config_src/config.c
+    xml-dp/xmldp.cpp \
+    config-dp/config.c
 
 HEADERS += \
         mediaplayer.h \
@@ -43,7 +54,12 @@ HEADERS += \
     search.h \
     aboutpigmend.h \
     constants.h \
-    config_src/config.h
+    xml-dp/xmldp.h \
+    config-dp/config.h \
+    ../lib/rapidxml-1.13/rapidxml_iterators.hpp \
+    ../lib/rapidxml-1.13/rapidxml_print.hpp \
+    ../lib/rapidxml-1.13/rapidxml_utils.hpp \
+    ../lib/rapidxml-1.13/rapidxml.hpp
 
 FORMS += \
         mediaplayer.ui \
