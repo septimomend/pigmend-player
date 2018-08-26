@@ -82,6 +82,7 @@ private slots:
 	void showHidePlaylist();
 	void onShuffleButton();
 	void onRepeatButton();
+	void onPlaylistDoubleClicked(int row, int column);
 
 private:
     int m_global_height;

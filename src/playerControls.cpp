@@ -208,7 +208,7 @@ void PlayerControls::setFirstFile(QListWidgetItem* item)
     m_player->setMedia(QUrl::fromLocalFile(item->text()));
 }
 
-void PlayerControls::setMediaFile(QListWidgetItem* item)
+void PlayerControls::setMediaFile(QString &item)
 {
     m_handleSelected = true;
     m_isKeyClicked = true;
@@ -216,14 +216,14 @@ void PlayerControls::setMediaFile(QListWidgetItem* item)
     // set media file. When make double click on playlist widget item, then send this item to here
     // and check if this item text (ie filename) is in QMap container
     // then set its path to media playing
-    auto iter = m_playlist.m_plData.find(item->text());
-    if (iter != m_playlist.m_plData.constEnd() && iter.key() == item->text())
+	auto iter = m_playlist.m_plData.find(item);
+	if (iter != m_playlist.m_plData.constEnd() && iter.key() == item)
     {
        m_player->setMedia(QUrl::fromLocalFile(iter.value()));
        play();
     }
 
-    qDebug() << "Play" << item->text();
+	qDebug() << "Play " << item;
 }
 
 void PlayerControls::setVolume(int volume)

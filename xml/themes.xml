@@ -23,6 +23,12 @@
 				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
 			</volumeSliderTheme>
+            <playlistTheme>
+				QTableWidget { background-color: rgb(0, 170, 127, 127); gridline-color: rgb(0, 170, 127, 127); color: white; selection-background-color:  rgb(0, 170, 127); }
+				QTableWidget QTableCornerButton::section { background: rgb(0, 170, 127, 127); }
+				QHeaderView::section { background-color: rgb(0, 170, 127, 127); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(0, 170, 127, 127); color: white; }
+			</playlistTheme>
         </Theme>
         <Theme name="orange mend">
             <backcolor>background-color: rgb(255, 85, 0); color: rgb(255, 85, 0);</backcolor>
@@ -45,6 +51,12 @@
 				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
 			</volumeSliderTheme>
+            <playlistTheme>
+				QTableWidget { background-color: rgb(255, 85, 0, 127); gridline-color: rgb(255, 85, 0, 127); color: white; selection-background-color:  rgb(255, 85, 0); }
+				QTableWidget QTableCornerButton::section { background: rgb(255, 85, 0, 127); }
+				QHeaderView::section { background-color: rgb(255, 85, 0, 127); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(255, 85, 0, 127); color: white; }
+			</playlistTheme>
         </Theme>
         <Theme name="grey mend">
             <backcolor>background-color: rgb(105, 105, 105); color: rgb(105, 105, 105);</backcolor>
@@ -67,6 +79,12 @@
 				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
 			</volumeSliderTheme>
+            <playlistTheme>
+				QTableWidget { background-color: rgb(105, 105, 105, 127); gridline-color: rgb(105, 105, 105, 127); color: white; selection-background-color:  rgb(105, 105, 105); }
+				QTableWidget QTableCornerButton::section { background: rgb(105, 105, 105, 127); }
+				QHeaderView::section { background-color: rgb(105, 105, 105, 127); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(105, 105, 105, 127); color: white; }
+			</playlistTheme>
         </Theme>
         <Theme name="dark grey mend">
             <backcolor>background-color: rgb(47, 79, 79); color: rgb(47, 79, 79);</backcolor>
@@ -89,6 +107,12 @@
 				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
 			</volumeSliderTheme>
+            <playlistTheme>
+				QTableWidget { background-color: rgb(47, 79, 79, 127); gridline-color: rgb(47, 79, 79, 127); color: white; selection-background-color:  rgb(47, 79, 79); }
+				QTableWidget QTableCornerButton::section { background: rgb(47, 79, 79, 127); }
+				QHeaderView::section { background-color: rgb(47, 79, 79, 127); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(47, 79, 79, 127); color: white; }
+			</playlistTheme>
         </Theme>
     </Themes>
 </PigmendPlayer>

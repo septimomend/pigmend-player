@@ -24,6 +24,7 @@ struct styles_data_t
 	QString menucolor;
 	QString progressSliderTheme;
 	QString volumeSliderTheme;
+	QString playlistTheme;
 };
 
 struct about_data_t

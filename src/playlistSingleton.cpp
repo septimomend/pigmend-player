@@ -89,3 +89,24 @@ QString PlaylistSingleton::getAudioTotalTime()
 
 	return QTime(hours, minutes, seconds).toString("hh:mm:ss");
 }
+
+QString PlaylistSingleton::getAudioTime(QString &audio_file)
+{
+	int time = 0, seconds, hours, minutes;
+	TagLib::FileRef f(audio_file.toStdString().c_str());
+
+	if(!f.isNull() && f.tag())
+		TagLib::PropertyMap tags = f.file()->properties();
+
+	if (!f.isNull() && f.audioProperties())
+	{
+		TagLib::AudioProperties *properties = f.audioProperties();
+		time += properties->lengthInSeconds();
+	}
+
+	hours = time / 3600;
+	minutes = (time % 3600) / 60;
+	seconds = (time % 3600) % 60;
+
+	return QTime(hours, minutes, seconds).toString("hh:mm:ss");
+}

@@ -23,7 +23,11 @@ using namespace std;
 using namespace rapidxml;
 using namespace  tinyxml2;
 
+#define PLAYLIST_NUM_COLUMN 0
+#define PLAYLIST_NAME_COLUMN 1
+#define PLAYLIST_TIME_COLUMN 2
 #define SLIDER_STEP 10
+#define PLAYLIST_COLUMN_COUNT 3
 
 MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *parent) : QMainWindow(parent),
     m_global_height(screen_size.height()), m_global_width(screen_size.width()),
@@ -108,7 +112,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->prevButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(prev()));
     connect(ui->fullScreenButton, SIGNAL(clicked(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
     connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
-    connect(ui->playlistWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), m_playerControls, SLOT(setMediaFile(QListWidgetItem*)));
+	connect(ui->playlistWidget, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(onPlaylistDoubleClicked(int, int)));
     connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
     connect(m_sliderInFullScreen, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
     connect(this, SIGNAL(progressSliderValueChanged(int)), m_playerControls, SLOT(seek(int)));
@@ -124,7 +128,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
     connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
 	connect(ui->showHidePlaylistButton, SIGNAL(clicked(bool)), this, SLOT(showHidePlaylist()));
-    // full screen
+	// full screenonPlaylist
     connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
     connect(m_pauseInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(pause()));
     connect(m_stopInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(stop()));
@@ -142,7 +146,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(m_playerControls, SIGNAL(durationChanged(int)), this, SLOT(updateDuration(int)));
     connect(m_mediaFile, SIGNAL(filesChosen()), this, SLOT(updatePlaylist()));
     connect(m_playerControls, SIGNAL(timeProgressChanged(int)), this, SLOT(updateTimeProgress(int)));
-    connect(m_search, SIGNAL(matchesFound(QListWidgetItem*)), m_playerControls, SLOT(setMediaFile(QListWidgetItem*)));
+	connect(m_search, SIGNAL(matchesFound(QListWidgetItem*)), m_playerControls, SLOT(setMediaFile(QListWidgetItem*)));
     connect(m_mediaFile, SIGNAL(filesFound(int,int, bool)), this, SLOT(updateIndexedData(int,int, bool)));
     connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
     connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
@@ -470,20 +474,34 @@ void MediaPlayer::adjustVideoWidget()
 
 void MediaPlayer::updatePlaylist()
 {
-    ui->playlistWidget->clear();    // delete all playlist widget items
+	int row = 0;
 
-	static int row = 0;          // row count
+	ui->playlistWidget->setRowCount(row);
+	ui->playlistWidget->setColumnCount(PLAYLIST_COLUMN_COUNT);
+
+	QStringList playlistHeader;
+	playlistHeader << "#" << "Name" << "Time";
+	ui->playlistWidget->setHorizontalHeaderLabels(playlistHeader);
+	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+	ui->playlistWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
     // insert filenames from QMap as items to playlist widget
     for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
     {
-        QString item = it.key();
-        ui->playlistWidget->insertItem(row, item);
+		QString item = it.key();
+		ui->playlistWidget->insertRow(row);
+		ui->playlistWidget->setItem(row, PLAYLIST_NUM_COLUMN, new QTableWidgetItem(QString::number(row + 1) + "."));
+		ui->playlistWidget->setItem(row, PLAYLIST_NAME_COLUMN, new QTableWidgetItem(item));
+		QTableWidgetItem *duration_item = new QTableWidgetItem(m_playlist.getAudioTime(it.value()));
+		duration_item->setTextAlignment(Qt::AlignRight);
+		ui->playlistWidget->setItem(row, PLAYLIST_TIME_COLUMN, duration_item);
         ++row;
     }
 
 	ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
-    ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->count()));   // set count of tracks
+	ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->rowCount()));   // set count of tracks
 
     // if added new files - shuffle it all
     if (m_shuffleMode)
@@ -501,6 +519,15 @@ void MediaPlayer::updatePlaylist()
     }
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
+}
+
+void MediaPlayer::onPlaylistDoubleClicked(int row, int column)
+{
+	column = PLAYLIST_NAME_COLUMN;
+	ui->progressSlider->setValue(0);
+	m_sliderInFullScreen->setValue(0);
+	QString item = ui->playlistWidget->item(row, column)->text();
+	m_playerControls->setMediaFile(item);
 }
 
 void MediaPlayer::updateTitle(QStringList* title)
@@ -572,8 +599,8 @@ void MediaPlayer::focusItem(QString path)
 
         if (path == canonical_path)
         {
-          ui->playlistWidget->item(row)->setSelected(true);
-		  ui->playlistWidget->scrollToItem(ui->playlistWidget->item(row));
+		  ui->playlistWidget->selectRow(row);
+		  ui->playlistWidget->scrollToItem(ui->playlistWidget->selectedItems().at(0));
 		  ui->currentItemLabel->setText(QString::number(row + 1));              // set number of current track
         }
         ++row;
@@ -583,7 +610,7 @@ void MediaPlayer::focusItem(QString path)
 void MediaPlayer::clearPlaylist()
 {
     // clear palylist
-    if (ui->playlistWidget->count() == 0)
+	if (ui->playlistWidget->rowCount() == 0)
         return;
 
     ui->playlistWidget->clear();
@@ -641,7 +668,7 @@ void MediaPlayer::updateTheme()
 	ui->nextButton->setStyleSheet(style->backcolor);
 	ui->pauseButton->setStyleSheet(style->backcolor);
 	ui->playButton->setStyleSheet(style->backcolor);
-	ui->playlistWidget->setStyleSheet(style->transbackcolor);
+	ui->playlistWidget->setStyleSheet(style->playlistTheme);
 	ui->prevButton->setStyleSheet(style->backcolor);
 	ui->progressSlider->setStyleSheet(style->progressSliderTheme);
 	ui->volumeSlider->setStyleSheet(style->volumeSliderTheme);
@@ -880,6 +907,7 @@ void MediaPlayer::showHidePlaylist()
 	ui->currentItemLabel->setHidden(!ui->currentItemLabel->isHidden());
 	ui->loadingLabel->setHidden(!ui->loadingLabel->isHidden());
 	ui->underPlaylistLabel->setHidden(!ui->underPlaylistLabel->isHidden());
+	ui->totalTimeLabel->setHidden(!ui->totalTimeLabel->isHidden());
 
 	if (ui->playlistWidget->isHidden())
 	{
