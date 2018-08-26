@@ -32,6 +32,8 @@ private:
     PlaylistSingleton(const PlaylistSingleton &) = delete;
     PlaylistSingleton& operator=(const PlaylistSingleton &) = delete;
 
+	QString convertIntToTimeStr(int hours, int min, int sec);
+
 public:
     static PlaylistSingleton &getInstance();
     size_t clearPlaylistData();                 // clears m_plData and returns its size

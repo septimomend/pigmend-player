@@ -66,6 +66,24 @@ size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
 	return size_t(m_shuffledData.size());
 }
 
+QString PlaylistSingleton::convertIntToTimeStr(int hours, int min, int sec)
+{
+	QString h_str = QString::number(hours);
+	QString m_str = QString::number(min);
+	QString s_str = QString::number(sec);
+
+	if (h_str.size() < 2)
+		h_str = QString(2 - h_str.size(), '0') + h_str;
+
+	if (m_str.size() < 2)
+		m_str = QString(2 - m_str.size(), '0') + m_str;
+
+	if (s_str.size() < 2)
+		s_str = QString(2 - s_str.size(), '0') + s_str;
+
+	return (h_str + ":" + m_str + ":" + s_str);
+}
+
 QString PlaylistSingleton::getAudioTotalTime()
 {
 	int total = 0, seconds, hours, minutes;
@@ -87,7 +105,7 @@ QString PlaylistSingleton::getAudioTotalTime()
 	minutes = (total % 3600) / 60;
 	seconds = (total % 3600) % 60;
 
-	return QTime(hours, minutes, seconds).toString("hh:mm:ss");
+	return convertIntToTimeStr(hours, minutes, seconds);
 }
 
 QString PlaylistSingleton::getAudioTime(QString &audio_file)
@@ -108,5 +126,5 @@ QString PlaylistSingleton::getAudioTime(QString &audio_file)
 	minutes = (time % 3600) / 60;
 	seconds = (time % 3600) % 60;
 
-	return QTime(hours, minutes, seconds).toString("hh:mm:ss");
+	return convertIntToTimeStr(hours, minutes, seconds);
 }
