@@ -65,8 +65,16 @@ void MediafileController::openFolder()
     QDir currentDir(dir);
     const QString prefix = dir + QLatin1Char('/');
 
+	QDirIterator dir_it(dir, pattern, QDir::Files, QDirIterator::Subdirectories);
+	
+	while (dir_it.hasNext())
+	{
+		QFileInfo fileInfo(dir_it.next());
+		m_playlist.m_plData.insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
+	}
+
     // read all files from folder in accordance to pattern
-    foreach (const QString &match, currentDir.entryList(pattern, QDir::Files | QDir::NoSymLinks))
+   /* foreach (const QString &match, currentDir.entryList(pattern, QDir::Files | QDir::NoSymLinks))
         result.append(prefix + match);
 
     if (result.isEmpty())
@@ -78,7 +86,7 @@ void MediafileController::openFolder()
         QFile f(result.at(i));
         QFileInfo fileInfo(f.fileName());
         m_playlist.m_plData.insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
-    }
+	}*/
 
     // delete last part of path '/*'
     int pos = dir.lastIndexOf(QChar('/'));
