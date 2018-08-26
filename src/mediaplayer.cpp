@@ -39,6 +39,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_mediaFile = new MediafileController(this);
     m_search = new SearchDialog(this);
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
+	m_timer = new QTimer(this);
 
     // shortcuts
     m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -152,6 +153,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
     connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
 	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
+	connect(m_timer, SIGNAL(timeout()), this, SLOT(onPlaylistUpdate()));
 }
 
 MediaPlayer::~MediaPlayer()
@@ -171,6 +173,7 @@ MediaPlayer::~MediaPlayer()
     delete m_nextSC;
     delete m_prevSC;
     delete m_stopSC;
+	delete m_timer;
 }
 
 void MediaPlayer::deleteObjectsInFullScreen()
@@ -472,10 +475,11 @@ void MediaPlayer::adjustVideoWidget()
     hideControlPanelInNormalMode(true);
 }
 
-void MediaPlayer::updatePlaylist()
+void MediaPlayer::onPlaylistUpdate()
 {
 	int row = 0;
 
+	m_timer->stop();
 	ui->playlistWidget->setRowCount(row);
 	ui->playlistWidget->setColumnCount(PLAYLIST_COLUMN_COUNT);
 
@@ -487,38 +491,44 @@ void MediaPlayer::updatePlaylist()
 	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
 	ui->playlistWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
-    // insert filenames from QMap as items to playlist widget
-    for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
-    {
+	// insert filenames from QMap as items to playlist widget
+	for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+	{
 		QString item = it.key();
 		ui->playlistWidget->insertRow(row);
 		ui->playlistWidget->setItem(row, PLAYLIST_NUM_COLUMN, new QTableWidgetItem(QString::number(row + 1) + "."));
 		ui->playlistWidget->setItem(row, PLAYLIST_NAME_COLUMN, new QTableWidgetItem(item));
-		QTableWidgetItem *duration_item = new QTableWidgetItem(m_playlist.getAudioTime(it.value()));
-		duration_item->setTextAlignment(Qt::AlignRight);
-		ui->playlistWidget->setItem(row, PLAYLIST_TIME_COLUMN, duration_item);
-        ++row;
-    }
+		ui->playlistWidget->setItem(row, PLAYLIST_TIME_COLUMN, new QTableWidgetItem(m_playlist.getAudioTime(it.value())));
+		++row;
+	}
 
 	ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
 	ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->rowCount()));   // set count of tracks
 
-    // if added new files - shuffle it all
-    if (m_shuffleMode)
-        m_playerControls->setShuffleMode(true);
+	// if added new files - shuffle it all
+	if (m_shuffleMode)
+		m_playerControls->setShuffleMode(true);
 
-    // prepare first media file
-    // while loaded playlist first time - prepare first file for playing
-    // and don't prepare first file after adding files to existing playlist
-    // because then current media file stops playing and sets first file as media file
-    if (!m_isPlaylistLoaded)
-    {
-        QListWidgetItem* item = new QListWidgetItem(m_playlist.m_plData.value(m_playlist.m_plData.firstKey()));
-        m_playerControls->setFirstFile(item);
-        m_isPlaylistLoaded = true;
-    }
+	// prepare first media file
+	// while loaded playlist first time - prepare first file for playing
+	// and don't prepare first file after adding files to existing playlist
+	// because then current media file stops playing and sets first file as media file
+	if (!m_isPlaylistLoaded)
+	{
+		QListWidgetItem* item = new QListWidgetItem(m_playlist.m_plData.value(m_playlist.m_plData.firstKey()));
+		m_playerControls->setFirstFile(item);
+		m_isPlaylistLoaded = true;
+	}
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
+}
+
+void MediaPlayer::updatePlaylist()
+{
+	ui->totalTimeLabel->setText("Loading... Please, wait");
+	// need to simulate pause (0 - because the time to send signal timeout() is enough for pause)
+	// to set text "Loading..." to the label before starting update
+	m_timer->start(0);
 }
 
 void MediaPlayer::onPlaylistDoubleClicked(int row, int column)

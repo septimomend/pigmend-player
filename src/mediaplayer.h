@@ -24,6 +24,7 @@ E-mail: chapkailo.ivan@gmail.com
 #include <QKeyEvent>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QTimer>
 
 #include "playlistSingleton.h"
 #include "videoWidget.h"
@@ -83,6 +84,7 @@ private slots:
 	void onShuffleButton();
 	void onRepeatButton();
 	void onPlaylistDoubleClicked(int row, int column);
+	void onPlaylistUpdate();
 
 private:
     int m_global_height;
@@ -99,6 +101,7 @@ private:
     AboutPigmend *m_aboutPlayer;
     QMovie *m_movieLoading, *m_movieDone;
     QString m_theme_config_path;
+	QTimer *m_timer;
 
     // shortcuts
     QShortcut *m_playSC;
