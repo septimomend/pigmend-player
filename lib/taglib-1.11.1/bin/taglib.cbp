@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="taglib" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\taglib\;CMake Files\taglib\toolkit\;CMake Files\bindings\;CMake Files\bindings\c\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 install" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="list_install_components">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 list_install_components" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="docs">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 docs" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="uninstall">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 uninstall" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/strip">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 install/strip" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/local">
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 install/local" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tag">
+         <Option output="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/libtag.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DTAGLIB_STATIC" />
+            <Add option="-DHAVE_CONFIG_H" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/it" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpc" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v1" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/opus" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/speex" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/vorbis" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/aiff" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/s3m" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/trueaudio" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/wavpack" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/xm" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 tag" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tag/fast">
+         <Option output="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/libtag.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DTAGLIB_STATIC" />
+            <Add option="-DHAVE_CONFIG_H" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/it" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpc" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v1" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/opus" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/speex" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/vorbis" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/aiff" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/s3m" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/trueaudio" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/wavpack" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/xm" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 tag/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tag_c">
+         <Option output="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/libtag_c.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DTAGLIB_STATIC" />
+            <Add option="-DHAVE_CONFIG_H" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/asf" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mp4" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpc" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpeg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpeg/id3v2" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpeg/id3v2/frames" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg/speex" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg/vorbis" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/toolkit" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/trueaudio" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/wavpack" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 tag_c" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="tag_c/fast">
+         <Option output="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/libtag_c.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DTAGLIB_STATIC" />
+            <Add option="-DHAVE_CONFIG_H" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/asf" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mp4" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpc" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpeg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpeg/id3v2" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/mpeg/id3v2/frames" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg/flac" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg/speex" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/ogg/vorbis" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/toolkit" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/trueaudio" />
+            <Add directory="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/../../taglib/wavpack" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 tag_c/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/bindings/c/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/build-taglib-1.11.1-Desktop_Qt_5_11_1_GCC_64bit-Default/taglib_config.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/tag_c.cpp">
+         <Option target="tag_c"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/tag_c.h">
+         <Option target="tag_c"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apefile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apefile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apefooter.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apefooter.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apeitem.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apeitem.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apeproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apeproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apetag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ape/apetag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asfattribute.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asfattribute.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asffile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asffile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asfpicture.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asfpicture.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asfproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asfproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asftag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/asf/asftag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/audioproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/audioproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/fileref.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/fileref.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacmetadatablock.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacmetadatablock.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacpicture.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacpicture.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacunknownmetadatablock.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/flac/flacunknownmetadatablock.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/it/itfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/it/itfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/it/itproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/it/itproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modfilebase.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modfilebase.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modtag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mod/modtag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4atom.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4atom.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4coverart.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4coverart.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4file.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4file.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4item.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4item.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4properties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4properties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4tag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mp4/mp4tag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpc/mpcfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpc/mpcfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpc/mpcproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpc/mpcproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v1/id3v1genres.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v1/id3v1genres.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v1/id3v1tag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v1/id3v1tag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/attachedpictureframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/attachedpictureframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/chapterframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/chapterframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/commentsframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/commentsframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/eventtimingcodesframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/eventtimingcodesframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/generalencapsulatedobjectframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/generalencapsulatedobjectframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/ownershipframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/ownershipframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/podcastframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/podcastframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/popularimeterframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/popularimeterframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/privateframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/privateframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/relativevolumeframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/relativevolumeframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/synchronizedlyricsframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/synchronizedlyricsframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/tableofcontentsframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/tableofcontentsframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/textidentificationframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/textidentificationframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/uniquefileidentifierframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/uniquefileidentifierframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/unknownframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/unknownframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/unsynchronizedlyricsframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/unsynchronizedlyricsframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/urllinkframe.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/frames/urllinkframe.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2extendedheader.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2extendedheader.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2footer.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2footer.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2frame.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2frame.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2framefactory.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2framefactory.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2header.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2header.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2synchdata.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2synchdata.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2tag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/id3v2/id3v2tag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/mpegfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/mpegfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/mpegheader.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/mpegheader.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/mpegproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/mpegproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/xingheader.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/mpeg/xingheader.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/flac/oggflacfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/flac/oggflacfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/oggfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/oggfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/oggpage.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/oggpage.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/oggpageheader.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/oggpageheader.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/opus/opusfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/opus/opusfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/opus/opusproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/opus/opusproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/speex/speexfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/speex/speexfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/speex/speexproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/speex/speexproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/vorbis/vorbisfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/vorbis/vorbisfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/vorbis/vorbisproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/vorbis/vorbisproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/xiphcomment.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/ogg/xiphcomment.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/aiff/aifffile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/aiff/aifffile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/aiff/aiffproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/aiff/aiffproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/rifffile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/rifffile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav/infotag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav/infotag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav/wavfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav/wavfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav/wavproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/riff/wav/wavproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/s3m/s3mfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/s3m/s3mfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/s3m/s3mproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/s3m/s3mproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/tag.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/tag.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/taglib_export.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/tagunion.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/tagunion.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/tagutils.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/tagutils.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/taglib.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tbytevector.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tbytevector.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tbytevectorlist.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tbytevectorlist.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tbytevectorstream.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tbytevectorstream.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tdebug.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tdebug.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tdebuglistener.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tdebuglistener.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tfilestream.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tfilestream.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tiostream.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tiostream.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tlist.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tlist.tcc">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tmap.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tmap.tcc">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tpropertymap.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tpropertymap.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/trefcounter.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/trefcounter.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tstring.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tstring.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tstringlist.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tstringlist.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tzlib.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/tzlib.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/unicode.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/unicode.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/trueaudio/trueaudiofile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/trueaudio/trueaudiofile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/trueaudio/trueaudioproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/trueaudio/trueaudioproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/wavpack/wavpackfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/wavpack/wavpackfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/wavpack/wavpackproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/wavpack/wavpackproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/xm/xmfile.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/xm/xmfile.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/xm/xmproperties.cpp">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/xm/xmproperties.h">
+         <Option target="tag"/>
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/ConfigureChecks.cmake">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib-config.cmake">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib.pc.cmake">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/config.h.cmake">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/Doxyfile.cmake">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/cmake_uninstall.cmake.in">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/taglib_config.h.cmake">
+          <Option virtualFolder="CMake Files\taglib\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\taglib\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/taglib/toolkit/taglib.h">
+          <Option virtualFolder="CMake Files\taglib\toolkit\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\bindings\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\bindings\c\" />
+      </Unit>
+      <Unit filename="/home/ivan/Desktop/pp_repo/pigmend-player/lib/taglib-1.11.1/bindings/c/taglib_c.pc.cmake">
+          <Option virtualFolder="CMake Files\bindings\c\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

@@ -8,7 +8,7 @@
 	<Year>2018</Year>
 	<Description>NULL</Description>
 	<Contributors>NULL</Contributors>
-	<Libs>RapidXML, TinyXML2</Libs>
+	<Libs>RapidXML, TinyXML2, TagLib</Libs>
 	<Sources>NULL</Sources>
 	<Resources>NULL</Resources>
 	<Releases>

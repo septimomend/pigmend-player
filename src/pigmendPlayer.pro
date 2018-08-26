@@ -75,3 +75,16 @@ DISTFILES += \
     mediaplayer.rc
 
 INCLUDEPATH += "../lib"
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../lib/taglib-1.11.1/bin/taglib/ -ltag
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../lib/taglib-1.11.1/bin/taglib/ -ltagd
+else:unix: LIBS += -L$$PWD/../lib/taglib-1.11.1/bin/taglib/ -ltag -lz
+
+INCLUDEPATH += $$PWD/../lib/taglib-1.11.1/bin/taglib
+DEPENDPATH += $$PWD/../lib/taglib-1.11.1/bin/taglib
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../lib/taglib-1.11.1/bin/taglib/libtag.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../lib/taglib-1.11.1/bin/taglib/libtagd.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../lib/taglib-1.11.1/bin/taglib/tag.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../lib/taglib-1.11.1/bin/taglib/tagd.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../lib/taglib-1.11.1/bin/taglib/libtag.a

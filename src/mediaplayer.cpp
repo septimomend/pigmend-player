@@ -499,6 +499,8 @@ void MediaPlayer::updatePlaylist()
         m_playerControls->setFirstFile(item);
         m_isPlaylistLoaded = true;
     }
+
+	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
 }
 
 void MediaPlayer::updateTitle(QStringList* title)
@@ -656,6 +658,7 @@ void MediaPlayer::updateTheme()
 	ui->shuffleButton->setStyleSheet(style->backcolor);
 	ui->repeatButton->setStyleSheet(style->backcolor);
 	ui->underPlaylistLabel->setStyleSheet(style->color);
+	ui->totalTimeLabel->setStyleSheet(style->color);
 	m_menuBar->setStyleSheet(style->menucolor);
 
     // full screen mode

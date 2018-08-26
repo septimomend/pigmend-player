@@ -36,6 +36,7 @@ public:
     static PlaylistSingleton &getInstance();
     size_t clearPlaylistData();                 // clears m_plData and returns its size
     size_t makeShuffle(bool shuffleMode);
+	QString getAudioTotalTime();
 
 public:
     QMap<QString, QString> m_plData;    // container for pairs of filename and filepath
