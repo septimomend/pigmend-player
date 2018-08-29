@@ -1401,6 +1401,9 @@ QScrollBar::sub-page:vertical{background-color: transparent;}\</string>
         <property name="gridStyle">
          <enum>Qt::NoPen</enum>
         </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>true</bool>
         </attribute>
