@@ -145,6 +145,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(onPlaylistUpdate()));
 	connect(m_playerControls, SIGNAL(isMusicContent(bool)), this, SLOT(onContentTypeChange(bool)));
+
+	setGeometry(screen_size.x(), screen_size.y(), m_global_width / 2, m_global_height / 2);
 }
 
 MediaPlayer::~MediaPlayer()
@@ -771,26 +773,17 @@ void MediaPlayer::setWindowSize()
 	QAction *actionSender = qobject_cast<QAction*>(sender()); // retrieve which action was clicked
 	QString actionText = actionSender->text();
 	QRect currentGeometry = geometry();
+
+	showNormal();
+
 	if (actionText == m_smallWindowAction->text())
-	{
-		showNormal();
 		setGeometry(currentGeometry.x(), currentGeometry.y(), 400, 200);
-	}
 	else if (actionText == m_middleWindowAction->text())
-	{
-		showNormal();
 		setGeometry(currentGeometry.x(), currentGeometry.y(), 900, 400);
-	}
 	else if (actionText == m_normalWindowAction->text())
-	{
-		showNormal();
 		setGeometry(currentGeometry.x(), currentGeometry.y(), 1100, 600);
-	}
 	else if (actionText == m_wideWindowAction->text())
-	{
-		showNormal();
 		setGeometry(currentGeometry.x(), currentGeometry.y(), 1300, 500);
-	}
 	else if (actionText == m_maximizeAction->text())
 		showMaximized();
 }
