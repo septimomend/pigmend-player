@@ -53,7 +53,9 @@ size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
 {
     // if the suffle mode is enabled - copy filepath of playlist data to the vector
     // and shuffle this vector by random_shuffle() algorithm
+	srand(static_cast<unsigned int>(time(nullptr)));
     m_shuffledData.clear();
+
 	if (shuffleMode)
     {
 		for (auto it = m_plData.begin(); it != m_plData.end(); ++it)
