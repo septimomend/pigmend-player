@@ -1,0 +1,20 @@
+<PPAnimations>
+	<CurrentPPAnimation>equalizer_m</CurrentPPAnimation>
+	<AudioAnimations>
+		<Animation id='0' name='equalizer_m'>
+			<Path>/img/custom/musgif/equalizer_m.gif</Path>
+		</Animation>
+		<Animation id='1' name=''>
+			<Path></Path>
+		</Animation>
+		<Animation id='2' name=''>
+			<Path></Path>
+		</Animation>
+		<Animation id='3' name=''>
+			<Path></Path>
+		</Animation>
+		<Animation id='4' name=''>
+			<Path></Path>
+		</Animation>
+	</AudioAnimations>
+</PPAnimations>
