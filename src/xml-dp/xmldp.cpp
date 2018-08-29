@@ -153,3 +153,38 @@ about_data_t *XMLDP::getInfoAbout(QString &path)
 
 	return about_data;
 }
+
+QString XMLDP::getAudioAnimation(QString path_to_xml)
+{
+	xml_document<> animations_xml;
+	xml_node<> *root_node;
+
+	QString pathAudioAnimation(PRO_FILE_PWD);
+	QString path(PRO_FILE_PWD);
+	path.append(path_to_xml);
+
+	ifstream animationsFile(path.toStdString().c_str());
+
+	if (!animationsFile.is_open())
+	{
+		qCritical() << __FUNCTION__ << ": can't open file " << path << endl;
+		abort();
+	}
+
+	vector<char> buffer((istreambuf_iterator<char>(animationsFile)), istreambuf_iterator<char>());
+
+	buffer.push_back('\0');
+	animations_xml.parse<parse_full | parse_no_data_nodes>(&buffer[0]);
+	root_node = animations_xml.first_node("PPAnimations");
+
+	xml_node<> *animations_node = root_node->first_node("AudioAnimations");
+	QString current_animation = root_node->first_node("CurrentPPAnimation")->value();//animation_name.isEmpty() ? animations_node->first_node("CurrentAnimation")->value() : animation_name;
+
+	for(xml_node<> *animation_data_node = animations_node->first_node("Animation"); animation_data_node; animation_data_node = animation_data_node->next_sibling())
+	{
+		if (current_animation == animation_data_node->first_attribute("name")->value())
+			return pathAudioAnimation.append(animation_data_node->first_node("Path")->value());
+	}
+
+	return "";
+}

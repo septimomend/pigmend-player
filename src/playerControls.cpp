@@ -67,6 +67,8 @@ void PlayerControls::setVideoContent()
         m_player->setVideoOutput(m_vw);
         m_isMusic = false;
     }
+
+	emit isMusicContent(m_isMusic);
 }
 
 void PlayerControls::play()

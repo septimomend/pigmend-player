@@ -33,11 +33,9 @@
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>
         <file>img/custom/darkgreymend.ico</file>
-        <file>img/custom/equalizer.gif</file>
         <file>img/custom/greymend.ico</file>
         <file>img/custom/load2.gif</file>
         <file>img/custom/loader.gif</file>
-        <file>img/custom/music.gif</file>
         <file>img/custom/okload.gif</file>
         <file>img/custom/orangemend.ico</file>
         <file>img/custom/pigmendback.png</file>

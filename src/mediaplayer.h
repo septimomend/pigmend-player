@@ -52,6 +52,7 @@ private:
     void clearLayout(QLayout *layout);
     void adjustVideoWidget();
     void deleteObjectsInFullScreen();
+	void initAnimations();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -85,6 +86,7 @@ private slots:
 	void onRepeatButton();
 	void onPlaylistDoubleClicked(int row, int column);
 	void onPlaylistUpdate();
+	void onContentTypeChange(bool isAudio);
 
 private:
     int m_global_height;
@@ -100,6 +102,7 @@ private:
     SearchDialog *m_search;
     AboutPigmend *m_aboutPlayer;
     QMovie *m_movieLoading, *m_movieDone;
+	QMovie *m_movieMusic;
     QString m_theme_config_path;
 	QTimer *m_timer;
 
@@ -157,6 +160,7 @@ private:
     QLabel *m_titleInFullScreen;
     QLabel *m_durationInFullScreen;
     QLabel *m_progressTimeInFullScreen;
+	QLabel *m_musicLabel;
 
 	//config
 	conf_data_t *m_conf_data;

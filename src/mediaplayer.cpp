@@ -33,7 +33,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_global_height(screen_size.height()), m_global_width(screen_size.width()),
 	ui(new Ui::MediaPlayer), m_videoWidget(nullptr), m_conf_data(conf_data)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
     m_playerControls = new PlayerControls();
     m_mediaFile = new MediafileController(this);
@@ -48,6 +48,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_stopSC = new QShortcut(Qt::Key_MediaStop, ui->stopButton, SLOT(click()));
 
     // initialize menu and load stylr
+	initAnimations();
     initMenu();
     adjustVideoWidget();
 	updateTheme();
@@ -73,17 +74,6 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     // set QWidget for video output
     connect(this, SIGNAL(videoWidgetDefined(VideoWidget*)), m_playerControls, SLOT(setVideoWidget(VideoWidget*)));
     emit videoWidgetDefined(m_videoWidget);
-
-    // index animation and notification
-    QString pathLoad(PRO_FILE_PWD);
-    pathLoad.append("/img/custom/loader.gif");
-    m_movieLoading = new QMovie(pathLoad);
-    QString pathDone(PRO_FILE_PWD);
-    pathDone.append("/img/custom/okload.gif");
-    m_movieDone = new QMovie(pathDone);
-    ui->loadingLabel->setMovie(m_movieLoading);
-    m_movieLoading->start();
-    ui->indexInfoLabel->setText("Indexing...");
 
     // menu actions
     connect(m_addFileAction, SIGNAL(triggered(bool)), m_mediaFile, SLOT(openFile()));
@@ -154,6 +144,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
 	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(onPlaylistUpdate()));
+	connect(m_playerControls, SIGNAL(isMusicContent(bool)), this, SLOT(onContentTypeChange(bool)));
 }
 
 MediaPlayer::~MediaPlayer()
@@ -174,10 +165,12 @@ MediaPlayer::~MediaPlayer()
     delete m_prevSC;
     delete m_stopSC;
 	delete m_timer;
+	delete m_movieMusic;
 }
 
 void MediaPlayer::deleteObjectsInFullScreen()
 {
+	delete m_musicLabel;
     delete m_globalVideoWidget;
     delete m_videoWidget;
     delete m_videoGridLayout;
@@ -406,6 +399,13 @@ void MediaPlayer::adjustVideoWidget()
     m_titleInFullScreen = new QLabel;
     m_progressTimeInFullScreen = new QLabel;
     m_durationInFullScreen = new QLabel;
+	m_musicLabel = new QLabel;
+
+	m_musicLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	m_musicLabel->setAlignment(Qt::AlignCenter);
+	m_musicLabel->setMovie(m_movieMusic);
+	m_movieMusic->start();
+	m_musicLabel->hide();
 
 	m_volumeSliderInFullScreen->setBaseSize(int(m_global_width * 0.2), 0);
 
@@ -450,6 +450,7 @@ void MediaPlayer::adjustVideoWidget()
     m_videoGridLayout->addLayout(m_videoControlGridLayout, 2, 0);
 
     m_videoScreenLayout->addWidget(m_videoWidget);
+	m_videoScreenLayout->addWidget(m_musicLabel);
 
     m_videoControlGridLayout->addLayout(m_videoProgressLayout, 0, 0);
     m_videoControlGridLayout->addLayout(m_videoButtonsLayout, 1, 0);
@@ -473,6 +474,30 @@ void MediaPlayer::adjustVideoWidget()
 	m_videoTitleLayout->addWidget(m_titleInFullScreen, 0, Qt::AlignCenter);
 
     hideControlPanelInNormalMode(true);
+}
+
+void MediaPlayer::initAnimations()
+{
+	QString pathLoad(PRO_FILE_PWD);
+	QString pathDone(PRO_FILE_PWD);
+	
+	pathLoad.append("/img/custom/loader.gif");
+	m_movieLoading = new QMovie(pathLoad);
+	
+	pathDone.append("/img/custom/okload.gif");
+	m_movieDone = new QMovie(pathDone);
+	
+	ui->loadingLabel->setMovie(m_movieLoading);
+	m_movieLoading->start();
+	
+	ui->indexInfoLabel->setText("Indexing...");
+
+	QString pathMusicAnimation = m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)));
+
+	if (pathMusicAnimation.isEmpty())
+		qWarning() << __FUNCTION__ << ": No music animation";
+
+	m_movieMusic = new QMovie(pathMusicAnimation);
 }
 
 void MediaPlayer::onPlaylistUpdate()
@@ -928,5 +953,19 @@ void MediaPlayer::showHidePlaylist()
 	{
 		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/hide-arrow-48.ico"));
 		ui->showHidePlaylistButton->setToolTip("Hide playlist");
+	}
+}
+
+void MediaPlayer::onContentTypeChange(bool isAudio)
+{
+	if (isAudio)
+	{
+		m_videoWidget->hide();
+		m_musicLabel->show();
+	}
+	else
+	{
+		m_musicLabel->hide();
+		m_videoWidget->show();
 	}
 }

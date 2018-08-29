@@ -36,6 +36,7 @@ typedef enum
 	SSL_CRT = 10,
 	THEME_CONFIG = 11,
 	ABOUT_CONFIG = 12,
+	ANIMATIONS_CONFIG = 13,
 	NUMBER_OF_TOKENS,
 } conf_type_t;
 

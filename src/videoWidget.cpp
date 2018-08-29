@@ -64,19 +64,21 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 
 void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    if (m_globalVideoWidget->isFullScreen())
-    {
-        // This is magic again
-        // see @fullScreenDisabling comment for more info
-        m_globalVideoWidget->setFullScreen(false);
-        m_globalVideoWidget->setFullScreen(true);
-        m_globalVideoWidget->setFullScreen(false);
-    }
-    else
-        m_globalVideoWidget->setFullScreen(true);
+	QVideoWidget *self = m_isGlobalWidget ? this : m_globalVideoWidget;
 
-    if (m_globalVideoWidget->isFullScreen())
-        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+	if (self->isFullScreen())
+	{
+		// This is magic again
+		// see @fullScreenDisabling comment for more info
+		self->setFullScreen(false);
+		self->setFullScreen(true);
+		self->setFullScreen(false);
+	}
+	else
+		self->setFullScreen(true);
+
+	if (self->isFullScreen())
+		m_timer->start(TIME_TO_HIDE_CURSOR_MS);
 
     event->accept();
 }
