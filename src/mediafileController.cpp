@@ -92,7 +92,8 @@ void MediafileController::openFolder()
     int pos = dir.lastIndexOf(QChar('/'));
     m_lastPath = dir.left(pos);
 
-    emit filesChosen();            // signal to filling playlist widget by filenames
+	if (!m_playlist.m_plData.isEmpty())
+		emit filesChosen();            // signal to filling playlist widget by filenames
 }
 
 void MediafileController::indexFiles(MediafileController* mc)
