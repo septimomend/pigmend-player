@@ -82,6 +82,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_blueAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_greyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_darkGreyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
+	connect(m_noneAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
+	connect(m_defaultAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
 	connect(m_fullScreenAction, SIGNAL(triggered(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
 	connect(m_clearAction, SIGNAL(triggered(bool)), this, SLOT(clearPlaylist()));
 	connect(m_infoAction, SIGNAL(triggered(bool)), this, SLOT(showInfo()));
@@ -145,6 +147,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(onPlaylistUpdate()));
 	connect(m_playerControls, SIGNAL(isMusicContent(bool)), this, SLOT(onContentTypeChange(bool)));
+	connect(m_playerControls, SIGNAL(paused(bool)), this, SLOT(stopAnimation(bool)));
 
 	setGeometry(screen_size.x(), screen_size.y(), m_global_width / 2, m_global_height / 2);
 }
@@ -340,6 +343,10 @@ void MediaPlayer::initMenu()
 	// view
 	m_viewmenu = m_menuBar->addMenu("View");
 	m_thememenu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/paint-brush-16.ico"), "Theme");
+	m_windowMenu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/window-5-16.ico"), "Window size");
+	m_animation_menu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/audio-spectrum-16.ico"), "Animation");
+
+	// theme
 	m_orangeAction = m_thememenu->addAction(QIcon(":/custom/img/custom/orangemend.ico"), "Orange Mend");
 	m_blueAction = m_thememenu->addAction(QIcon(":/custom/img/custom/bluemend.ico"), "Blue Mend");
 	m_greyAction = m_thememenu->addAction(QIcon(":/custom/img/custom/greymend.ico"), "Grey Mend");
@@ -351,8 +358,8 @@ void MediaPlayer::initMenu()
 	m_fullScreenAction = m_viewmenu->addAction(QIcon(":/buttons/img/buttons/fullscreen-enter-16.ico"), "Full Screen");
 	m_fullScreenAction->setShortcut(QKeySequence(Qt::Key_F5));
 	m_viewmenu->addSeparator();
+
 	// window size
-	m_windowMenu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/window-5-16.ico"), "Window size");
 	m_smallWindowAction = m_windowMenu->addAction("Small");
 	m_smallWindowAction->setShortcut(QKeySequence(Qt::Key_1));
 	m_middleWindowAction = m_windowMenu->addAction("Middle");
@@ -363,6 +370,12 @@ void MediaPlayer::initMenu()
 	m_wideWindowAction->setShortcut(QKeySequence(Qt::Key_4));
 	m_maximizeAction = m_windowMenu->addAction("Maximum");
 	m_maximizeAction->setShortcut(QKeySequence(Qt::Key_5));
+
+	// animation
+	m_noneAnimationAction = m_animation_menu->addAction("None");
+	m_defaultAnimationAction = m_animation_menu->addAction("Default");
+	m_noneAnimationAction->setObjectName("noneAnimation");
+	m_defaultAnimationAction->setObjectName("defaultAnimation");
 
 	// about
 	m_helpmenu = m_menuBar->addMenu("Help");
@@ -480,14 +493,8 @@ void MediaPlayer::adjustVideoWidget()
 
 void MediaPlayer::initAnimations()
 {
-	QString pathLoad(PRO_FILE_PWD);
-	QString pathDone(PRO_FILE_PWD);
-
-	pathLoad.append("/img/custom/loader.gif");
-	m_movieLoading = new QMovie(pathLoad);
-
-	pathDone.append("/img/custom/okload.gif");
-	m_movieDone = new QMovie(pathDone);
+	m_movieLoading = new QMovie(":/custom/img/custom/loader.gif");
+	m_movieDone = new QMovie(":/custom/img/custom/okload.gif");
 
 	ui->loadingLabel->setMovie(m_movieLoading);
 	m_movieLoading->start();
@@ -742,6 +749,29 @@ void MediaPlayer::updateTheme()
 	m_volumeMuteInFullScreen->setStyleSheet(style->backcolor);
 }
 
+void MediaPlayer::updateAnimation(bool isBig)
+{
+	m_movieMusic->stop();
+	m_musicLabel->clear();
+	m_musicLabel->setStyleSheet("");
+
+	QString animation_name_ending = isBig ? "Big.gif" : ".gif";
+	QString animation_name = this->sender() ? this->sender()->objectName() : "noneAnimation";
+	QString animation_file = PRO_FILE_PWD;
+	//QString pathMusicAnimation = m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)));
+
+	if (animation_name == "noneAnimation")
+		m_musicLabel->setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
+	else if (animation_name == "defaultAnimation")
+	{
+		m_movieMusic->setFileName(animation_file.append("/img/custom/musgif/defaultAnimation" + animation_name_ending));
+		m_musicLabel->setMovie(m_movieMusic);
+		m_movieMusic->start();
+	}
+
+	// TODO: m_xmldp.setAudioAnimation(...);
+}
+
 void MediaPlayer::showInfo()
 {
 	QDesktopServices::openUrl(QUrl("https://github.com/septimomend/playermend"));
@@ -961,4 +991,12 @@ void MediaPlayer::onContentTypeChange(bool isAudio)
 		m_musicLabel->hide();
 		m_videoWidget->show();
 	}
+}
+
+void MediaPlayer::stopAnimation(bool isPaused)
+{
+	if (isPaused)
+		m_movieMusic->stop();
+	else
+		m_movieMusic->start();
 }

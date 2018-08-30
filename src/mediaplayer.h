@@ -81,6 +81,8 @@ private slots:
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
 	void updateTheme();
+	void updateAnimation(bool isBig);
+	void stopAnimation(bool isPaused);
 	void showHidePlaylist();
 	void onShuffleButton();
 	void onRepeatButton();
@@ -117,6 +119,7 @@ private:
     QMenu *m_filemenu;
     QMenu *m_viewmenu;
     QMenu *m_thememenu;
+	QMenu *m_animation_menu;
     QMenu *m_helpmenu;
     QMenu *m_windowMenu;
     QAction *m_addFileAction;
@@ -135,6 +138,8 @@ private:
     QAction *m_smallWindowAction;
     QAction *m_middleWindowAction;
     QAction *m_wideWindowAction;
+	QAction *m_noneAnimationAction;
+	QAction *m_defaultAnimationAction;
 
     // Full screen controls
     QSpacerItem *m_spaceInFullScreenButtonsLeft;

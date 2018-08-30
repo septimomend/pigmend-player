@@ -29,6 +29,7 @@
         <file>img/buttons/shuffle-16.png</file>
         <file>img/buttons/volume-down-5-16.png</file>
         <file>img/buttons/volume-up-4-16.png</file>
+        <file>img/buttons/audio-spectrum-16.ico</file>
     </qresource>
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>

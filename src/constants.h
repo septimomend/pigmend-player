@@ -30,6 +30,7 @@ struct styles_data_t
 struct about_data_t
 {
 	QString software_name;
+	QString software_url;
 	QString version;
 	QString author_name;
 	QString author_url;
@@ -39,6 +40,12 @@ struct about_data_t
 	QString resources;
 	QStringList releases_version;
 	QStringList releases_url;
+};
+
+struct animation_info_t
+{
+	QString animation_name;
+	QString animation_path;
 };
 
 #endif // CONSTANTS_H

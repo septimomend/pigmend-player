@@ -97,6 +97,8 @@ void PlayerControls::play()
 
     m_isKeyClicked = false;
     m_handleSelected = false;
+
+	emit paused(false);
 }
 
 void PlayerControls::pause()
@@ -106,6 +108,7 @@ void PlayerControls::pause()
     m_player->pause();      // pause play track
     //m_musicPlayer->pause(); // and pause gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
+	emit paused(true);
 }
 
 void PlayerControls::stop()
@@ -114,6 +117,7 @@ void PlayerControls::stop()
     m_player->stop();       // stop play
     //m_musicPlayer->stop();  // and stop gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
+	emit paused(true);
 }
 
 void PlayerControls::nextForced()

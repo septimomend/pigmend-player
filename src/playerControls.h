@@ -74,6 +74,7 @@ signals:
     void mousePositionChanged(QPoint *);
 	void volumeMutedChanged(bool isMuted);
 	void isMusicContent(bool);
+	void paused(bool);
 
 private:
     QMediaPlayer *m_player, *m_musicPlayer;
