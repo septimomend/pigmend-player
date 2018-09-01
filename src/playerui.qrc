@@ -41,4 +41,10 @@
         <file>img/custom/orangemend.ico</file>
         <file>img/custom/pigmendback.png</file>
     </qresource>
+    <qresource prefix="/animations">
+        <file>img/custom/musgif/defaultAnimation.gif</file>
+        <file>img/custom/musgif/equalizerAnimation.gif</file>
+        <file>img/custom/musgif/equalizerAnimationBig.gif</file>
+        <file>img/custom/musgif/radioAnimation.gif</file>
+    </qresource>
 </RCC>

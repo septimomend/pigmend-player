@@ -48,4 +48,11 @@ struct animation_info_t
 	QString animation_path;
 };
 
+namespace constants
+{
+// animations
+static const char *NONE_ANIMATION = "noneAnimation";
+static const char *DEFAULT_ANIMATION = "defaultAnimation";
+}
+
 #endif // CONSTANTS_H

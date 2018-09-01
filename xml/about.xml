@@ -1,5 +1,6 @@
 <PigmendPlayer>
 	<SoftwareName>Pigmend Player</SoftwareName>
+	<SoftwareURL>https://github.com/septimomend/pigmend-player</SoftwareURL>
 	<Version>1.1</Version>
 	<Author>
 		<Name>Ivan Chapkailo</Name>

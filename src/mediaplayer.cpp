@@ -84,6 +84,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_darkGreyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_noneAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
 	connect(m_defaultAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
+	connect(m_equalizerAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
+	connect(m_radioAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
 	connect(m_fullScreenAction, SIGNAL(triggered(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
 	connect(m_clearAction, SIGNAL(triggered(bool)), this, SLOT(clearPlaylist()));
 	connect(m_infoAction, SIGNAL(triggered(bool)), this, SLOT(showInfo()));
@@ -374,8 +376,12 @@ void MediaPlayer::initMenu()
 	// animation
 	m_noneAnimationAction = m_animation_menu->addAction("None");
 	m_defaultAnimationAction = m_animation_menu->addAction("Default");
+	m_equalizerAnimationAction = m_animation_menu->addAction("Equalizer");
+	m_radioAnimationAction = m_animation_menu->addAction("Radio");
 	m_noneAnimationAction->setObjectName("noneAnimation");
 	m_defaultAnimationAction->setObjectName("defaultAnimation");
+	m_equalizerAnimationAction->setObjectName("equalizerAnimation");
+	m_radioAnimationAction->setObjectName("radioAnimation");
 
 	// about
 	m_helpmenu = m_menuBar->addMenu("Help");

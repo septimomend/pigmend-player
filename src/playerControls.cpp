@@ -50,17 +50,12 @@ void PlayerControls::setVideoContent()
 {
     // if this mp3 file - show music gif
     // else show video
-    if (m_player->currentMedia().canonicalUrl().toString().contains(QString(".mp3")))
+	if (m_player->currentMedia().canonicalUrl().toString().contains(QString(".mp3")) ||
+		m_player->currentMedia().canonicalUrl().toString().contains(QString(".wav")) ||
+		m_player->currentMedia().canonicalUrl().toString().contains(QString(".flac")))
     {
         if (!m_isMusic)
-        {
-            /*QString path(PRO_FILE_PWD);                         // path to project folder
-            path.append("/graphic/equalizer.gif");              // add path to gif
-            m_musicPlayer->setMedia(QUrl::fromLocalFile(path)); // set gif to video widget
-            m_musicPlayer->setVideoOutput(m_vw);
-            m_musicPlayer->play();*/
             m_isMusic = true;
-        }
     }
     else
     {
