@@ -154,7 +154,7 @@ about_data_t *XMLDP::getInfoAbout(QString &path)
 	return about_data;
 }
 
-QString XMLDP::getAudioAnimation(QString path_to_xml)
+QString XMLDP::getAudioAnimation(QString path_to_xml, QString animation_name)
 {
 	xml_document<> animations_xml;
 	xml_node<> *root_node;
@@ -178,7 +178,7 @@ QString XMLDP::getAudioAnimation(QString path_to_xml)
 	root_node = animations_xml.first_node("PPAnimations");
 
 	xml_node<> *animations_node = root_node->first_node("AudioAnimations");
-	QString current_animation = root_node->first_node("CurrentPPAnimation")->value();//animation_name.isEmpty() ? animations_node->first_node("CurrentAnimation")->value() : animation_name;
+	QString current_animation = animation_name.isEmpty() ? root_node->first_node("CurrentAudioAnimation")->value() : animation_name;
 
 	for(xml_node<> *animation_data_node = animations_node->first_node("Animation"); animation_data_node; animation_data_node = animation_data_node->next_sibling())
 	{

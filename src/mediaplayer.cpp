@@ -82,10 +82,10 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_blueAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_greyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_darkGreyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
-	connect(m_noneAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
-	connect(m_defaultAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
-	connect(m_equalizerAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
-	connect(m_radioAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation(bool)));
+	connect(m_noneAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
+	connect(m_defaultAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
+	connect(m_equalizerAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
+	connect(m_radioAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_fullScreenAction, SIGNAL(triggered(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
 	connect(m_clearAction, SIGNAL(triggered(bool)), this, SLOT(clearPlaylist()));
 	connect(m_infoAction, SIGNAL(triggered(bool)), this, SLOT(showInfo()));
@@ -321,6 +321,25 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 	event->accept();
 
 	return QMainWindow::eventFilter(watched, event);
+}
+
+void MediaPlayer::resizeEvent(QResizeEvent* event)
+{
+   QMainWindow::resizeEvent(event);
+   qDebug() << "Resizing - " << event->size().width() << " x " << event->size().height();
+
+   // TODO: something like this to resize animation in accordance to window size
+   // NOTE: make different sizes of used animations and name it by adding prefix in respect of size - small, big...
+   //		for example: bigdefaultAnimation.gif, smalldefaultAnimaiton.gif ...
+   //
+   // if (event->size().width() < ... && event->size().height() < ...)
+   // {
+   //	...
+   // }
+   // if (this->isMaximized())
+   // {
+   //	m_movieMusic->setFilename("big" + m_movieMusic->filename);
+   // }
 }
 
 void MediaPlayer::initMenu()
@@ -755,22 +774,21 @@ void MediaPlayer::updateTheme()
 	m_volumeMuteInFullScreen->setStyleSheet(style->backcolor);
 }
 
-void MediaPlayer::updateAnimation(bool isBig)
+void MediaPlayer::updateAnimation()
 {
 	m_movieMusic->stop();
 	m_musicLabel->clear();
 	m_musicLabel->setStyleSheet("");
 
-	QString animation_name_ending = isBig ? "Big.gif" : ".gif";
-	QString animation_name = this->sender() ? this->sender()->objectName() : "noneAnimation";
-	QString animation_file = PRO_FILE_PWD;
-	//QString pathMusicAnimation = m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)));
-
-	if (animation_name == "noneAnimation")
-		m_musicLabel->setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
-	else if (animation_name == "defaultAnimation")
+	if (!this->sender() || this->sender()->objectName().isNull() || this->sender()->objectName().isEmpty() ||
+		this->sender()->objectName() == constants::NONE_ANIMATION)
 	{
-		m_movieMusic->setFileName(animation_file.append("/img/custom/musgif/defaultAnimation" + animation_name_ending));
+		m_musicLabel->setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
+	}
+	else
+	{
+		m_movieMusic->setFileName(m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)),
+			this->sender()->objectName()));
 		m_musicLabel->setMovie(m_movieMusic);
 		m_movieMusic->start();
 	}

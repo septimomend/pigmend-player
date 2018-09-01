@@ -56,6 +56,7 @@ private:
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
+	void resizeEvent(QResizeEvent* event) override;
 
 signals:
     void fullScreenChanged(bool fullScreen);
@@ -81,7 +82,7 @@ private slots:
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
 	void updateTheme();
-	void updateAnimation(bool isBig);
+	void updateAnimation();
 	void stopAnimation(bool isPaused);
 	void showHidePlaylist();
 	void onShuffleButton();

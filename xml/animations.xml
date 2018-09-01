@@ -1,5 +1,5 @@
 <PPAnimations>
-	<CurrentPPAnimation>defaultAnimation</CurrentPPAnimation>
+	<CurrentAudioAnimation>defaultAnimation</CurrentAudioAnimation>
 	<AudioAnimations>
 		<Animation id='0' name='defaultAnimation'>
 			<Path>/img/custom/musgif/defaultAnimation.gif</Path>
