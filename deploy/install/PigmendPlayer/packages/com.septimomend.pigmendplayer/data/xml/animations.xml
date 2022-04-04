@@ -1,0 +1,20 @@
+<PPAnimations>
+	<CurrentAudioAnimation>defaultAnimation</CurrentAudioAnimation>
+	<AudioAnimations>
+		<Animation id='0' name='defaultAnimation'>
+			<Path>/img/custom/musgif/defaultAnimation.gif</Path>
+		</Animation>
+		<Animation id='1' name='equalizerAnimation'>
+			<Path>/img/custom/musgif/equalizerAnimation.gif</Path>
+		</Animation>
+		<Animation id='2' name='radioAnimation'>
+			<Path>/img/custom/musgif/radioAnimation.gif</Path>
+		</Animation>
+		<Animation id='3' name=''>
+			<Path></Path>
+		</Animation>
+		<Animation id='4' name=''>
+			<Path></Path>
+		</Animation>
+	</AudioAnimations>
+</PPAnimations>
