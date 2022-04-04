@@ -209,7 +209,7 @@ void PlayerControls::setFirstFile(QListWidgetItem* item)
     m_player->setMedia(QUrl::fromLocalFile(item->text()));
 }
 
-void PlayerControls::setMediaFile(QString &item)
+void PlayerControls::setMediaFile(QString item)
 {
     m_handleSelected = true;
     m_isKeyClicked = true;

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'playerControls.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'playerControls.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.1. It"
+#error "This file was generated using the moc from 5.12.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PlayerControls_t {
-    QByteArrayData data[45];
-    char stringdata0[533];
+    QByteArrayData data[46];
+    char stringdata0[546];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,38 +44,39 @@ QT_MOC_LITERAL(9, 131, 20), // "mousePositionChanged"
 QT_MOC_LITERAL(10, 152, 7), // "QPoint*"
 QT_MOC_LITERAL(11, 160, 18), // "volumeMutedChanged"
 QT_MOC_LITERAL(12, 179, 7), // "isMuted"
-QT_MOC_LITERAL(13, 187, 4), // "play"
-QT_MOC_LITERAL(14, 192, 5), // "pause"
-QT_MOC_LITERAL(15, 198, 4), // "stop"
-QT_MOC_LITERAL(16, 203, 4), // "next"
-QT_MOC_LITERAL(17, 208, 10), // "nextForced"
-QT_MOC_LITERAL(18, 219, 4), // "prev"
-QT_MOC_LITERAL(19, 224, 12), // "setMediaFile"
-QT_MOC_LITERAL(20, 237, 8), // "QString&"
-QT_MOC_LITERAL(21, 246, 4), // "item"
-QT_MOC_LITERAL(22, 251, 14), // "setVideoWidget"
-QT_MOC_LITERAL(23, 266, 12), // "VideoWidget*"
-QT_MOC_LITERAL(24, 279, 2), // "vw"
-QT_MOC_LITERAL(25, 282, 15), // "setTimeProgress"
-QT_MOC_LITERAL(26, 298, 12), // "timeProgress"
-QT_MOC_LITERAL(27, 311, 4), // "seek"
-QT_MOC_LITERAL(28, 316, 13), // "progressValue"
-QT_MOC_LITERAL(29, 330, 11), // "fastForward"
-QT_MOC_LITERAL(30, 342, 13), // "setRepeatMode"
-QT_MOC_LITERAL(31, 356, 11), // "checkRepeat"
-QT_MOC_LITERAL(32, 368, 14), // "setShuffleMode"
-QT_MOC_LITERAL(33, 383, 12), // "checkShuffle"
-QT_MOC_LITERAL(34, 396, 12), // "setFirstFile"
-QT_MOC_LITERAL(35, 409, 16), // "QListWidgetItem*"
-QT_MOC_LITERAL(36, 426, 9), // "setVolume"
-QT_MOC_LITERAL(37, 436, 6), // "volume"
-QT_MOC_LITERAL(38, 443, 14), // "setVolumeMuted"
-QT_MOC_LITERAL(39, 458, 11), // "setMetaData"
-QT_MOC_LITERAL(40, 470, 12), // "processState"
-QT_MOC_LITERAL(41, 483, 19), // "QMediaPlayer::State"
-QT_MOC_LITERAL(42, 503, 5), // "state"
-QT_MOC_LITERAL(43, 509, 14), // "changeDuration"
-QT_MOC_LITERAL(44, 524, 8) // "duration"
+QT_MOC_LITERAL(13, 187, 14), // "isMusicContent"
+QT_MOC_LITERAL(14, 202, 6), // "paused"
+QT_MOC_LITERAL(15, 209, 4), // "play"
+QT_MOC_LITERAL(16, 214, 5), // "pause"
+QT_MOC_LITERAL(17, 220, 4), // "stop"
+QT_MOC_LITERAL(18, 225, 4), // "next"
+QT_MOC_LITERAL(19, 230, 10), // "nextForced"
+QT_MOC_LITERAL(20, 241, 4), // "prev"
+QT_MOC_LITERAL(21, 246, 12), // "setMediaFile"
+QT_MOC_LITERAL(22, 259, 4), // "item"
+QT_MOC_LITERAL(23, 264, 14), // "setVideoWidget"
+QT_MOC_LITERAL(24, 279, 12), // "VideoWidget*"
+QT_MOC_LITERAL(25, 292, 2), // "vw"
+QT_MOC_LITERAL(26, 295, 15), // "setTimeProgress"
+QT_MOC_LITERAL(27, 311, 12), // "timeProgress"
+QT_MOC_LITERAL(28, 324, 4), // "seek"
+QT_MOC_LITERAL(29, 329, 13), // "progressValue"
+QT_MOC_LITERAL(30, 343, 11), // "fastForward"
+QT_MOC_LITERAL(31, 355, 13), // "setRepeatMode"
+QT_MOC_LITERAL(32, 369, 11), // "checkRepeat"
+QT_MOC_LITERAL(33, 381, 14), // "setShuffleMode"
+QT_MOC_LITERAL(34, 396, 12), // "checkShuffle"
+QT_MOC_LITERAL(35, 409, 12), // "setFirstFile"
+QT_MOC_LITERAL(36, 422, 16), // "QListWidgetItem*"
+QT_MOC_LITERAL(37, 439, 9), // "setVolume"
+QT_MOC_LITERAL(38, 449, 6), // "volume"
+QT_MOC_LITERAL(39, 456, 14), // "setVolumeMuted"
+QT_MOC_LITERAL(40, 471, 11), // "setMetaData"
+QT_MOC_LITERAL(41, 483, 12), // "processState"
+QT_MOC_LITERAL(42, 496, 19), // "QMediaPlayer::State"
+QT_MOC_LITERAL(43, 516, 5), // "state"
+QT_MOC_LITERAL(44, 522, 14), // "changeDuration"
+QT_MOC_LITERAL(45, 537, 8) // "duration"
 
     },
     "PlayerControls\0currentMediaItem\0\0"
@@ -83,62 +84,64 @@ QT_MOC_LITERAL(44, 524, 8) // "duration"
     "timeProgressChanged\0changeVolumeValue\0"
     "setVolumeToPlayer\0mousePositionChanged\0"
     "QPoint*\0volumeMutedChanged\0isMuted\0"
-    "play\0pause\0stop\0next\0nextForced\0prev\0"
-    "setMediaFile\0QString&\0item\0setVideoWidget\0"
-    "VideoWidget*\0vw\0setTimeProgress\0"
-    "timeProgress\0seek\0progressValue\0"
-    "fastForward\0setRepeatMode\0checkRepeat\0"
-    "setShuffleMode\0checkShuffle\0setFirstFile\0"
-    "QListWidgetItem*\0setVolume\0volume\0"
-    "setVolumeMuted\0setMetaData\0processState\0"
-    "QMediaPlayer::State\0state\0changeDuration\0"
-    "duration"
+    "isMusicContent\0paused\0play\0pause\0stop\0"
+    "next\0nextForced\0prev\0setMediaFile\0"
+    "item\0setVideoWidget\0VideoWidget*\0vw\0"
+    "setTimeProgress\0timeProgress\0seek\0"
+    "progressValue\0fastForward\0setRepeatMode\0"
+    "checkRepeat\0setShuffleMode\0checkShuffle\0"
+    "setFirstFile\0QListWidgetItem*\0setVolume\0"
+    "volume\0setVolumeMuted\0setMetaData\0"
+    "processState\0QMediaPlayer::State\0state\0"
+    "changeDuration\0duration"
 };
 #undef QT_MOC_LITERAL
 
 static const uint qt_meta_data_PlayerControls[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
-      27,   14, // methods
+      29,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       8,       // signalCount
+      10,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  149,    2, 0x06 /* Public */,
-       3,    1,  152,    2, 0x06 /* Public */,
-       5,    1,  155,    2, 0x06 /* Public */,
-       6,    1,  158,    2, 0x06 /* Public */,
-       7,    1,  161,    2, 0x06 /* Public */,
-       8,    1,  164,    2, 0x06 /* Public */,
-       9,    1,  167,    2, 0x06 /* Public */,
-      11,    1,  170,    2, 0x06 /* Public */,
+       1,    1,  159,    2, 0x06 /* Public */,
+       3,    1,  162,    2, 0x06 /* Public */,
+       5,    1,  165,    2, 0x06 /* Public */,
+       6,    1,  168,    2, 0x06 /* Public */,
+       7,    1,  171,    2, 0x06 /* Public */,
+       8,    1,  174,    2, 0x06 /* Public */,
+       9,    1,  177,    2, 0x06 /* Public */,
+      11,    1,  180,    2, 0x06 /* Public */,
+      13,    1,  183,    2, 0x06 /* Public */,
+      14,    1,  186,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      13,    0,  173,    2, 0x0a /* Public */,
-      14,    0,  174,    2, 0x0a /* Public */,
-      15,    0,  175,    2, 0x0a /* Public */,
-      16,    0,  176,    2, 0x0a /* Public */,
-      17,    0,  177,    2, 0x0a /* Public */,
-      18,    0,  178,    2, 0x0a /* Public */,
-      19,    1,  179,    2, 0x0a /* Public */,
-      22,    1,  182,    2, 0x0a /* Public */,
-      25,    1,  185,    2, 0x0a /* Public */,
-      27,    1,  188,    2, 0x0a /* Public */,
-      29,    0,  191,    2, 0x0a /* Public */,
-      30,    1,  192,    2, 0x0a /* Public */,
-      32,    1,  195,    2, 0x0a /* Public */,
-      34,    1,  198,    2, 0x0a /* Public */,
-      36,    1,  201,    2, 0x0a /* Public */,
-      38,    0,  204,    2, 0x0a /* Public */,
-      39,    0,  205,    2, 0x08 /* Private */,
-      40,    1,  206,    2, 0x08 /* Private */,
-      43,    1,  209,    2, 0x08 /* Private */,
+      15,    0,  189,    2, 0x0a /* Public */,
+      16,    0,  190,    2, 0x0a /* Public */,
+      17,    0,  191,    2, 0x0a /* Public */,
+      18,    0,  192,    2, 0x0a /* Public */,
+      19,    0,  193,    2, 0x0a /* Public */,
+      20,    0,  194,    2, 0x0a /* Public */,
+      21,    1,  195,    2, 0x0a /* Public */,
+      23,    1,  198,    2, 0x0a /* Public */,
+      26,    1,  201,    2, 0x0a /* Public */,
+      28,    1,  204,    2, 0x0a /* Public */,
+      30,    0,  207,    2, 0x0a /* Public */,
+      31,    1,  208,    2, 0x0a /* Public */,
+      33,    1,  211,    2, 0x0a /* Public */,
+      35,    1,  214,    2, 0x0a /* Public */,
+      37,    1,  217,    2, 0x0a /* Public */,
+      39,    0,  220,    2, 0x0a /* Public */,
+      40,    0,  221,    2, 0x08 /* Private */,
+      41,    1,  222,    2, 0x08 /* Private */,
+      44,    1,  225,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
@@ -149,6 +152,8 @@ static const uint qt_meta_data_PlayerControls[] = {
     QMetaType::Void, QMetaType::Int,    2,
     QMetaType::Void, 0x80000000 | 10,    2,
     QMetaType::Void, QMetaType::Bool,   12,
+    QMetaType::Void, QMetaType::Bool,    2,
+    QMetaType::Void, QMetaType::Bool,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -157,19 +162,19 @@ static const uint qt_meta_data_PlayerControls[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 20,   21,
-    QMetaType::Void, 0x80000000 | 23,   24,
-    QMetaType::Void, QMetaType::LongLong,   26,
-    QMetaType::Void, QMetaType::Int,   28,
+    QMetaType::Void, QMetaType::QString,   22,
+    QMetaType::Void, 0x80000000 | 24,   25,
+    QMetaType::Void, QMetaType::LongLong,   27,
+    QMetaType::Void, QMetaType::Int,   29,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   31,
-    QMetaType::Void, QMetaType::Bool,   33,
-    QMetaType::Void, 0x80000000 | 35,   21,
-    QMetaType::Void, QMetaType::Int,   37,
+    QMetaType::Void, QMetaType::Bool,   32,
+    QMetaType::Void, QMetaType::Bool,   34,
+    QMetaType::Void, 0x80000000 | 36,   22,
+    QMetaType::Void, QMetaType::Int,   38,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 41,   42,
-    QMetaType::Void, QMetaType::LongLong,   44,
+    QMetaType::Void, 0x80000000 | 42,   43,
+    QMetaType::Void, QMetaType::LongLong,   45,
 
        0        // eod
 };
@@ -177,7 +182,7 @@ static const uint qt_meta_data_PlayerControls[] = {
 void PlayerControls::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        PlayerControls *_t = static_cast<PlayerControls *>(_o);
+        auto *_t = static_cast<PlayerControls *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->currentMediaItem((*reinterpret_cast< QString(*)>(_a[1]))); break;
@@ -188,38 +193,40 @@ void PlayerControls::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 5: _t->setVolumeToPlayer((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 6: _t->mousePositionChanged((*reinterpret_cast< QPoint*(*)>(_a[1]))); break;
         case 7: _t->volumeMutedChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 8: _t->play(); break;
-        case 9: _t->pause(); break;
-        case 10: _t->stop(); break;
-        case 11: _t->next(); break;
-        case 12: _t->nextForced(); break;
-        case 13: _t->prev(); break;
-        case 14: _t->setMediaFile((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 15: _t->setVideoWidget((*reinterpret_cast< VideoWidget*(*)>(_a[1]))); break;
-        case 16: _t->setTimeProgress((*reinterpret_cast< qint64(*)>(_a[1]))); break;
-        case 17: _t->seek((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 18: _t->fastForward(); break;
-        case 19: _t->setRepeatMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 20: _t->setShuffleMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 21: _t->setFirstFile((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
-        case 22: _t->setVolume((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 23: _t->setVolumeMuted(); break;
-        case 24: _t->setMetaData(); break;
-        case 25: _t->processState((*reinterpret_cast< QMediaPlayer::State(*)>(_a[1]))); break;
-        case 26: _t->changeDuration((*reinterpret_cast< qint64(*)>(_a[1]))); break;
+        case 8: _t->isMusicContent((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 9: _t->paused((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 10: _t->play(); break;
+        case 11: _t->pause(); break;
+        case 12: _t->stop(); break;
+        case 13: _t->next(); break;
+        case 14: _t->nextForced(); break;
+        case 15: _t->prev(); break;
+        case 16: _t->setMediaFile((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 17: _t->setVideoWidget((*reinterpret_cast< VideoWidget*(*)>(_a[1]))); break;
+        case 18: _t->setTimeProgress((*reinterpret_cast< qint64(*)>(_a[1]))); break;
+        case 19: _t->seek((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 20: _t->fastForward(); break;
+        case 21: _t->setRepeatMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 22: _t->setShuffleMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 23: _t->setFirstFile((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 24: _t->setVolume((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 25: _t->setVolumeMuted(); break;
+        case 26: _t->setMetaData(); break;
+        case 27: _t->processState((*reinterpret_cast< QMediaPlayer::State(*)>(_a[1]))); break;
+        case 28: _t->changeDuration((*reinterpret_cast< qint64(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 15:
+        case 17:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< VideoWidget* >(); break;
             }
             break;
-        case 25:
+        case 27:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -285,13 +292,31 @@ void PlayerControls::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
                 return;
             }
         }
+        {
+            using _t = void (PlayerControls::*)(bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&PlayerControls::isMusicContent)) {
+                *result = 8;
+                return;
+            }
+        }
+        {
+            using _t = void (PlayerControls::*)(bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&PlayerControls::paused)) {
+                *result = 9;
+                return;
+            }
+        }
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject PlayerControls::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_PlayerControls.data,
-      qt_meta_data_PlayerControls,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject PlayerControls::staticMetaObject = { {
+    &QWidget::staticMetaObject,
+    qt_meta_stringdata_PlayerControls.data,
+    qt_meta_data_PlayerControls,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *PlayerControls::metaObject() const
@@ -313,13 +338,13 @@ int PlayerControls::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 27)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 29;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 27)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 29;
     }
     return _id;
 }
@@ -378,6 +403,20 @@ void PlayerControls::volumeMutedChanged(bool _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 7, _a);
+}
+
+// SIGNAL 8
+void PlayerControls::isMusicContent(bool _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 8, _a);
+}
+
+// SIGNAL 9
+void PlayerControls::paused(bool _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 9, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

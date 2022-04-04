@@ -14,6 +14,7 @@ E-mail: chapkailo.ivan@gmail.com
 
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QApplication>
 
 #define TIME_TO_HIDE_CURSOR_MS 1000
 
@@ -79,6 +80,8 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 
 	if (self->isFullScreen())
 		m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+    else
+        m_timer->stop();
 
     event->accept();
 }
@@ -90,10 +93,13 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
 
 void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    this->setCursor(Qt::CustomCursor);
+    QApplication::setOverrideCursor(Qt::ArrowCursor);
+    QApplication::changeOverrideCursor(Qt::ArrowCursor);
 
     if (m_globalVideoWidget->isFullScreen())
         m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+    else
+        m_timer->stop();
 
     event->accept();
 }

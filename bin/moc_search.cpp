@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'search.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'search.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.1. It"
+#error "This file was generated using the moc from 5.12.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SearchDialog_t {
-    QByteArrayData data[6];
-    char stringdata0[70];
+    QByteArrayData data[5];
+    char stringdata0[53];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,20 +34,19 @@ static const qt_meta_stringdata_SearchDialog_t qt_meta_stringdata_SearchDialog =
 QT_MOC_LITERAL(0, 0, 12), // "SearchDialog"
 QT_MOC_LITERAL(1, 13, 12), // "matchesFound"
 QT_MOC_LITERAL(2, 26, 0), // ""
-QT_MOC_LITERAL(3, 27, 16), // "QListWidgetItem*"
-QT_MOC_LITERAL(4, 44, 12), // "setStartTips"
-QT_MOC_LITERAL(5, 57, 12) // "checkMatches"
+QT_MOC_LITERAL(3, 27, 12), // "setStartTips"
+QT_MOC_LITERAL(4, 40, 12) // "checkMatches"
 
     },
-    "SearchDialog\0matchesFound\0\0QListWidgetItem*\0"
-    "setStartTips\0checkMatches"
+    "SearchDialog\0matchesFound\0\0setStartTips\0"
+    "checkMatches"
 };
 #undef QT_MOC_LITERAL
 
 static const uint qt_meta_data_SearchDialog[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        3,   14, // methods
@@ -61,11 +60,11 @@ static const uint qt_meta_data_SearchDialog[] = {
        1,    1,   29,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   32,    2, 0x0a /* Public */,
-       5,    0,   33,    2, 0x08 /* Private */,
+       3,    0,   32,    2, 0x0a /* Public */,
+       4,    0,   33,    2, 0x08 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -77,10 +76,10 @@ static const uint qt_meta_data_SearchDialog[] = {
 void SearchDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        SearchDialog *_t = static_cast<SearchDialog *>(_o);
+        auto *_t = static_cast<SearchDialog *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->matchesFound((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 0: _t->matchesFound((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: _t->setStartTips(); break;
         case 2: _t->checkMatches(); break;
         default: ;
@@ -88,7 +87,7 @@ void SearchDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (SearchDialog::*)(QListWidgetItem * );
+            using _t = void (SearchDialog::*)(QString );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&SearchDialog::matchesFound)) {
                 *result = 0;
                 return;
@@ -97,10 +96,14 @@ void SearchDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject SearchDialog::staticMetaObject = {
-    { &QDialog::staticMetaObject, qt_meta_stringdata_SearchDialog.data,
-      qt_meta_data_SearchDialog,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject SearchDialog::staticMetaObject = { {
+    &QDialog::staticMetaObject,
+    qt_meta_stringdata_SearchDialog.data,
+    qt_meta_data_SearchDialog,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *SearchDialog::metaObject() const
@@ -134,7 +137,7 @@ int SearchDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void SearchDialog::matchesFound(QListWidgetItem * _t1)
+void SearchDialog::matchesFound(QString _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

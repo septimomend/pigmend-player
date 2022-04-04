@@ -37,7 +37,7 @@ public:
 	void updateTheme(styles_data_t *style);
 
 signals:
-    void matchesFound(QListWidgetItem *);
+    void matchesFound(QString);
 
 public slots:
     void setStartTips();

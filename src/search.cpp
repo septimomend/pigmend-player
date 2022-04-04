@@ -57,8 +57,8 @@ void SearchDialog::checkMatches()
             // if here is accordance with current filename
             if (it.key().toLower().contains(QString(ui->searchLineEdit->text().toLower())))
             {
-                item->setText(it.key());
-                emit matchesFound(item);
+                tem->setText(it.key());
+                emit matchesFound(QString(it.key()));
                 ui->noMatchesLabel->setText(QString(it.key()));
                 close();
                 break;

@@ -55,6 +55,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 
 	//
 	m_isPlaylistLoaded = false;
+    m_isPaused = true;
 	m_shuffleMode = false;
 	ui->volumeSlider->setRange(0, 100);
 
@@ -141,7 +142,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_playerControls, SIGNAL(durationChanged(int)), this, SLOT(updateDuration(int)));
 	connect(m_mediaFile, SIGNAL(filesChosen()), this, SLOT(updatePlaylist()));
 	connect(m_playerControls, SIGNAL(timeProgressChanged(int)), this, SLOT(updateTimeProgress(int)));
-	connect(m_search, SIGNAL(matchesFound(QListWidgetItem*)), m_playerControls, SLOT(setMediaFile(QListWidgetItem*)));
+    connect(m_search, SIGNAL(matchesFound(QString)), m_playerControls, SLOT(setMediaFile(QString)));
 	connect(m_mediaFile, SIGNAL(filesFound(int,int, bool)), this, SLOT(updateIndexedData(int,int, bool)));
 	connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
 	connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
@@ -790,7 +791,14 @@ void MediaPlayer::updateAnimation()
 		m_movieMusic->setFileName(m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)),
 			this->sender()->objectName()));
 		m_musicLabel->setMovie(m_movieMusic);
-		m_movieMusic->start();
+
+        if (!m_isPaused)
+            m_movieMusic->start();
+        else
+        {
+            m_movieMusic->start();
+            m_movieMusic->stop();
+        }
 	}
 
 	// TODO: m_xmldp.setAudioAnimation(...);
@@ -1019,6 +1027,8 @@ void MediaPlayer::onContentTypeChange(bool isAudio)
 
 void MediaPlayer::stopAnimation(bool isPaused)
 {
+    m_isPaused = isPaused;
+
 	if (isPaused)
 		m_movieMusic->stop();
 	else

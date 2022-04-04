@@ -97,6 +97,7 @@ private:
     Ui::MediaPlayer *ui;
     bool m_shuffleMode;
     bool m_isPlaylistLoaded;
+    bool m_isPaused;
     VideoWidget *m_videoWidget;
     VideoWidget *m_globalVideoWidget;
     PlayerControls *m_playerControls;

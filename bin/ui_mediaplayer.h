@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mediaplayer.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.1
+** Created by: Qt User Interface Compiler version 5.12.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -88,7 +88,7 @@ public:
     void setupUi(QMainWindow *MediaPlayer)
     {
         if (MediaPlayer->objectName().isEmpty())
-            MediaPlayer->setObjectName(QStringLiteral("MediaPlayer"));
+            MediaPlayer->setObjectName(QString::fromUtf8("MediaPlayer"));
         MediaPlayer->resize(821, 397);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(15);
@@ -96,36 +96,36 @@ public:
         sizePolicy.setHeightForWidth(MediaPlayer->sizePolicy().hasHeightForWidth());
         MediaPlayer->setSizePolicy(sizePolicy);
         QIcon icon;
-        icon.addFile(QStringLiteral(":/icon/pigmend.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/icon/pigmend.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MediaPlayer->setWindowIcon(icon);
-        MediaPlayer->setStyleSheet(QStringLiteral("background-color: rgb(53, 53, 53);"));
+        MediaPlayer->setStyleSheet(QString::fromUtf8("background-color: rgb(53, 53, 53);"));
         MediaPlayer->setIconSize(QSize(30, 30));
         MediaPlayer->setDocumentMode(false);
         MediaPlayer->setTabShape(QTabWidget::Rounded);
         MediaPlayer->setDockOptions(QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks|QMainWindow::ForceTabbedDocks);
         MediaPlayer->setUnifiedTitleAndToolBarOnMac(false);
         actionerw = new QAction(MediaPlayer);
-        actionerw->setObjectName(QStringLiteral("actionerw"));
+        actionerw->setObjectName(QString::fromUtf8("actionerw"));
         actionrwe = new QAction(MediaPlayer);
-        actionrwe->setObjectName(QStringLiteral("actionrwe"));
+        actionrwe->setObjectName(QString::fromUtf8("actionrwe"));
         centralWidget = new QWidget(MediaPlayer);
-        centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout_2 = new QGridLayout(centralWidget);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         menuLayout = new QHBoxLayout();
         menuLayout->setSpacing(6);
-        menuLayout->setObjectName(QStringLiteral("menuLayout"));
+        menuLayout->setObjectName(QString::fromUtf8("menuLayout"));
 
         gridLayout_2->addLayout(menuLayout, 0, 0, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setSizeConstraint(QLayout::SetNoConstraint);
         addFolderButton = new QPushButton(centralWidget);
-        addFolderButton->setObjectName(QStringLiteral("addFolderButton"));
+        addFolderButton->setObjectName(QString::fromUtf8("addFolderButton"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -133,47 +133,47 @@ public:
         addFolderButton->setSizePolicy(sizePolicy1);
         addFolderButton->setCursor(QCursor(Qt::PointingHandCursor));
         addFolderButton->setMouseTracking(false);
-        addFolderButton->setStyleSheet(QStringLiteral(""));
+        addFolderButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon1;
-        icon1.addFile(QStringLiteral(":/buttons/img/buttons/add-folder-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/buttons/img/buttons/add-folder-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         addFolderButton->setIcon(icon1);
         addFolderButton->setFlat(true);
 
         gridLayout->addWidget(addFolderButton, 5, 9, 1, 1);
 
         addFileButton = new QPushButton(centralWidget);
-        addFileButton->setObjectName(QStringLiteral("addFileButton"));
+        addFileButton->setObjectName(QString::fromUtf8("addFileButton"));
         sizePolicy1.setHeightForWidth(addFileButton->sizePolicy().hasHeightForWidth());
         addFileButton->setSizePolicy(sizePolicy1);
-        addFileButton->setStyleSheet(QStringLiteral(""));
+        addFileButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon2;
-        icon2.addFile(QStringLiteral(":/buttons/img/buttons/add-file-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/buttons/img/buttons/add-file-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         addFileButton->setIcon(icon2);
         addFileButton->setFlat(true);
 
         gridLayout->addWidget(addFileButton, 5, 8, 1, 1);
 
         clearButton = new QPushButton(centralWidget);
-        clearButton->setObjectName(QStringLiteral("clearButton"));
+        clearButton->setObjectName(QString::fromUtf8("clearButton"));
         sizePolicy1.setHeightForWidth(clearButton->sizePolicy().hasHeightForWidth());
         clearButton->setSizePolicy(sizePolicy1);
-        clearButton->setStyleSheet(QStringLiteral(""));
+        clearButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon3;
-        icon3.addFile(QStringLiteral(":/buttons/img/buttons/delete-column-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/buttons/img/buttons/delete-column-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         clearButton->setIcon(icon3);
         clearButton->setFlat(true);
 
         gridLayout->addWidget(clearButton, 5, 10, 1, 1);
 
         searchButton = new QPushButton(centralWidget);
-        searchButton->setObjectName(QStringLiteral("searchButton"));
+        searchButton->setObjectName(QString::fromUtf8("searchButton"));
         sizePolicy1.setHeightForWidth(searchButton->sizePolicy().hasHeightForWidth());
         searchButton->setSizePolicy(sizePolicy1);
         searchButton->setCursor(QCursor(Qt::PointingHandCursor));
         searchButton->setLayoutDirection(Qt::LeftToRight);
-        searchButton->setStyleSheet(QStringLiteral(""));
+        searchButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon4;
-        icon4.addFile(QStringLiteral(":/buttons/img/buttons/search-3-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8(":/buttons/img/buttons/search-3-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         searchButton->setIcon(icon4);
         searchButton->setFlat(true);
 
@@ -184,7 +184,7 @@ public:
         gridLayout->addItem(horizontalSpacer_3, 6, 1, 1, 1);
 
         indexInfoLabel = new QLabel(centralWidget);
-        indexInfoLabel->setObjectName(QStringLiteral("indexInfoLabel"));
+        indexInfoLabel->setObjectName(QString::fromUtf8("indexInfoLabel"));
         indexInfoLabel->setEnabled(false);
         QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Preferred);
         sizePolicy2.setHorizontalStretch(0);
@@ -194,43 +194,43 @@ public:
         QFont font;
         font.setPointSize(8);
         indexInfoLabel->setFont(font);
-        indexInfoLabel->setStyleSheet(QStringLiteral(""));
+        indexInfoLabel->setStyleSheet(QString::fromUtf8(""));
         indexInfoLabel->setFrameShape(QFrame::NoFrame);
         indexInfoLabel->setFrameShadow(QFrame::Sunken);
 
         gridLayout->addWidget(indexInfoLabel, 7, 9, 1, 2);
 
         durationLabel = new QLabel(centralWidget);
-        durationLabel->setObjectName(QStringLiteral("durationLabel"));
+        durationLabel->setObjectName(QString::fromUtf8("durationLabel"));
         QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(durationLabel->sizePolicy().hasHeightForWidth());
         durationLabel->setSizePolicy(sizePolicy3);
-        durationLabel->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        durationLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout->addWidget(durationLabel, 4, 6, 1, 2);
 
         progressTimeLabel = new QLabel(centralWidget);
-        progressTimeLabel->setObjectName(QStringLiteral("progressTimeLabel"));
+        progressTimeLabel->setObjectName(QString::fromUtf8("progressTimeLabel"));
         sizePolicy3.setHeightForWidth(progressTimeLabel->sizePolicy().hasHeightForWidth());
         progressTimeLabel->setSizePolicy(sizePolicy3);
-        progressTimeLabel->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        progressTimeLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout->addWidget(progressTimeLabel, 4, 0, 1, 1);
 
         progressSlider = new QSlider(centralWidget);
-        progressSlider->setObjectName(QStringLiteral("progressSlider"));
+        progressSlider->setObjectName(QString::fromUtf8("progressSlider"));
         progressSlider->setFont(font);
         progressSlider->setCursor(QCursor(Qt::PointingHandCursor));
-        progressSlider->setStyleSheet(QStringLiteral(""));
+        progressSlider->setStyleSheet(QString::fromUtf8(""));
         progressSlider->setOrientation(Qt::Horizontal);
         progressSlider->setTickPosition(QSlider::NoTicks);
 
         gridLayout->addWidget(progressSlider, 4, 1, 1, 5);
 
         titleLabel = new QLabel(centralWidget);
-        titleLabel->setObjectName(QStringLiteral("titleLabel"));
+        titleLabel->setObjectName(QString::fromUtf8("titleLabel"));
         QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Maximum);
         sizePolicy4.setHorizontalStretch(0);
         sizePolicy4.setVerticalStretch(0);
@@ -241,7 +241,7 @@ public:
         font1.setWeight(75);
         titleLabel->setFont(font1);
         titleLabel->setLayoutDirection(Qt::LeftToRight);
-        titleLabel->setStyleSheet(QStringLiteral(""));
+        titleLabel->setStyleSheet(QString::fromUtf8(""));
         titleLabel->setTextFormat(Qt::AutoText);
         titleLabel->setScaledContents(false);
         titleLabel->setAlignment(Qt::AlignCenter);
@@ -250,18 +250,18 @@ public:
         gridLayout->addWidget(titleLabel, 0, 0, 1, 7);
 
         loadingLabel = new QLabel(centralWidget);
-        loadingLabel->setObjectName(QStringLiteral("loadingLabel"));
+        loadingLabel->setObjectName(QString::fromUtf8("loadingLabel"));
         QSizePolicy sizePolicy5(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy5.setHorizontalStretch(0);
         sizePolicy5.setVerticalStretch(0);
         sizePolicy5.setHeightForWidth(loadingLabel->sizePolicy().hasHeightForWidth());
         loadingLabel->setSizePolicy(sizePolicy5);
-        loadingLabel->setStyleSheet(QStringLiteral(""));
+        loadingLabel->setStyleSheet(QString::fromUtf8(""));
 
         gridLayout->addWidget(loadingLabel, 7, 8, 1, 1);
 
         showHidePlaylistButton = new QPushButton(centralWidget);
-        showHidePlaylistButton->setObjectName(QStringLiteral("showHidePlaylistButton"));
+        showHidePlaylistButton->setObjectName(QString::fromUtf8("showHidePlaylistButton"));
         QSizePolicy sizePolicy6(QSizePolicy::Maximum, QSizePolicy::Minimum);
         sizePolicy6.setHorizontalStretch(0);
         sizePolicy6.setVerticalStretch(0);
@@ -269,14 +269,14 @@ public:
         showHidePlaylistButton->setSizePolicy(sizePolicy6);
         showHidePlaylistButton->setMaximumSize(QSize(48, 16777215));
         QIcon icon5;
-        icon5.addFile(QStringLiteral(":/buttons/img/buttons/hide-arrow-48.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8(":/buttons/img/buttons/hide-arrow-48.ico"), QSize(), QIcon::Normal, QIcon::Off);
         showHidePlaylistButton->setIcon(icon5);
         showHidePlaylistButton->setFlat(true);
 
         gridLayout->addWidget(showHidePlaylistButton, 0, 7, 1, 1);
 
         playlistLabel = new QLabel(centralWidget);
-        playlistLabel->setObjectName(QStringLiteral("playlistLabel"));
+        playlistLabel->setObjectName(QString::fromUtf8("playlistLabel"));
         playlistLabel->setEnabled(false);
         QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Maximum);
         sizePolicy7.setHorizontalStretch(0);
@@ -284,7 +284,7 @@ public:
         sizePolicy7.setHeightForWidth(playlistLabel->sizePolicy().hasHeightForWidth());
         playlistLabel->setSizePolicy(sizePolicy7);
         playlistLabel->setFont(font1);
-        playlistLabel->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        playlistLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         playlistLabel->setFrameShape(QFrame::NoFrame);
         playlistLabel->setTextFormat(Qt::AutoText);
         playlistLabel->setScaledContents(false);
@@ -292,13 +292,13 @@ public:
         gridLayout->addWidget(playlistLabel, 0, 8, 1, 3, Qt::AlignBottom);
 
         shuffleButton = new QPushButton(centralWidget);
-        shuffleButton->setObjectName(QStringLiteral("shuffleButton"));
+        shuffleButton->setObjectName(QString::fromUtf8("shuffleButton"));
         sizePolicy1.setHeightForWidth(shuffleButton->sizePolicy().hasHeightForWidth());
         shuffleButton->setSizePolicy(sizePolicy1);
         shuffleButton->setMaximumSize(QSize(20, 20));
-        shuffleButton->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        shuffleButton->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         QIcon icon6;
-        icon6.addFile(QStringLiteral(":/buttons/img/buttons/shuffle-16.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon6.addFile(QString::fromUtf8(":/buttons/img/buttons/shuffle-16.png"), QSize(), QIcon::Normal, QIcon::Off);
         shuffleButton->setIcon(icon6);
         shuffleButton->setCheckable(true);
         shuffleButton->setFlat(true);
@@ -306,12 +306,12 @@ public:
         gridLayout->addWidget(shuffleButton, 1, 9, 1, 1, Qt::AlignLeft);
 
         indexAudioLabel = new QLabel(centralWidget);
-        indexAudioLabel->setObjectName(QStringLiteral("indexAudioLabel"));
+        indexAudioLabel->setObjectName(QString::fromUtf8("indexAudioLabel"));
         indexAudioLabel->setEnabled(false);
         sizePolicy3.setHeightForWidth(indexAudioLabel->sizePolicy().hasHeightForWidth());
         indexAudioLabel->setSizePolicy(sizePolicy3);
         indexAudioLabel->setFont(font);
-        indexAudioLabel->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        indexAudioLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         indexAudioLabel->setFrameShape(QFrame::Box);
         indexAudioLabel->setFrameShadow(QFrame::Sunken);
 
@@ -319,13 +319,13 @@ public:
 
         videoLayout = new QGridLayout();
         videoLayout->setSpacing(6);
-        videoLayout->setObjectName(QStringLiteral("videoLayout"));
+        videoLayout->setObjectName(QString::fromUtf8("videoLayout"));
         videoLayout->setHorizontalSpacing(6);
 
         gridLayout->addLayout(videoLayout, 1, 0, 3, 8);
 
         label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
         QSizePolicy sizePolicy8(QSizePolicy::Minimum, QSizePolicy::Maximum);
         sizePolicy8.setHorizontalStretch(0);
         sizePolicy8.setVerticalStretch(0);
@@ -339,15 +339,15 @@ public:
         font2.setStrikeOut(false);
         font2.setKerning(true);
         label->setFont(font2);
-        label->setStyleSheet(QStringLiteral(""));
+        label->setStyleSheet(QString::fromUtf8(""));
 
         gridLayout->addWidget(label, 7, 0, 1, 6);
 
         playlistHorizontalLayout = new QHBoxLayout();
         playlistHorizontalLayout->setSpacing(0);
-        playlistHorizontalLayout->setObjectName(QStringLiteral("playlistHorizontalLayout"));
+        playlistHorizontalLayout->setObjectName(QString::fromUtf8("playlistHorizontalLayout"));
         underPlaylistLabel = new QLabel(centralWidget);
-        underPlaylistLabel->setObjectName(QStringLiteral("underPlaylistLabel"));
+        underPlaylistLabel->setObjectName(QString::fromUtf8("underPlaylistLabel"));
         underPlaylistLabel->setMaximumSize(QSize(16777215, 20));
         QFont font3;
         font3.setPointSize(12);
@@ -358,7 +358,7 @@ public:
         playlistHorizontalLayout->addWidget(underPlaylistLabel);
 
         repeatButton = new QPushButton(centralWidget);
-        repeatButton->setObjectName(QStringLiteral("repeatButton"));
+        repeatButton->setObjectName(QString::fromUtf8("repeatButton"));
         sizePolicy1.setHeightForWidth(repeatButton->sizePolicy().hasHeightForWidth());
         repeatButton->setSizePolicy(sizePolicy1);
         repeatButton->setMaximumSize(QSize(20, 20));
@@ -386,10 +386,10 @@ public:
         palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
         repeatButton->setPalette(palette);
-        repeatButton->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+        repeatButton->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 ""));
         QIcon icon7;
-        icon7.addFile(QStringLiteral(":/buttons/img/buttons/repeat-16.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon7.addFile(QString::fromUtf8(":/buttons/img/buttons/repeat-16.png"), QSize(), QIcon::Normal, QIcon::Off);
         repeatButton->setIcon(icon7);
         repeatButton->setCheckable(true);
         repeatButton->setFlat(true);
@@ -400,19 +400,19 @@ public:
         gridLayout->addLayout(playlistHorizontalLayout, 1, 8, 1, 1);
 
         indexVideoLabel = new QLabel(centralWidget);
-        indexVideoLabel->setObjectName(QStringLiteral("indexVideoLabel"));
+        indexVideoLabel->setObjectName(QString::fromUtf8("indexVideoLabel"));
         indexVideoLabel->setEnabled(false);
         sizePolicy3.setHeightForWidth(indexVideoLabel->sizePolicy().hasHeightForWidth());
         indexVideoLabel->setSizePolicy(sizePolicy3);
         indexVideoLabel->setFont(font);
-        indexVideoLabel->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        indexVideoLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         indexVideoLabel->setFrameShape(QFrame::Box);
         indexVideoLabel->setFrameShadow(QFrame::Sunken);
 
         gridLayout->addWidget(indexVideoLabel, 7, 12, 1, 2, Qt::AlignRight);
 
         allItemsLabel = new QLabel(centralWidget);
-        allItemsLabel->setObjectName(QStringLiteral("allItemsLabel"));
+        allItemsLabel->setObjectName(QString::fromUtf8("allItemsLabel"));
         allItemsLabel->setEnabled(false);
         QSizePolicy sizePolicy9(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
         sizePolicy9.setHorizontalStretch(0);
@@ -421,7 +421,7 @@ public:
         allItemsLabel->setSizePolicy(sizePolicy9);
         allItemsLabel->setFont(font1);
         allItemsLabel->setLayoutDirection(Qt::LeftToRight);
-        allItemsLabel->setStyleSheet(QStringLiteral(""));
+        allItemsLabel->setStyleSheet(QString::fromUtf8(""));
         allItemsLabel->setFrameShape(QFrame::NoFrame);
         allItemsLabel->setFrameShadow(QFrame::Plain);
         allItemsLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
@@ -442,9 +442,9 @@ public:
 
         controlLayout = new QHBoxLayout();
         controlLayout->setSpacing(6);
-        controlLayout->setObjectName(QStringLiteral("controlLayout"));
+        controlLayout->setObjectName(QString::fromUtf8("controlLayout"));
         playButton = new QPushButton(centralWidget);
-        playButton->setObjectName(QStringLiteral("playButton"));
+        playButton->setObjectName(QString::fromUtf8("playButton"));
         QSizePolicy sizePolicy10(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy10.setHorizontalStretch(0);
         sizePolicy10.setVerticalStretch(0);
@@ -452,72 +452,72 @@ public:
         playButton->setSizePolicy(sizePolicy10);
         playButton->setMinimumSize(QSize(40, 0));
         playButton->setCursor(QCursor(Qt::PointingHandCursor));
-        playButton->setStyleSheet(QStringLiteral(""));
+        playButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon8;
-        icon8.addFile(QStringLiteral(":/buttons/img/buttons/play-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon8.addFile(QString::fromUtf8(":/buttons/img/buttons/play-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         playButton->setIcon(icon8);
         playButton->setFlat(false);
 
         controlLayout->addWidget(playButton);
 
         pauseButton = new QPushButton(centralWidget);
-        pauseButton->setObjectName(QStringLiteral("pauseButton"));
+        pauseButton->setObjectName(QString::fromUtf8("pauseButton"));
         sizePolicy10.setHeightForWidth(pauseButton->sizePolicy().hasHeightForWidth());
         pauseButton->setSizePolicy(sizePolicy10);
         pauseButton->setMinimumSize(QSize(40, 0));
         pauseButton->setCursor(QCursor(Qt::PointingHandCursor));
-        pauseButton->setStyleSheet(QStringLiteral(""));
+        pauseButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon9;
-        icon9.addFile(QStringLiteral(":/buttons/img/buttons/media-pause-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon9.addFile(QString::fromUtf8(":/buttons/img/buttons/media-pause-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         pauseButton->setIcon(icon9);
         pauseButton->setFlat(true);
 
         controlLayout->addWidget(pauseButton);
 
         stopButton = new QPushButton(centralWidget);
-        stopButton->setObjectName(QStringLiteral("stopButton"));
+        stopButton->setObjectName(QString::fromUtf8("stopButton"));
         sizePolicy10.setHeightForWidth(stopButton->sizePolicy().hasHeightForWidth());
         stopButton->setSizePolicy(sizePolicy10);
         stopButton->setMinimumSize(QSize(40, 0));
         stopButton->setCursor(QCursor(Qt::PointingHandCursor));
-        stopButton->setStyleSheet(QStringLiteral(""));
+        stopButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon10;
-        icon10.addFile(QStringLiteral(":/buttons/img/buttons/stop-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon10.addFile(QString::fromUtf8(":/buttons/img/buttons/stop-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         stopButton->setIcon(icon10);
         stopButton->setFlat(true);
 
         controlLayout->addWidget(stopButton);
 
         prevButton = new QPushButton(centralWidget);
-        prevButton->setObjectName(QStringLiteral("prevButton"));
+        prevButton->setObjectName(QString::fromUtf8("prevButton"));
         sizePolicy10.setHeightForWidth(prevButton->sizePolicy().hasHeightForWidth());
         prevButton->setSizePolicy(sizePolicy10);
         prevButton->setMinimumSize(QSize(40, 0));
         prevButton->setCursor(QCursor(Qt::PointingHandCursor));
-        prevButton->setStyleSheet(QStringLiteral(""));
+        prevButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon11;
-        icon11.addFile(QStringLiteral(":/buttons/img/buttons/media-skip-backward-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon11.addFile(QString::fromUtf8(":/buttons/img/buttons/media-skip-backward-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         prevButton->setIcon(icon11);
         prevButton->setFlat(true);
 
         controlLayout->addWidget(prevButton);
 
         nextButton = new QPushButton(centralWidget);
-        nextButton->setObjectName(QStringLiteral("nextButton"));
+        nextButton->setObjectName(QString::fromUtf8("nextButton"));
         sizePolicy10.setHeightForWidth(nextButton->sizePolicy().hasHeightForWidth());
         nextButton->setSizePolicy(sizePolicy10);
         nextButton->setMinimumSize(QSize(40, 0));
         nextButton->setCursor(QCursor(Qt::PointingHandCursor));
-        nextButton->setStyleSheet(QStringLiteral(""));
+        nextButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon12;
-        icon12.addFile(QStringLiteral(":/buttons/img/buttons/media-skip-forward-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon12.addFile(QString::fromUtf8(":/buttons/img/buttons/media-skip-forward-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         nextButton->setIcon(icon12);
         nextButton->setFlat(true);
 
         controlLayout->addWidget(nextButton);
 
         delimiterLabel = new QLabel(centralWidget);
-        delimiterLabel->setObjectName(QStringLiteral("delimiterLabel"));
+        delimiterLabel->setObjectName(QString::fromUtf8("delimiterLabel"));
         delimiterLabel->setFrameShape(QFrame::VLine);
         delimiterLabel->setFrameShadow(QFrame::Sunken);
 
@@ -525,30 +525,30 @@ public:
 
         fastRewindControlLayout = new QVBoxLayout();
         fastRewindControlLayout->setSpacing(6);
-        fastRewindControlLayout->setObjectName(QStringLiteral("fastRewindControlLayout"));
+        fastRewindControlLayout->setObjectName(QString::fromUtf8("fastRewindControlLayout"));
         fast2Button = new QPushButton(centralWidget);
-        fast2Button->setObjectName(QStringLiteral("fast2Button"));
+        fast2Button->setObjectName(QString::fromUtf8("fast2Button"));
         sizePolicy1.setHeightForWidth(fast2Button->sizePolicy().hasHeightForWidth());
         fast2Button->setSizePolicy(sizePolicy1);
         fast2Button->setMaximumSize(QSize(30, 15));
         QFont font4;
         font4.setPointSize(9);
         fast2Button->setFont(font4);
-        fast2Button->setStyleSheet(QStringLiteral(""));
+        fast2Button->setStyleSheet(QString::fromUtf8(""));
         QIcon icon13;
-        icon13.addFile(QStringLiteral(":/buttons/img/buttons/arrow-playback-16.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon13.addFile(QString::fromUtf8(":/buttons/img/buttons/arrow-playback-16.png"), QSize(), QIcon::Normal, QIcon::Off);
         fast2Button->setIcon(icon13);
         fast2Button->setFlat(true);
 
         fastRewindControlLayout->addWidget(fast2Button);
 
         fast4Button = new QPushButton(centralWidget);
-        fast4Button->setObjectName(QStringLiteral("fast4Button"));
+        fast4Button->setObjectName(QString::fromUtf8("fast4Button"));
         sizePolicy1.setHeightForWidth(fast4Button->sizePolicy().hasHeightForWidth());
         fast4Button->setSizePolicy(sizePolicy1);
         fast4Button->setMaximumSize(QSize(30, 15));
         fast4Button->setFont(font4);
-        fast4Button->setStyleSheet(QStringLiteral(""));
+        fast4Button->setStyleSheet(QString::fromUtf8(""));
         fast4Button->setIcon(icon13);
         fast4Button->setFlat(true);
 
@@ -562,18 +562,18 @@ public:
         controlLayout->addItem(horizontalSpacer_5);
 
         delimiterLabel3 = new QLabel(centralWidget);
-        delimiterLabel3->setObjectName(QStringLiteral("delimiterLabel3"));
+        delimiterLabel3->setObjectName(QString::fromUtf8("delimiterLabel3"));
         delimiterLabel3->setFrameShape(QFrame::VLine);
         delimiterLabel3->setFrameShadow(QFrame::Sunken);
 
         controlLayout->addWidget(delimiterLabel3);
 
         muteButton = new QPushButton(centralWidget);
-        muteButton->setObjectName(QStringLiteral("muteButton"));
+        muteButton->setObjectName(QString::fromUtf8("muteButton"));
         sizePolicy1.setHeightForWidth(muteButton->sizePolicy().hasHeightForWidth());
         muteButton->setSizePolicy(sizePolicy1);
         QIcon icon14;
-        icon14.addFile(QStringLiteral(":/buttons/img/buttons/mute-2-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon14.addFile(QString::fromUtf8(":/buttons/img/buttons/mute-2-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         muteButton->setIcon(icon14);
         muteButton->setCheckable(true);
         muteButton->setFlat(true);
@@ -581,25 +581,25 @@ public:
         controlLayout->addWidget(muteButton);
 
         delimiterLabel2 = new QLabel(centralWidget);
-        delimiterLabel2->setObjectName(QStringLiteral("delimiterLabel2"));
+        delimiterLabel2->setObjectName(QString::fromUtf8("delimiterLabel2"));
         delimiterLabel2->setFrameShape(QFrame::VLine);
         delimiterLabel2->setFrameShadow(QFrame::Sunken);
 
         controlLayout->addWidget(delimiterLabel2);
 
         volumeDownButton = new QPushButton(centralWidget);
-        volumeDownButton->setObjectName(QStringLiteral("volumeDownButton"));
+        volumeDownButton->setObjectName(QString::fromUtf8("volumeDownButton"));
         sizePolicy1.setHeightForWidth(volumeDownButton->sizePolicy().hasHeightForWidth());
         volumeDownButton->setSizePolicy(sizePolicy1);
         QIcon icon15;
-        icon15.addFile(QStringLiteral(":/buttons/img/buttons/volume-down-5-16.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon15.addFile(QString::fromUtf8(":/buttons/img/buttons/volume-down-5-16.png"), QSize(), QIcon::Normal, QIcon::Off);
         volumeDownButton->setIcon(icon15);
         volumeDownButton->setFlat(true);
 
         controlLayout->addWidget(volumeDownButton, 0, Qt::AlignRight);
 
         volumeSlider = new QSlider(centralWidget);
-        volumeSlider->setObjectName(QStringLiteral("volumeSlider"));
+        volumeSlider->setObjectName(QString::fromUtf8("volumeSlider"));
         sizePolicy1.setHeightForWidth(volumeSlider->sizePolicy().hasHeightForWidth());
         volumeSlider->setSizePolicy(sizePolicy1);
         volumeSlider->setOrientation(Qt::Horizontal);
@@ -607,25 +607,25 @@ public:
         controlLayout->addWidget(volumeSlider);
 
         volumeUpButton = new QPushButton(centralWidget);
-        volumeUpButton->setObjectName(QStringLiteral("volumeUpButton"));
+        volumeUpButton->setObjectName(QString::fromUtf8("volumeUpButton"));
         sizePolicy1.setHeightForWidth(volumeUpButton->sizePolicy().hasHeightForWidth());
         volumeUpButton->setSizePolicy(sizePolicy1);
         QIcon icon16;
-        icon16.addFile(QStringLiteral(":/buttons/img/buttons/volume-up-4-16.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon16.addFile(QString::fromUtf8(":/buttons/img/buttons/volume-up-4-16.png"), QSize(), QIcon::Normal, QIcon::Off);
         volumeUpButton->setIcon(icon16);
         volumeUpButton->setFlat(true);
 
         controlLayout->addWidget(volumeUpButton, 0, Qt::AlignLeft);
 
         delimiterLabel4 = new QLabel(centralWidget);
-        delimiterLabel4->setObjectName(QStringLiteral("delimiterLabel4"));
+        delimiterLabel4->setObjectName(QString::fromUtf8("delimiterLabel4"));
         delimiterLabel4->setFrameShape(QFrame::VLine);
         delimiterLabel4->setFrameShadow(QFrame::Sunken);
 
         controlLayout->addWidget(delimiterLabel4);
 
         fullScreenButton = new QPushButton(centralWidget);
-        fullScreenButton->setObjectName(QStringLiteral("fullScreenButton"));
+        fullScreenButton->setObjectName(QString::fromUtf8("fullScreenButton"));
         sizePolicy1.setHeightForWidth(fullScreenButton->sizePolicy().hasHeightForWidth());
         fullScreenButton->setSizePolicy(sizePolicy1);
         fullScreenButton->setCursor(QCursor(Qt::PointingHandCursor));
@@ -633,9 +633,9 @@ public:
         fullScreenButton->setAcceptDrops(true);
         fullScreenButton->setToolTipDuration(-1);
         fullScreenButton->setAutoFillBackground(false);
-        fullScreenButton->setStyleSheet(QStringLiteral(""));
+        fullScreenButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon17;
-        icon17.addFile(QStringLiteral(":/buttons/img/buttons/fullscreen-enter-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon17.addFile(QString::fromUtf8(":/buttons/img/buttons/fullscreen-enter-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         fullScreenButton->setIcon(icon17);
         fullScreenButton->setFlat(true);
 
@@ -649,25 +649,25 @@ public:
         gridLayout->addItem(horizontalSpacer_2, 6, 2, 1, 1);
 
         currentItemLabel = new QLabel(centralWidget);
-        currentItemLabel->setObjectName(QStringLiteral("currentItemLabel"));
+        currentItemLabel->setObjectName(QString::fromUtf8("currentItemLabel"));
         currentItemLabel->setEnabled(false);
         sizePolicy9.setHeightForWidth(currentItemLabel->sizePolicy().hasHeightForWidth());
         currentItemLabel->setSizePolicy(sizePolicy9);
         currentItemLabel->setFont(font1);
-        currentItemLabel->setStyleSheet(QStringLiteral(""));
+        currentItemLabel->setStyleSheet(QString::fromUtf8(""));
         currentItemLabel->setFrameShape(QFrame::NoFrame);
         currentItemLabel->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         gridLayout->addWidget(currentItemLabel, 0, 11, 1, 1, Qt::AlignBottom);
 
         totalTimeLabel = new QLabel(centralWidget);
-        totalTimeLabel->setObjectName(QStringLiteral("totalTimeLabel"));
+        totalTimeLabel->setObjectName(QString::fromUtf8("totalTimeLabel"));
         totalTimeLabel->setFont(font);
 
         gridLayout->addWidget(totalTimeLabel, 1, 12, 1, 2, Qt::AlignRight|Qt::AlignBottom);
 
         playlistWidget = new QTableWidget(centralWidget);
-        playlistWidget->setObjectName(QStringLiteral("playlistWidget"));
+        playlistWidget->setObjectName(QString::fromUtf8("playlistWidget"));
         QSizePolicy sizePolicy11(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy11.setHorizontalStretch(0);
         sizePolicy11.setVerticalStretch(0);
@@ -678,7 +678,7 @@ public:
         playlistWidget->setFocusPolicy(Qt::NoFocus);
         playlistWidget->setContextMenuPolicy(Qt::NoContextMenu);
         playlistWidget->setToolTipDuration(2);
-        playlistWidget->setStyleSheet(QLatin1String("QScrollBar:vertical {border: none;background-color: #282828;width: 10px;margin: 25px 0 0px 0;}\\\n"
+        playlistWidget->setStyleSheet(QString::fromUtf8("QScrollBar:vertical {border: none;background-color: #282828;width: 10px;margin: 25px 0 0px 0;}\\\n"
 "QScrollBar::handle:vertical{border-radius: 4px;border-color: rgba(216, 216, 216, 75%);border-width: 1px; border-style: solid; background-color: rgba(216, 216, 216, 75%); min-height: 25px;}\\\n"
 "QScrollBar::add-line:vertical{width: 0px; height: 0px;}\\\n"
 "QScrollBar::sub-line:vertical{width: 0px; height: 0px;}\\\n"
@@ -694,6 +694,7 @@ public:
         playlistWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         playlistWidget->setShowGrid(false);
         playlistWidget->setGridStyle(Qt::NoPen);
+        playlistWidget->horizontalHeader()->setVisible(false);
         playlistWidget->horizontalHeader()->setCascadingSectionResizes(true);
         playlistWidget->horizontalHeader()->setDefaultSectionSize(0);
         playlistWidget->horizontalHeader()->setHighlightSections(true);

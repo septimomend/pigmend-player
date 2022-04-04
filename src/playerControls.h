@@ -48,7 +48,7 @@ public slots:
     void next();
     void nextForced();
     void prev();
-	void setMediaFile(QString &item);   // sets media file for playing
+    void setMediaFile(QString item);            // sets media file for playing
     void setVideoWidget(VideoWidget *vw);       // sets QWidget for video output
     void setTimeProgress(qint64 timeProgress);  // set time position
     void seek(int progressValue);               // sets progress if value at progress slider is changed

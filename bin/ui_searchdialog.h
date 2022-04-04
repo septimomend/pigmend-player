@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'searchdialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.1
+** Created by: Qt User Interface Compiler version 5.12.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -32,7 +32,7 @@ public:
     void setupUi(QDialog *SearchDialog)
     {
         if (SearchDialog->objectName().isEmpty())
-            SearchDialog->setObjectName(QStringLiteral("SearchDialog"));
+            SearchDialog->setObjectName(QString::fromUtf8("SearchDialog"));
         SearchDialog->setWindowModality(Qt::NonModal);
         SearchDialog->resize(461, 121);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -40,57 +40,57 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(SearchDialog->sizePolicy().hasHeightForWidth());
         SearchDialog->setSizePolicy(sizePolicy);
-        SearchDialog->setStyleSheet(QStringLiteral("background-color: rgb(53, 53, 53);"));
+        SearchDialog->setStyleSheet(QString::fromUtf8("background-color: rgb(53, 53, 53);"));
         SearchDialog->setModal(false);
         searchLineEdit = new QLineEdit(SearchDialog);
-        searchLineEdit->setObjectName(QStringLiteral("searchLineEdit"));
+        searchLineEdit->setObjectName(QString::fromUtf8("searchLineEdit"));
         searchLineEdit->setGeometry(QRect(20, 30, 421, 22));
         QFont font;
         font.setBold(true);
         font.setWeight(75);
         searchLineEdit->setFont(font);
-        searchLineEdit->setStyleSheet(QStringLiteral(""));
+        searchLineEdit->setStyleSheet(QString::fromUtf8(""));
         searchLineEdit->setInputMethodHints(Qt::ImhHiddenText);
         searchLineEdit->setFrame(true);
         searchLineEdit->setEchoMode(QLineEdit::Normal);
         okButton = new QPushButton(SearchDialog);
-        okButton->setObjectName(QStringLiteral("okButton"));
+        okButton->setObjectName(QString::fromUtf8("okButton"));
         okButton->setGeometry(QRect(350, 70, 33, 29));
         sizePolicy.setHeightForWidth(okButton->sizePolicy().hasHeightForWidth());
         okButton->setSizePolicy(sizePolicy);
-        okButton->setStyleSheet(QStringLiteral(""));
+        okButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon;
-        icon.addFile(QStringLiteral(":/buttons/img/buttons/check-mark-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/buttons/img/buttons/check-mark-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         okButton->setIcon(icon);
         okButton->setAutoDefault(false);
         okButton->setFlat(true);
         cancelButton = new QPushButton(SearchDialog);
-        cancelButton->setObjectName(QStringLiteral("cancelButton"));
+        cancelButton->setObjectName(QString::fromUtf8("cancelButton"));
         cancelButton->setGeometry(QRect(400, 70, 33, 29));
         sizePolicy.setHeightForWidth(cancelButton->sizePolicy().hasHeightForWidth());
         cancelButton->setSizePolicy(sizePolicy);
-        cancelButton->setStyleSheet(QStringLiteral(""));
+        cancelButton->setStyleSheet(QString::fromUtf8(""));
         QIcon icon1;
-        icon1.addFile(QStringLiteral(":/buttons/img/buttons/x-mark-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/buttons/img/buttons/x-mark-16.ico"), QSize(), QIcon::Normal, QIcon::Off);
         cancelButton->setIcon(icon1);
         cancelButton->setAutoDefault(false);
         cancelButton->setFlat(true);
         frame = new QFrame(SearchDialog);
-        frame->setObjectName(QStringLiteral("frame"));
+        frame->setObjectName(QString::fromUtf8("frame"));
         frame->setEnabled(false);
         frame->setGeometry(QRect(0, 0, 461, 121));
-        frame->setStyleSheet(QStringLiteral(""));
+        frame->setStyleSheet(QString::fromUtf8(""));
         frame->setFrameShape(QFrame::WinPanel);
         frame->setFrameShadow(QFrame::Raised);
         frame->setLineWidth(1);
         noMatchesLabel = new QLabel(frame);
-        noMatchesLabel->setObjectName(QStringLiteral("noMatchesLabel"));
+        noMatchesLabel->setObjectName(QString::fromUtf8("noMatchesLabel"));
         noMatchesLabel->setEnabled(false);
         noMatchesLabel->setGeometry(QRect(20, 70, 311, 16));
         QFont font1;
         font1.setPointSize(10);
         noMatchesLabel->setFont(font1);
-        noMatchesLabel->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        noMatchesLabel->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         noMatchesLabel->setTextFormat(Qt::AutoText);
         frame->raise();
         searchLineEdit->raise();
