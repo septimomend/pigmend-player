@@ -331,6 +331,9 @@ Exit:
 
 conf_data_t *config_init(const char *config_file)
 {
+    if (!config_file)
+        return NULL;
+
 	conf_data_t *conf_data = calloc(1, sizeof(conf_data_t));
 
 	if (!conf_data)

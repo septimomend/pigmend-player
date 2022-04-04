@@ -77,3 +77,5 @@ DISTFILES += \
 INCLUDEPATH += "../lib"
 
 LIBS += -ltag
+
+CONFIG += console

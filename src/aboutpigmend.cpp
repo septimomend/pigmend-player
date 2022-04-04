@@ -49,7 +49,7 @@ void AboutPigmend::loadInfoAbout()
 	ui->author_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
 	ui->author_label->setOpenExternalLinks(true);
 	ui->version->setText("<font color=\"grey\">Version: </font><font color=\"#F05A2F\">" + about->version + "</font>");
-	ui->description->setText("<font color=\"grey\">Pigmend Player is simple, fast and crossplatformed<br/>application.<br/>"
+    ui->description->setText("<font color=\"grey\">Pigmend Player is simple, fast and crossplatformed<br/>media player.<br/>"
 							 "Supported OS: Windows, Linux, Mac.<br/><br/>"
 							 "<u>Currently supported formats:</u><br/>"
 							 " • Audio: MP3, WAV, FLAC;<br/>"
