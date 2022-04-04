@@ -31,7 +31,7 @@ AboutPigmend::~AboutPigmend()
 
 void AboutPigmend::loadInfoAbout()
 {
-	QString about_file = PRO_FILE_PWD;
+    QString about_file(getDBXML());
 	about_file.append(static_cast<char*>(config_get_data(ABOUT_CONFIG, m_conf_data)));
 
 	about_data_t *about = m_xmldp.getInfoAbout(about_file);

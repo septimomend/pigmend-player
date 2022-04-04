@@ -11,6 +11,7 @@ E-mail: chapkailo.ivan@gmail.com
 */
 
 #include "xmldp.h"
+#include "../config-dp/config.h"
 
 XMLDP::XMLDP()
 {
@@ -159,8 +160,8 @@ QString XMLDP::getAudioAnimation(QString path_to_xml, QString animation_name)
 	xml_document<> animations_xml;
 	xml_node<> *root_node;
 
-	QString pathAudioAnimation(PRO_FILE_PWD);
-	QString path(PRO_FILE_PWD);
+    QString pathAudioAnimation(getDBXML());
+    QString path(getDBXML());
 	path.append(path_to_xml);
 
 	ifstream animationsFile(path.toStdString().c_str());

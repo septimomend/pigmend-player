@@ -49,6 +49,8 @@ struct conf_data
 	int tokens_checker[NUMBER_OF_TOKENS];
 };
 
+static char *sDBXML;
+
 static char *conf_str_token[NUMBER_OF_TOKENS] =
 {
 	[ROOT] = "ROOT",
@@ -327,6 +329,16 @@ Exit:
 	free(buffer);
 
 	return rc;
+}
+
+const char *getDBXML()
+{
+    return sDBXML;
+}
+
+void setDBXML(const char *database)
+{
+    sDBXML= database;
 }
 
 conf_data_t *config_init(const char *config_file)

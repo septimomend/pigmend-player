@@ -12,6 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "mediaplayer.h"
 #include "ui_mediaplayer.h"
+#include "config-dp/config.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -707,7 +708,7 @@ void MediaPlayer::onRepeatButton()
 void MediaPlayer::updateTheme()
 {
 	QString theme_name = this->sender() ? this->sender()->objectName() : "";
-	QString theme_file = PRO_FILE_PWD;
+    QString theme_file(getDBXML());
 
 	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
 

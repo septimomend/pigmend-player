@@ -48,10 +48,15 @@ int main(int argc, char *argv[])
     cmdParser.addVersionOption();
 
     QCommandLineOption configFileOption(QStringList() << "c" << "config",
-                               QApplication::translate("PigmendPlayer", "Specify configuration file"),
-                               QApplication::translate("PigmendPlayer", "file"));
+        QApplication::translate("PigmendPlayer", "Specify configuration file"),
+        QApplication::translate("PigmendPlayer", "file"));
+
+    QCommandLineOption databaseDirOption(QStringList() << "x" << "xmlbase",
+        QApplication::translate("PigmendPlayer", "Specify XML database directory"),
+        QApplication::translate("PigmendPlayer", "directory"));
 
     cmdParser.addOption(configFileOption);
+    cmdParser.addOption(databaseDirOption);
     cmdParser.process(a);
 
     QStringList configFile = cmdParser.values(configFileOption);
@@ -63,11 +68,22 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    QStringList xmlDir = cmdParser.values(databaseDirOption);
+
+    if (xmlDir.empty())
+    {
+        qCritical() << "Critical: No database directory found" << endl;
+        errorMsg("No database directory found");
+        return 1;
+    }
+
 #if DEBUG
 	const char *init_config_file = CONFIG_INIT_PATH;
 #else
     QByteArray confFile = configFile.takeFirst().toLocal8Bit();
     const char *init_config_file = confFile.constData();
+    QByteArray xmlDb = xmlDir.takeFirst().toLocal8Bit();
+    const char *database = xmlDb.constData();
 #endif
 
     conf_data_t *conf_data;
@@ -78,6 +94,8 @@ int main(int argc, char *argv[])
         errorMsg("Invalid configuration file");
 		return 1;
     }
+
+    setDBXML(database);
 
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect  screen_geometry = screen->geometry();

@@ -43,6 +43,8 @@ typedef enum
 conf_data_t *config_init(const char *config_file);
 void config_free(conf_data_t *conf_data);
 void *config_get_data(conf_type_t conf_type, conf_data_t *cf);
+void setDBXML(const char *database);
+const char *getDBXML();
 
 #ifdef __cplusplus
 }
