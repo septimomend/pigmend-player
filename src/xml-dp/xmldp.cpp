@@ -127,6 +127,7 @@ about_data_t *XMLDP::getInfoAbout(QString &path)
 	if (!about_file.is_open())
 	{
 		qCritical() << __FUNCTION__ << ": can't open file " << path << endl;
+        delete about_data;
 		return nullptr;
 	}
 
@@ -159,8 +160,6 @@ QString XMLDP::getAudioAnimation(QString path_to_xml, QString animation_name)
 {
 	xml_document<> animations_xml;
 	xml_node<> *root_node;
-
-    QString pathAudioAnimation(getDBXML());
     QString path(getDBXML());
 	path.append(path_to_xml);
 
@@ -182,9 +181,9 @@ QString XMLDP::getAudioAnimation(QString path_to_xml, QString animation_name)
 	QString current_animation = animation_name.isEmpty() ? root_node->first_node("CurrentAudioAnimation")->value() : animation_name;
 
 	for(xml_node<> *animation_data_node = animations_node->first_node("Animation"); animation_data_node; animation_data_node = animation_data_node->next_sibling())
-	{
+    {
 		if (current_animation == animation_data_node->first_attribute("name")->value())
-			return pathAudioAnimation.append(animation_data_node->first_node("Path")->value());
+            return animation_data_node->first_node("Path")->value();
 	}
 
 	return "";

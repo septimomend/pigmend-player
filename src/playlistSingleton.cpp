@@ -25,7 +25,7 @@ using namespace std;
 
 PlaylistSingleton::PlaylistSingleton(QObject *parent)
 {
-	parent = nullptr;
+    (void)parent;
 }
 
 PlaylistSingleton::~PlaylistSingleton()
@@ -65,7 +65,7 @@ size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
     else
         m_shuffledData.clear();
 
-	return size_t(m_shuffledData.size());
+    return size_t(m_shuffledData.size());
 }
 
 QString PlaylistSingleton::convertIntToTimeStr(int hours, int min, int sec)

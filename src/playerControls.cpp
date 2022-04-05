@@ -218,7 +218,7 @@ void PlayerControls::setMediaFile(QString item)
     // and check if this item text (ie filename) is in QMap container
     // then set its path to media playing
 	auto iter = m_playlist.m_plData.find(item);
-	if (iter != m_playlist.m_plData.constEnd() && iter.key() == item)
+    if (iter != m_playlist.m_plData.end() && iter.key() == item)
     {
        m_player->setMedia(QUrl::fromLocalFile(iter.value()));
        play();

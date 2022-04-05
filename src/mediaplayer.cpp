@@ -74,8 +74,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	this->installEventFilter(this);
 
 	// set QWidget for video output
-	connect(this, SIGNAL(videoWidgetDefined(VideoWidget*)), m_playerControls, SLOT(setVideoWidget(VideoWidget*)));
-	emit videoWidgetDefined(m_videoWidget);
+    m_playerControls->setVideoWidget(m_videoWidget);
 
 	// menu actions
 	connect(m_addFileAction, SIGNAL(triggered(bool)), m_mediaFile, SLOT(openFile()));
@@ -162,7 +161,6 @@ MediaPlayer::~MediaPlayer()
 
 	delete ui;
 	delete m_playerControls;
-	delete m_videoWidget;
 	delete m_mediaFile;
 	delete m_search;
 	delete m_aboutPlayer;
@@ -269,19 +267,19 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 					}
 					break;
 				case Qt::Key_1:
-					m_smallWindowAction->triggered(true);
+                    emit m_smallWindowAction->triggered(true);
 					break;
 				case Qt::Key_2:
-					m_middleWindowAction->triggered(true);
+                    emit m_middleWindowAction->triggered(true);
 					break;
 				case Qt::Key_3:
-					m_normalWindowAction->triggered(true);
+                    emit m_normalWindowAction->triggered(true);
 					break;
 				case Qt::Key_4:
-					m_wideWindowAction->triggered(true);
+                    emit m_wideWindowAction->triggered(true);
 					break;
 				case Qt::Key_5:
-					m_maximizeAction->triggered(true);
+                    emit m_maximizeAction->triggered(true);
 					break;
 				default:
 					break;
@@ -325,23 +323,40 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 	return QMainWindow::eventFilter(watched, event);
 }
 
+void MediaPlayer::resizeMovieLabel()
+{
+    QRect fullScreenSize = QGuiApplication::primaryScreen()->geometry();
+    QRect thisScreenSize = this->geometry();
+
+    float fullXPercent = fullScreenSize.width() / 100;
+    float fullYPercent = fullScreenSize.height() / 100;
+    float windowX = thisScreenSize.width();
+    float windowY = thisScreenSize.height();
+    float percentX = windowX / fullXPercent / 100;
+    float percentY = windowY / fullYPercent / 100;
+    float diffPercent = percentX > percentY ? percentY : percentX;
+
+    m_movieMusic->setScaledSize(QSize(m_movieImageSize.width() * diffPercent, m_movieImageSize.height() * diffPercent));
+}
+
 void MediaPlayer::resizeEvent(QResizeEvent* event)
 {
-   QMainWindow::resizeEvent(event);
-   qDebug() << "Resizing - " << event->size().width() << " x " << event->size().height();
+    QMainWindow::resizeEvent(event);
+    QRect fullScreenSize = QGuiApplication::primaryScreen()->geometry();
 
-   // TODO: something like this to resize animation in accordance to window size
-   // NOTE: make different sizes of used animations and name it by adding prefix in respect of size - small, big...
-   //		for example: bigdefaultAnimation.gif, smalldefaultAnimaiton.gif ...
-   //
-   // if (event->size().width() < ... && event->size().height() < ...)
-   // {
-   //	...
-   // }
-   // if (this->isMaximized())
-   // {
-   //	m_movieMusic->setFilename("big" + m_movieMusic->filename);
-   // }
+    float fullXPercent = fullScreenSize.width() / 100;
+    float fullYPercent = fullScreenSize.height() / 100;
+    float windowX = event->size().width();
+    float windowY = event->size().height();
+    float percentX = windowX / fullXPercent / 100;
+    float percentY = windowY / fullYPercent / 100;
+    float diffPercent = percentX > percentY ? percentY : percentX;
+
+#if DEBUG
+    qDebug() << "Resizing - " << event->size().width() << " x " << event->size().height();
+#endif
+
+    m_movieMusic->setScaledSize(QSize(m_movieImageSize.width() * diffPercent, m_movieImageSize.height() * diffPercent));
 }
 
 void MediaPlayer::initMenu()
@@ -443,11 +458,14 @@ void MediaPlayer::adjustVideoWidget()
 	m_durationInFullScreen = new QLabel;
 	m_musicLabel = new QLabel;
 
-	m_musicLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_musicLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 	m_musicLabel->setAlignment(Qt::AlignCenter);
 	m_musicLabel->setMovie(m_movieMusic);
 	m_movieMusic->start();
 	m_musicLabel->hide();
+    QImageReader movieImg(m_movieMusic->fileName());
+    m_movieImageSize = movieImg.size();
+    resizeMovieLabel();
 
 	m_volumeSliderInFullScreen->setBaseSize(int(m_global_width * 0.2), 0);
 
@@ -789,8 +807,12 @@ void MediaPlayer::updateAnimation()
 	}
 	else
 	{
-		m_movieMusic->setFileName(m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)),
-			this->sender()->objectName()));
+        m_movieMusic->setFileName(m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)),
+            this->sender()->objectName()));
+        QImageReader movieImg(m_movieMusic->fileName());
+        m_movieImageSize = movieImg.size();
+        resizeMovieLabel();
+
 		m_musicLabel->setMovie(m_movieMusic);
 
         if (!m_isPaused)
@@ -801,8 +823,6 @@ void MediaPlayer::updateAnimation()
             m_movieMusic->stop();
         }
 	}
-
-	// TODO: m_xmldp.setAudioAnimation(...);
 }
 
 void MediaPlayer::showInfo()

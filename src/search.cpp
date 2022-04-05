@@ -49,7 +49,7 @@ void SearchDialog::setPlaceholer()
 
 void SearchDialog::checkMatches()
 {
-    QListWidgetItem *item = new QListWidgetItem();
+    //QListWidgetItem *item = new QListWidgetItem();
     if(!ui->searchLineEdit->text().isEmpty())
     {
         for(auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
@@ -57,7 +57,7 @@ void SearchDialog::checkMatches()
             // if here is accordance with current filename
             if (it.key().toLower().contains(QString(ui->searchLineEdit->text().toLower())))
             {
-                item->setText(it.key());
+                //item->setText(it.key());
                 emit matchesFound(QString(it.key()));
                 ui->noMatchesLabel->setText(QString(it.key()));
                 close();

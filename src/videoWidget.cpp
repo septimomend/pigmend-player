@@ -124,7 +124,7 @@ void VideoWidget::hideCursorOnFullScreen()
 
 void VideoWidget::paintEvent(QPaintEvent *pe)
 {
-	pe = nullptr;
+    (void)pe;
     QStyleOption styleOption;
     styleOption.init(this);
     QPainter painter(this);

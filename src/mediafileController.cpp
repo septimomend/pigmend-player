@@ -62,8 +62,8 @@ void MediafileController::openFolder()
     QStringList result;
     QStringList pattern;
     pattern << "*.mp3" << "*.mp4" << "*.avi" << "*.mkv" << "*.flac" << "*.wav";  // set pattern for choosing files
-    QDir currentDir(dir);
-    const QString prefix = dir + QLatin1Char('/');
+    //QDir currentDir(dir);
+    //const QString prefix = dir + QLatin1Char('/');
 
 	QDirIterator dir_it(dir, pattern, QDir::Files, QDirIterator::Subdirectories);
 	
@@ -155,7 +155,7 @@ void MediafileController::indexFiles(MediafileController* mc)
             ++s_audiofiles;
         if (file.contains(QString(".mp4")) || file.contains(QString(".avi")) || file.contains(QString(".mkv")))
             ++s_videofiles;
-        mc->filesFound(s_audiofiles, s_videofiles, false);
+        emit mc->filesFound(s_audiofiles, s_videofiles, false);
     }
     emit mc->filesFound(s_audiofiles, s_videofiles, true);
 #endif

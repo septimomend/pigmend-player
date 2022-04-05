@@ -124,7 +124,7 @@ static uint16_t check_port(char *port, uint16_t default_port)
 static int check_and_set_value(char *conf_data, char *value, 
 		char *default_value, unsigned long max_len)
 {
-	if (strlen(value) > max_len)
+    if (strlen(value) > max_len)
 	{
 		fprintf(stderr, "The value is too long: %s\n", value);
 		return -1;

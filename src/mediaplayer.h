@@ -53,6 +53,7 @@ private:
     void adjustVideoWidget();
     void deleteObjectsInFullScreen();
 	void initAnimations();
+    void resizeMovieLabel();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -60,7 +61,6 @@ protected:
 
 signals:
     void fullScreenChanged(bool fullScreen);
-    void videoWidgetDefined(VideoWidget *vw);
     void changeVolume(int volume);
     void progressSliderValueChanged(int);   // use this signal while silder value changes instead of QSlider::valueChanged(int) - it is slow and bugged
 
@@ -107,6 +107,7 @@ private:
     AboutPigmend *m_aboutPlayer;
     QMovie *m_movieLoading, *m_movieDone;
 	QMovie *m_movieMusic;
+    QSize m_movieImageSize;
     QString m_theme_config_path;
 	QTimer *m_timer;
 
