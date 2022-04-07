@@ -45,6 +45,7 @@ class MediaPlayer : public QMainWindow
 public:
 	explicit MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *parent = nullptr);
 	~MediaPlayer() override;
+    void postInit();
 
 private:
     void initMenu();

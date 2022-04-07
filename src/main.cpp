@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
 
 	MediaPlayer *mediaPlayer = new MediaPlayer(screen_geometry, conf_data);
     mediaPlayer->show();
+    mediaPlayer->postInit();
 
     return a.exec();
 }

@@ -357,6 +357,7 @@ void MediaPlayer::resizeEvent(QResizeEvent* event)
 #endif
 
     m_movieMusic->setScaledSize(QSize(m_movieImageSize.width() * diffPercent, m_movieImageSize.height() * diffPercent));
+    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
 
 void MediaPlayer::initMenu()
@@ -600,6 +601,7 @@ void MediaPlayer::onPlaylistUpdate()
 	}
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
+    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
 
 void MediaPlayer::updatePlaylist()
@@ -849,6 +851,8 @@ void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool statu
 		ui->indexAudioLabel->setText("Audio: " + QString::number(audio_count));
 		ui->indexVideoLabel->setText("Video: " + QString::number(video_count));
 	}
+
+    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
 
 void MediaPlayer::setWindowSize()
@@ -1054,4 +1058,9 @@ void MediaPlayer::stopAnimation(bool isPaused)
 		m_movieMusic->stop();
 	else
 		m_movieMusic->start();
+}
+
+void MediaPlayer::postInit()
+{
+    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
