@@ -87,6 +87,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_defaultAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_equalizerAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_radioAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
+    connect(m_astralAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_fullScreenAction, SIGNAL(triggered(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
 	connect(m_clearAction, SIGNAL(triggered(bool)), this, SLOT(clearPlaylist()));
 	connect(m_infoAction, SIGNAL(triggered(bool)), this, SLOT(showInfo()));
@@ -357,7 +358,9 @@ void MediaPlayer::resizeEvent(QResizeEvent* event)
 #endif
 
     m_movieMusic->setScaledSize(QSize(m_movieImageSize.width() * diffPercent, m_movieImageSize.height() * diffPercent));
-    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+
+    if (!ui->playlistLabel->isHidden())
+        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
 
 void MediaPlayer::initMenu()
@@ -414,11 +417,13 @@ void MediaPlayer::initMenu()
 	m_noneAnimationAction = m_animation_menu->addAction("None");
 	m_defaultAnimationAction = m_animation_menu->addAction("Default");
 	m_equalizerAnimationAction = m_animation_menu->addAction("Equalizer");
-	m_radioAnimationAction = m_animation_menu->addAction("Radio");
+    m_radioAnimationAction = m_animation_menu->addAction("Equalizer Bricks");
+    m_astralAnimationAction = m_animation_menu->addAction("Astral");
 	m_noneAnimationAction->setObjectName("noneAnimation");
 	m_defaultAnimationAction->setObjectName("defaultAnimation");
 	m_equalizerAnimationAction->setObjectName("equalizerAnimation");
-	m_radioAnimationAction->setObjectName("radioAnimation");
+    m_radioAnimationAction->setObjectName("equalizerBricksAnimations");
+    m_astralAnimationAction->setObjectName("astralAnimations");
 
 	// about
 	m_helpmenu = m_menuBar->addMenu("Help");
@@ -459,7 +464,7 @@ void MediaPlayer::adjustVideoWidget()
 	m_durationInFullScreen = new QLabel;
 	m_musicLabel = new QLabel;
 
-    m_musicLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    m_musicLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	m_musicLabel->setAlignment(Qt::AlignCenter);
 	m_musicLabel->setMovie(m_movieMusic);
 	m_movieMusic->start();
@@ -601,7 +606,9 @@ void MediaPlayer::onPlaylistUpdate()
 	}
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
-    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+
+    if (!ui->playlistLabel->isHidden())
+        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
 
 void MediaPlayer::updatePlaylist()
@@ -852,7 +859,8 @@ void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool statu
 		ui->indexVideoLabel->setText("Video: " + QString::number(video_count));
 	}
 
-    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+    if (!ui->playlistLabel->isHidden())
+        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 }
 
 void MediaPlayer::setWindowSize()
@@ -1026,11 +1034,13 @@ void MediaPlayer::showHidePlaylist()
 
 	if (ui->playlistWidget->isHidden())
 	{
+        m_menuBar->setFixedWidth(13);
 		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/show-arrow-48.ico"));
 		ui->showHidePlaylistButton->setToolTip("Show playlist");
 	}
 	else
 	{
+        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/hide-arrow-48.ico"));
 		ui->showHidePlaylistButton->setToolTip("Hide playlist");
 	}

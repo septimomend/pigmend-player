@@ -146,6 +146,7 @@ private:
 	QAction *m_defaultAnimationAction;
 	QAction *m_equalizerAnimationAction;
 	QAction *m_radioAnimationAction;
+    QAction *m_astralAnimationAction;
 
     // Full screen controls
     QSpacerItem *m_spaceInFullScreenButtonsLeft;
