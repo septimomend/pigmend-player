@@ -3,7 +3,7 @@
     <Themes>
         <CurrentTheme>blue mend</CurrentTheme>
         <Theme name="blue mend">
-            <backcolor>background-color: rgb(0, 170, 127); color: rgb(0, 170, 127);</backcolor>
+            <backcolor>QPushButton { background-color: rgb(0, 170, 127); color: rgb(0, 170, 127); } QToolTip { background-color: rgb(0, 170, 127); color: #ffffff; border: 0px; }</backcolor>
             <color>color: rgb(0, 170, 127)</color>
             <transbackcolor>background-color: rgb(0, 170, 127, 127); color: rgb(255, 255, 255);</transbackcolor>
             <menucolor>selection-background-color: rgb(0, 170, 127); background-color: rgb(0, 170, 127, 125); color: rgb(255, 255, 255);</menucolor>
@@ -31,7 +31,7 @@
 			</playlistTheme>
         </Theme>
         <Theme name="orange mend">
-            <backcolor>background-color: rgb(255, 85, 0); color: rgb(255, 85, 0);</backcolor>
+            <backcolor>QPushButton { background-color: rgb(255, 85, 0); color: rgb(255, 85, 0); } QToolTip { background-color: rgb(255, 85, 0); color: #ffffff; border: 0px; }</backcolor>
             <color>color: rgb(255, 85, 0)</color>
             <transbackcolor>background-color: rgb(255, 85, 0, 127); color: rgb(255, 255, 255);</transbackcolor>
             <menucolor>selection-background-color: rgb(255, 85, 0); background-color: rgb(255, 85, 0, 125); color: rgb(255, 255, 255);</menucolor>
@@ -59,7 +59,7 @@
 			</playlistTheme>
         </Theme>
         <Theme name="grey mend">
-            <backcolor>background-color: rgb(105, 105, 105); color: rgb(105, 105, 105);</backcolor>
+            <backcolor>QPushButton { background-color: rgb(105, 105, 105); color: rgb(105, 105, 105); } QToolTip { background-color: rgb(105, 105, 105); color: #ffffff; border: 0px; }</backcolor>
             <color>color: rgb(105, 105, 105)</color>
             <transbackcolor>background-color: rgb(105, 105, 105, 127); color: rgb(255, 255, 255);</transbackcolor>
             <menucolor>selection-background-color: rgb(105, 105, 105); background-color: rgb(105, 105, 105, 125); color: rgb(255, 255, 255);</menucolor>
@@ -87,7 +87,7 @@
 			</playlistTheme>
         </Theme>
         <Theme name="dark grey mend">
-            <backcolor>background-color: rgb(47, 79, 79); color: rgb(47, 79, 79);</backcolor>
+            <backcolor>QPushButton { background-color: rgb(47, 79, 79); color: rgb(47, 79, 79); } QToolTip { background-color: rgb(47, 79, 79); color: #ffffff; border: 0px; }</backcolor>
             <color>color: rgb(47, 79, 79)</color>
             <transbackcolor>background-color: rgb(47, 79, 79, 127); color: rgb(255, 255, 255);</transbackcolor>
             <menucolor>selection-background-color: rgb(47, 79, 79); background-color: rgb(47, 79, 79, 125); color: rgb(255, 255, 255);</menucolor>
