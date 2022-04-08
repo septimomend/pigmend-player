@@ -55,6 +55,7 @@ private:
     void deleteObjectsInFullScreen();
 	void initAnimations();
     void resizeMovieLabel();
+    void unfocusButtons();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -91,10 +92,12 @@ private slots:
 	void onPlaylistDoubleClicked(int row, int column);
 	void onPlaylistUpdate();
 	void onContentTypeChange(bool isAudio);
+    void onKeyPressed();
 
 private:
     int m_global_height;
     int m_global_width;
+    int m_keyPressNumber;
     Ui::MediaPlayer *ui;
     bool m_shuffleMode;
     bool m_isPlaylistLoaded;

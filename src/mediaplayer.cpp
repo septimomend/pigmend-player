@@ -41,6 +41,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_search = new SearchDialog(this);
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
 	m_timer = new QTimer(this);
+    m_keyPressNumber = 0;
 
 	// shortcuts
 	m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -72,6 +73,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	ui->volumeSlider->installEventFilter(this);
 	m_volumeSliderInFullScreen->installEventFilter(this);
 	this->installEventFilter(this);
+
+    unfocusButtons();
 
 	// set QWidget for video output
     m_playerControls->setVideoWidget(m_videoWidget);
@@ -206,6 +209,26 @@ void MediaPlayer::deleteObjectsInFullScreen()
 	delete m_durationInFullScreen;
 }
 
+void MediaPlayer::unfocusButtons()
+{
+    ui->addFileButton->setFocusPolicy(Qt::NoFocus);
+    ui->addFolderButton->setFocusPolicy(Qt::NoFocus);
+    ui->clearButton->setFocusPolicy(Qt::NoFocus);
+    ui->fast2Button->setFocusPolicy(Qt::NoFocus);
+    ui->fast4Button->setFocusPolicy(Qt::NoFocus);
+    ui->fullScreenButton->setFocusPolicy(Qt::NoFocus);
+    ui->muteButton->setFocusPolicy(Qt::NoFocus);
+    ui->nextButton->setFocusPolicy(Qt::NoFocus);
+    ui->pauseButton->setFocusPolicy(Qt::NoFocus);
+    ui->playButton->setFocusPolicy(Qt::NoFocus);
+    ui->prevButton->setFocusPolicy(Qt::NoFocus);
+    ui->repeatButton->setFocusPolicy(Qt::NoFocus);
+    ui->searchButton->setFocusPolicy(Qt::NoFocus);
+    ui->stopButton->setFocusPolicy(Qt::NoFocus);
+    ui->volumeDownButton->setFocusPolicy(Qt::NoFocus);
+    ui->volumeUpButton->setFocusPolicy(Qt::NoFocus);
+}
+
 bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 {
 	switch (event->type())
@@ -267,6 +290,19 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 						m_volumeSliderInFullScreen->setValue(ui->volumeSlider->value());
 					}
 					break;
+                case Qt::Key_Space:
+                    m_keyPressNumber++;
+
+                    if (m_keyPressNumber == 1)
+                    {
+                        if (m_isPaused)
+                            m_playerControls->play();
+                        else
+                            m_playerControls->pause();
+
+                        QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                    }
+                    break;
 				case Qt::Key_1:
                     emit m_smallWindowAction->triggered(true);
 					break;
@@ -322,6 +358,11 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 	event->accept();
 
 	return QMainWindow::eventFilter(watched, event);
+}
+
+void MediaPlayer::onKeyPressed()
+{
+    m_keyPressNumber = 0;
 }
 
 void MediaPlayer::resizeMovieLabel()
@@ -631,7 +672,7 @@ void MediaPlayer::onPlaylistDoubleClicked(int row, int column)
 void MediaPlayer::updateTitle(QStringList* title)
 {
 	// set metadata: artist, title, genre and release date
-	QString title_line, delimiter(" ⸪ ");
+    QString title_line, delimiter(" ⋄ ");
 	int index = 0;
 	int counter = title->count();
 
