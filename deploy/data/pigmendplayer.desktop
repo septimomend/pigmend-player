@@ -8,4 +8,4 @@ Icon=pigmend
 TryExec=PigmendPlayer
 Exec=PigmendPlayer
 Terminal=false
-Categories=Media;Music;Video;Utility;Qt;
+Categories=Media;Music;Video;Utility;
