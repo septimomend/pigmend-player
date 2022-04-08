@@ -2,8 +2,8 @@
 <Package>
     <DisplayName>Pigmend Player</DisplayName>
     <Description>Install Pigmend Player.</Description>
-    <Version>0.1</Version>
-	<ReleaseDate>2022-04-09</ReleaseDate>
+    <Version>1.1</Version>
+	<ReleaseDate>2022-04-10</ReleaseDate>
     <Licenses>
         <License name="Pigmend Player Public License Agreement" file="license.txt" />
     </Licenses>

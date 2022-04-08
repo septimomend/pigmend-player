@@ -31,30 +31,30 @@ function Component()
     // constructor
 }
 
-Component.prototype.installationFinished = function()
-{
-}
+/*
+ *Component.prototype.installationFinished = function()
+ *{
+ *}
+ */
 
 Component.prototype.createOperations = function()
 {
-    // call default implementation to actually install README.txt!
-    //component.createOperations();
+    try {
+        component.createOperations();
+    } catch (e) {
+        console.log(e);
+    }
 
-    //if (systemInfo.productType === "windows") {
-    //    component.addOperation("CreateShortcut", "@TargetDir@/README.txt", "@StartMenuDir@/README.lnk",
-    //        "workingDirectory=@TargetDir@", "iconPath=%SystemRoot%/system32/SHELL32.dll",
-    //        "iconId=2", "description=Open README file");
-    //}
-	this.desktopFileCreateOnLinux();
-}
-
-Component.prototype.desktopFileCreateOnLinux = function()
-{
-    if ((systemInfo.kernelType === "linux") || (systemInfo.kernelType === "Linux")) {
+    if (systemInfo.productType === "windows") {
+		component.addOperation( "CreateShortcut","@TargetDir@/PigmendPlayer.exe",
+			"@StartMenuDir@/PigmendPlayer.lnk", "-param", "workingDirectory=@TargetDir@",
+			"iconPath=@TargetDir@/PigmendPlayer.exe","iconId=0", "description=Pigmend media player");
+    }
+	else if ((systemInfo.kernelType === "linux") || (systemInfo.kernelType === "Linux")) {
 		var dir = installer.value("TargetDir");
 		component.addOperation("CreateDesktopEntry", "pigmendplayer.desktop",
-                           "Type=Application\nName=PigmendPlayer\nExec=\'"+dir+"/PigmendPlayer\'\nGenericName=Your favourite media player.\nIcon="+dir+"/pigmend.ico\nTerminal=false\nCategories=Media;Video;Music;Utility;");
+            "Type=Application\nName=PigmendPlayer\nExec=sh -c \'"+dir+"/PigmendPlayer -c "+dir+"/config/config.ini -x "+dir+"/xml\'\nGenericName=Pigmend media player.\nIcon="+dir+"/pigmend.ico\nTerminal=false\nCategories=Media;Video;Music;Utility;");
 		component.addOperation("CreateDesktopEntry", "@TargetDir@/pigmendplayer.desktop",
-                           "Type=Application\nName=PigmendPlayer\nExec=\'"+dir+"/PigmendPlayer\'\nGenericName=Your favourite media player.\nIcon="+dir+"/pigmend.ico\nTerminal=false\nCategories=Media;Video;Music;Utility;");
+            "Type=Application\nName=PigmendPlayer\nExec=sh -c \'"+dir+"/PigmendPlayer -c "+dir+"/config/config.ini -x "+dir+"/xml\'\nGenericName=Pigmend media player.\nIcon="+dir+"/pigmend.ico\nTerminal=false\nCategories=Media;Video;Music;Utility;");
     }
 }
