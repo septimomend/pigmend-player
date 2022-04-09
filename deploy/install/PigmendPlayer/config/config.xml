@@ -6,4 +6,8 @@
     <Publisher>septimomend</Publisher>
     <StartMenuDir>PigmendPlayer</StartMenuDir>
     <TargetDir>@HomeDir@/PigmendPlayer</TargetDir>
+	<InstallerWindowIcon>pigmend_setup.png</InstallerWindowIcon>
+	<InstallerApplicationIcon>pigmend</InstallerApplicationIcon>
+	<WizardStyle>Modern</WizardStyle>
+	<StyleSheet>style.qss</StyleSheet>
 </Installer>
