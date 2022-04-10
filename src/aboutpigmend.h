@@ -30,6 +30,8 @@ public:
 	explicit AboutPigmend(conf_data_t *conf_data, QWidget *parent = nullptr);
     ~AboutPigmend();
 
+    about_data_t *getInfoAbout();
+
 private:
 	void loadInfoAbout();
 
@@ -38,6 +40,7 @@ private:
 
 	conf_data_t *m_conf_data;
 	XMLDP m_xmldp;
+    about_data_t *m_aboutInfo;
 };
 
 #endif // ABOUTPIGMEND_H

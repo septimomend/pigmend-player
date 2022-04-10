@@ -49,6 +49,9 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_prevSC = new QShortcut(Qt::Key_MediaPrevious, ui->prevButton, SLOT(click()));
 	m_stopSC = new QShortcut(Qt::Key_MediaStop, ui->stopButton, SLOT(click()));
 
+    ui->trademarkInfoLabel->setText(m_aboutPlayer->getInfoAbout()->software_name + " by "
+        + m_aboutPlayer->getInfoAbout()->author_name + " © " + m_aboutPlayer->getInfoAbout()->year);
+
 	// initialize menu and load stylr
 	initAnimations();
 	initMenu();
@@ -821,7 +824,7 @@ void MediaPlayer::updateTheme()
     ui->volumeUpButton->setStyleSheet(style->backcolor);
     ui->volumeDownButton->setStyleSheet(style->backcolor);
     ui->muteButton->setStyleSheet(style->backcolor);
-	ui->label->setStyleSheet(style->color);
+    ui->trademarkInfoLabel->setStyleSheet(style->color);
 	ui->titleLabel->setStyleSheet(style->color);
 	ui->indexInfoLabel->setStyleSheet(style->color);
     ui->showHidePlaylistButton->setStyleSheet(style->backcolor);
@@ -881,7 +884,7 @@ void MediaPlayer::updateAnimation()
 
 void MediaPlayer::showInfo()
 {
-	QDesktopServices::openUrl(QUrl("https://github.com/septimomend/playermend"));
+    QDesktopServices::openUrl(QUrl(m_aboutPlayer->getInfoAbout()->author_url));
 }
 
 void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool status)
