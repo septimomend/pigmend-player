@@ -227,6 +227,10 @@ void MediaPlayer::unfocusButtons()
     ui->stopButton->setFocusPolicy(Qt::NoFocus);
     ui->volumeDownButton->setFocusPolicy(Qt::NoFocus);
     ui->volumeUpButton->setFocusPolicy(Qt::NoFocus);
+    ui->shuffleButton->setFocusPolicy(Qt::NoFocus);
+    ui->showHidePlaylistButton->setFocusPolicy(Qt::NoFocus);
+    ui->progressSlider->setFocusPolicy(Qt::NoFocus);
+    ui->volumeSlider->setFocusPolicy(Qt::NoFocus);
 }
 
 bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
