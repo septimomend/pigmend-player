@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>Pigmend Player</DisplayName>
-    <Description>Install Pigmend Player.</Description>
+    <Description>Pigmend Player installer</Description>
     <Version>1.1</Version>
 	<ReleaseDate>2022-04-10</ReleaseDate>
     <Licenses>

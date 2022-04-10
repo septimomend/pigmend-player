@@ -19,6 +19,7 @@ struct styles_data_t
 {
 	QString current_theme;
 	QString backcolor;
+    QString buttonTheme;
 	QString color;
 	QString transbackcolor;
 	QString menucolor;

@@ -55,6 +55,7 @@ styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
 			themes_data->progressSliderTheme = theme_data_node->first_node("progressSliderTheme")->value();
 			themes_data->volumeSliderTheme = theme_data_node->first_node("volumeSliderTheme")->value();
 			themes_data->playlistTheme = theme_data_node->first_node("playlistTheme")->value();
+            themes_data->buttonTheme = theme_data_node->first_node("button")->value();
 		}
 	}
 

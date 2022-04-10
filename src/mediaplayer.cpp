@@ -796,33 +796,33 @@ void MediaPlayer::updateTheme()
 
 	m_search->updateTheme(style);
 
-	ui->addFileButton->setStyleSheet(style->backcolor);
-	ui->addFolderButton->setStyleSheet(style->backcolor);
+    ui->addFileButton->setStyleSheet(style->backcolor);
+    ui->addFolderButton->setStyleSheet(style->backcolor);
 	ui->allItemsLabel->setStyleSheet(style->color);
-	ui->clearButton->setStyleSheet(style->backcolor);
+    ui->clearButton->setStyleSheet(style->backcolor);
 	ui->currentItemLabel->setStyleSheet(style->color);
-	ui->fast2Button->setStyleSheet(style->backcolor);
-	ui->fast4Button->setStyleSheet(style->backcolor);
-	ui->fullScreenButton->setStyleSheet(style->backcolor);
-	ui->nextButton->setStyleSheet(style->backcolor);
-	ui->pauseButton->setStyleSheet(style->backcolor);
-	ui->playButton->setStyleSheet(style->backcolor);
+    ui->fast2Button->setStyleSheet(style->backcolor);
+    ui->fast4Button->setStyleSheet(style->backcolor);
+    ui->fullScreenButton->setStyleSheet(style->backcolor);
+    ui->nextButton->setStyleSheet(style->backcolor);
+    ui->pauseButton->setStyleSheet(style->backcolor);
+    ui->playButton->setStyleSheet(style->buttonTheme);
 	ui->playlistWidget->setStyleSheet(style->playlistTheme);
-	ui->prevButton->setStyleSheet(style->backcolor);
+    ui->prevButton->setStyleSheet(style->backcolor);
 	ui->progressSlider->setStyleSheet(style->progressSliderTheme);
 	ui->volumeSlider->setStyleSheet(style->volumeSliderTheme);
-	ui->searchButton->setStyleSheet(style->backcolor);
-	ui->stopButton->setStyleSheet(style->backcolor);
-	ui->stopButton->setStyleSheet(style->backcolor);
-	ui->volumeUpButton->setStyleSheet(style->backcolor);
-	ui->volumeDownButton->setStyleSheet(style->backcolor);
-	ui->muteButton->setStyleSheet(style->backcolor);
+    ui->searchButton->setStyleSheet(style->backcolor);
+    ui->stopButton->setStyleSheet(style->backcolor);
+    ui->stopButton->setStyleSheet(style->backcolor);
+    ui->volumeUpButton->setStyleSheet(style->backcolor);
+    ui->volumeDownButton->setStyleSheet(style->backcolor);
+    ui->muteButton->setStyleSheet(style->backcolor);
 	ui->label->setStyleSheet(style->color);
 	ui->titleLabel->setStyleSheet(style->color);
 	ui->indexInfoLabel->setStyleSheet(style->color);
-	ui->showHidePlaylistButton->setStyleSheet(style->backcolor);
-	ui->shuffleButton->setStyleSheet(style->backcolor);
-	ui->repeatButton->setStyleSheet(style->backcolor);
+    ui->showHidePlaylistButton->setStyleSheet(style->backcolor);
+    ui->shuffleButton->setStyleSheet(style->backcolor);
+    ui->repeatButton->setStyleSheet(style->backcolor);
 	ui->underPlaylistLabel->setStyleSheet(style->color);
 	ui->totalTimeLabel->setStyleSheet(style->color);
 	m_menuBar->setStyleSheet(style->menucolor);
@@ -833,15 +833,15 @@ void MediaPlayer::updateTheme()
 	m_titleInFullScreen->setStyleSheet(style->color);
 	m_durationInFullScreen->setStyleSheet(style->color);
 	m_progressTimeInFullScreen->setStyleSheet(style->color);
-	m_playInFullScreen->setStyleSheet(style->backcolor);
-	m_pauseInFullScreen->setStyleSheet(style->backcolor);
-	m_stopInFullScreen->setStyleSheet(style->backcolor);
-	m_nextInFullScreen->setStyleSheet(style->backcolor);
-	m_prevInFullScreen->setStyleSheet(style->backcolor);
-	m_disableFullScreen->setStyleSheet(style->backcolor);
-	m_volumeUpInFullScreen->setStyleSheet(style->backcolor);
-	m_volumeDownInFullScreen->setStyleSheet(style->backcolor);
-	m_volumeMuteInFullScreen->setStyleSheet(style->backcolor);
+    m_playInFullScreen->setStyleSheet(style->backcolor);
+    m_pauseInFullScreen->setStyleSheet(style->backcolor);
+    m_stopInFullScreen->setStyleSheet(style->backcolor);
+    m_nextInFullScreen->setStyleSheet(style->backcolor);
+    m_prevInFullScreen->setStyleSheet(style->backcolor);
+    m_disableFullScreen->setStyleSheet(style->backcolor);
+    m_volumeUpInFullScreen->setStyleSheet(style->backcolor);
+    m_volumeDownInFullScreen->setStyleSheet(style->backcolor);
+    m_volumeMuteInFullScreen->setStyleSheet(style->backcolor);
 }
 
 void MediaPlayer::updateAnimation()
