@@ -43,7 +43,7 @@ void MediafileController::openFile()
         {
             QFile f(filenames.at(i));
             QFileInfo fileInfo(f.fileName());
-            m_playlist.m_plData.insert( fileInfo.fileName(), fileInfo.canonicalFilePath());
+            m_playlist.m_plData.insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
         }
 
         m_lastPath = filenames.last(); // remember last path

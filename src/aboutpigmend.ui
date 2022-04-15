@@ -20,6 +20,9 @@
    <iconset resource="playerui.qrc">
     <normaloff>:/icon/pigmend.ico</normaloff>:/icon/pigmend.ico</iconset>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <widget class="QLabel" name="player_name">
    <property name="geometry">
     <rect>

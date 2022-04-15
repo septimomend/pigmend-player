@@ -20,6 +20,7 @@ struct styles_data_t
 	QString current_theme;
 	QString backcolor;
     QString buttonTheme;
+    QString buttonCheckedTheme;
 	QString color;
 	QString transbackcolor;
 	QString menucolor;

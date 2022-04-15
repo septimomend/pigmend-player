@@ -22,6 +22,8 @@ SearchDialog::SearchDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Search
 
     connect(ui->cancelButton, SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(checkMatches()));
+    ui->searchPicLabel->setStyleSheet("image: url(:/custom/img/custom/search_no_match.png)");
+    ui->searchPicLabel->hide();
 }
 
 SearchDialog::~SearchDialog()
@@ -29,13 +31,24 @@ SearchDialog::~SearchDialog()
     delete ui;
 }
 
+void SearchDialog::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Return)
+        checkMatches();
+    else if (event->key() == Qt::Key_Escape)
+        this->close();
+
+    event->accept();
+}
+
 void SearchDialog::setStartTips()
 {
     setPlaceholer();
+    ui->searchPicLabel->hide();
     ui->noMatchesLabel->clear();
     if (m_playlist.m_plData.empty())
     {
-        ui->noMatchesLabel->setText(QString("Playlist is empty, here are nothing to search"));
+        ui->noMatchesLabel->setText(QString("Playlist is empty, here is nothing to search"));
         return;
     }
 }
@@ -64,10 +77,13 @@ void SearchDialog::checkMatches()
                 break;
             }
             else if(it == m_playlist.m_plData.end()-1)
-                ui->noMatchesLabel->setText(QString("No matches, please, try again"));
+            {
+                ui->noMatchesLabel->setText(QString("No matches found..."));
+                ui->searchPicLabel->show();
+            }
         }
     }
-    else
+    else if (!m_playlist.m_plData.empty())
         ui->noMatchesLabel->setText(QString("Please, input data or press cancel"));
 }
 

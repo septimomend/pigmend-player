@@ -30,6 +30,7 @@
         <file>img/buttons/volume-down-5-16.png</file>
         <file>img/buttons/volume-up-4-16.png</file>
         <file>img/buttons/audio-spectrum-16.ico</file>
+        <file>img/buttons/preferences-24.png</file>
     </qresource>
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>
@@ -40,6 +41,7 @@
         <file>img/custom/okload.gif</file>
         <file>img/custom/orangemend.ico</file>
         <file>img/custom/pigmendback.png</file>
+        <file>img/custom/search_no_match.png</file>
     </qresource>
     <qresource prefix="/animations">
         <file>img/custom/musgif/defaultAnimation.gif</file>

@@ -36,6 +36,7 @@ DEFINES += PRO_FILE_PWD=$$sprintf("\"\\\"%1\\\"\"", $$_PRO_FILE_PWD_)
 SOURCES += \
         main.cpp \
         mediaplayer.cpp \
+    preferencesdialog.cpp \
     videoWidget.cpp \
     playerControls.cpp \
     playlistSingleton.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
 
 HEADERS += \
         mediaplayer.h \
+    preferencesdialog.h \
     videoWidget.h \
     playerControls.h \
     playlistSingleton.h \
@@ -64,6 +66,7 @@ HEADERS += \
 
 FORMS += \
         mediaplayer.ui \
+    preferences.ui \
     searchdialog.ui \
     aboutpigmend.ui
 
@@ -80,3 +83,5 @@ INCLUDEPATH += "../lib"
 LIBS += -ltag
 
 CONFIG += console
+
+include(qsettingsdialog.pri)

@@ -3,10 +3,20 @@
     <Themes>
         <CurrentTheme>blue mend</CurrentTheme>
         <Theme name="blue mend">
-            <backcolor>QPushButton { background-color: rgb(0, 170, 127); color: rgb(0, 170, 127); } QToolTip { background-color: rgb(0, 170, 127); color: #ffffff; border: 0px; }</backcolor>
-            <color>color: rgb(0, 170, 127)</color>
-            <transbackcolor>background-color: rgb(0, 170, 127, 127); color: rgb(255, 255, 255);</transbackcolor>
-            <menucolor>selection-background-color: rgb(0, 170, 127); background-color: rgb(0, 170, 127, 125); color: rgb(255, 255, 255);</menucolor>
+            <backcolor>
+				QPushButton { background-color: rgb(0, 170, 127); color: rgb(0, 170, 127); }
+				QPushButton:pressed { background-color: rgb(0, 170, 127); border-style: solid; border-width: 1px; border-color: rgb(0, 170, 127); border-radius: 5px; }
+				QToolTip { background-color: rgb(0, 170, 127); color: #ffffff; border: 0px; }
+			</backcolor>
+            <color>
+				color: rgb(0, 170, 127)
+			</color>
+            <transbackcolor>
+				background-color: rgb(0, 170, 127, 127); color: rgb(255, 255, 255);
+			</transbackcolor>
+            <menucolor>
+				selection-background-color: rgb(0, 170, 127); background-color: rgb(0, 170, 127, 125); color: rgb(255, 255, 255);
+			</menucolor>
             <progressSliderTheme>
 				QSlider::groove:horizontal { background: white; height: 5px; } 
                 QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127)); } 
@@ -33,12 +43,27 @@
 				QPushButton { background-color: rgb(0, 170, 127); border-style: solid; border-width: 1px; border-color: rgb(0, 170, 127); border-radius: 5px; }
 				QToolTip { background-color: rgb(0, 170, 127); color: #ffffff; border: 0px; }
 			</button>
+            <button_checked>
+				QPushButton { background-color: rgb(0, 170, 127); border-style: solid; border-width: 4px; border-color: rgb(0, 170, 127); border-radius: 5px; }
+				QPushButton:pressed { background-color: rgb(0, 170, 127); color: rgb(0, 170, 127); }
+				QToolTip { background-color: rgb(0, 170, 127); color: #ffffff; border: 0px; }
+			</button_checked>
         </Theme>
         <Theme name="orange mend">
-            <backcolor>QPushButton { background-color: rgb(255, 85, 0); color: rgb(255, 85, 0); } QToolTip { background-color: rgb(255, 85, 0); color: #ffffff; border: 0px; }</backcolor>
-            <color>color: rgb(255, 85, 0)</color>
-            <transbackcolor>background-color: rgb(255, 85, 0, 127); color: rgb(255, 255, 255);</transbackcolor>
-            <menucolor>selection-background-color: rgb(255, 85, 0); background-color: rgb(255, 85, 0, 125); color: rgb(255, 255, 255);</menucolor>
+            <backcolor>
+				QPushButton { background-color: rgb(255, 85, 0); color: rgb(255, 85, 0); }
+				QPushButton:pressed { background-color: rgb(255, 85, 0); border-style: solid; border-width: 1px; border-color: rgb(255, 85, 0); border-radius: 5px; }
+				QToolTip { background-color: rgb(255, 85, 0); color: #ffffff; border: 0px; }
+			</backcolor>
+            <color>
+				color: rgb(255, 85, 0)
+			</color>
+            <transbackcolor>
+				background-color: rgb(255, 85, 0, 127); color: rgb(255, 255, 255);
+			</transbackcolor>
+            <menucolor>
+				selection-background-color: rgb(255, 85, 0); background-color: rgb(255, 85, 0, 125); color: rgb(255, 255, 255);
+			</menucolor>
             <progressSliderTheme>
 				QSlider::groove:horizontal { background: white; height: 5px; } 
                 QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0)); } 
@@ -65,12 +90,27 @@
 				QPushButton { background-color: rgb(255, 85, 0); border-style: solid; border-width: 1px; border-color: rgb(255, 85, 0); border-radius: 5px; }
 				QToolTip { background-color: rgb(255, 85, 0); color: #ffffff; border: 0px; }
 			</button>
+            <button_checked>
+				QPushButton { background-color: rgb(255, 85, 0); border-style: solid; border-width: 4px; border-color: rgb(255, 85, 0); border-radius: 5px; }
+				QPushButton:pressed { background-color: rgb(255, 85, 0); color: rgb(255, 85, 0); }
+				QToolTip { background-color: rgb(255, 85, 0); color: #ffffff; border: 0px; }
+			</button_checked>
         </Theme>
         <Theme name="grey mend">
-            <backcolor>QPushButton { background-color: rgb(105, 105, 105); color: rgb(105, 105, 105); } QToolTip { background-color: rgb(105, 105, 105); color: #ffffff; border: 0px; }</backcolor>
-            <color>color: rgb(105, 105, 105)</color>
-            <transbackcolor>background-color: rgb(105, 105, 105, 127); color: rgb(255, 255, 255);</transbackcolor>
-            <menucolor>selection-background-color: rgb(105, 105, 105); background-color: rgb(105, 105, 105, 125); color: rgb(255, 255, 255);</menucolor>
+            <backcolor>
+				QPushButton { background-color: rgb(105, 105, 105); color: rgb(105, 105, 105); }
+				QPushButton:pressed { background-color: rgb(105, 105, 105); border-style: solid; border-width: 4px; border-color: rgb(105, 105, 105); border-radius: 5px; }
+				QToolTip { background-color: rgb(105, 105, 105); color: #ffffff; border: 0px; }
+			</backcolor>
+            <color>
+				color: rgb(105, 105, 105)
+			</color>
+            <transbackcolor>
+				background-color: rgb(105, 105, 105, 127); color: rgb(255, 255, 255);
+			</transbackcolor>
+            <menucolor>
+				selection-background-color: rgb(105, 105, 105); background-color: rgb(105, 105, 105, 125); color: rgb(255, 255, 255);
+			</menucolor>
             <progressSliderTheme>
 				QSlider::groove:horizontal { background: white; height: 5px; } 
                 QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105)); } 
@@ -97,12 +137,27 @@
 				QPushButton { background-color: rgb(105, 105, 105); border-style: solid; border-width: 1px; border-color: rgb(105, 105, 105); border-radius: 5px; }
 				QToolTip { background-color: rgb(105, 105, 105); color: #ffffff; border: 0px; }
 			</button>
+            <button_checked>
+				QPushButton { background-color: rgb(105, 105, 105); border-style: solid; border-width: 4px; border-color: rgb(105, 105, 105); border-radius: 5px; }
+				QPushButton:pressed { background-color: rgb(105, 105, 105); color: rgb(0, 170, 127); }
+				QToolTip { background-color: rgb(105, 105, 105); color: #ffffff; border: 0px; }
+			</button_checked>
         </Theme>
         <Theme name="dark grey mend">
-            <backcolor>QPushButton { background-color: rgb(47, 79, 79); color: rgb(47, 79, 79); } QToolTip { background-color: rgb(47, 79, 79); color: #ffffff; border: 0px; }</backcolor>
-            <color>color: rgb(47, 79, 79)</color>
-            <transbackcolor>background-color: rgb(47, 79, 79, 127); color: rgb(255, 255, 255);</transbackcolor>
-            <menucolor>selection-background-color: rgb(47, 79, 79); background-color: rgb(47, 79, 79, 125); color: rgb(255, 255, 255);</menucolor>
+            <backcolor>
+				QPushButton { background-color: rgb(47, 79, 79); color: rgb(47, 79, 79); }
+				QPushButton:pressed { background-color: rgb(47, 79, 79); border-style: solid; border-width: 1px; border-color: rgb(47, 79, 79); border-radius: 5px; }
+				QToolTip { background-color: rgb(47, 79, 79); color: #ffffff; border: 0px; }
+			</backcolor>
+            <color>
+				color: rgb(47, 79, 79)
+			</color>
+            <transbackcolor>
+				background-color: rgb(47, 79, 79, 127); color: rgb(255, 255, 255);
+			</transbackcolor>
+            <menucolor>
+				selection-background-color: rgb(47, 79, 79); background-color: rgb(47, 79, 79, 125); color: rgb(255, 255, 255);
+			</menucolor>
             <progressSliderTheme>
 				QSlider::groove:horizontal { background: white; height: 5px; } 
                 QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79)); } 
@@ -129,6 +184,11 @@
 				QPushButton { background-color: rgb(47, 79, 79); border-style: solid; border-width: 1px; border-color: rgb(47, 79, 79); border-radius: 5px; }
 				QToolTip { background-color: rgb(47, 79, 79); color: #ffffff; border: 0px; }
 			</button>
+            <button_checked>
+				QPushButton { background-color: rgb(47, 79, 79); border-style: solid; border-width: 4px; border-color: rgb(47, 79, 79); border-radius: 5px; }
+				QPushButton:pressed { background-color: rgb(47, 79, 79); color: rgb(47, 79, 79); }
+				QToolTip { background-color: rgb(47, 79, 79); color: #ffffff; border: 0px; }
+			</button_checked>
         </Theme>
     </Themes>
 </PigmendPlayer>

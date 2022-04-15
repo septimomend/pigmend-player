@@ -23,7 +23,7 @@ E-mail: chapkailo.ivan@gmail.com
  * Avoid hardcode - use defines
  * */
 
-#if DEBUG
+#if DEBUG_CONF
 #define CONFIG_INIT_PATH PRO_FILE_PWD "/../config/config.ini"
 #endif
 
@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-#if DEBUG
-	const char *init_config_file = CONFIG_INIT_PATH;
+#if DEBUG_CONF
+    const char *database = CONFIG_INIT_PATH;
 #else
     QByteArray confFile = configFile.takeFirst().toLocal8Bit();
     const char *init_config_file = confFile.constData();

@@ -32,6 +32,7 @@ E-mail: chapkailo.ivan@gmail.com
 #include "mediafileController.h"
 #include "search.h"
 #include "aboutpigmend.h"
+#include "preferencesdialog.h"
 
 namespace Ui
 {
@@ -108,6 +109,7 @@ private:
     MediafileController *m_mediaFile;
     PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();   // singleton instance
     SearchDialog *m_search;
+    PreferencesDialog *m_preferences;
     AboutPigmend *m_aboutPlayer;
     QMovie *m_movieLoading, *m_movieDone;
 	QMovie *m_movieMusic;
@@ -129,6 +131,7 @@ private:
 	QMenu *m_animation_menu;
     QMenu *m_helpmenu;
     QMenu *m_windowMenu;
+    QMenu *m_editmenu;
     QAction *m_addFileAction;
     QAction *m_addFolderAction;
     QAction *m_orangeAction;
@@ -150,6 +153,7 @@ private:
 	QAction *m_equalizerAnimationAction;
 	QAction *m_radioAnimationAction;
     QAction *m_astralAnimationAction;
+    QAction *m_preferencesAction;
 
     // Full screen controls
     QSpacerItem *m_spaceInFullScreenButtonsLeft;
@@ -182,6 +186,7 @@ private:
 
 	//xml
 	XMLDP m_xmldp;
+    styles_data_t *m_style;
 };
 
 #endif // MEDIAPLAYER_H

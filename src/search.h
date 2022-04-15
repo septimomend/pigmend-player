@@ -42,6 +42,9 @@ signals:
 public slots:
     void setStartTips();
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 private slots:
     void checkMatches();
 

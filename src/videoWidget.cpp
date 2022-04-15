@@ -16,6 +16,10 @@ E-mail: chapkailo.ivan@gmail.com
 #include <QMouseEvent>
 #include <QApplication>
 
+#if DEBUG
+#include <QDebug>
+#endif
+
 #define TIME_TO_HIDE_CURSOR_MS 1000
 
 VideoWidget::VideoWidget(bool isMainScreen, QWidget *parent) : QVideoWidget(parent),
@@ -52,11 +56,6 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
         this->setFullScreen(false);
         this->setFullScreen(true);
         this->setFullScreen(false);
-        event->accept();
-    }
-    else if (event->key() == Qt::Key_Enter && event->modifiers() & Qt::Key_Alt)
-    {
-        this->setFullScreen(!isFullScreen());
         event->accept();
     }
     else

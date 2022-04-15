@@ -39,9 +39,11 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_playerControls = new PlayerControls();
 	m_mediaFile = new MediafileController(this);
 	m_search = new SearchDialog(this);
+    m_preferences = new PreferencesDialog(this);
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
 	m_timer = new QTimer(this);
     m_keyPressNumber = 0;
+    m_style = NULL;
 
 	// shortcuts
 	m_playSC = new QShortcut(Qt::Key_MediaPlay, ui->playButton, SLOT(click()));
@@ -104,6 +106,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_normalWindowAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
 	connect(m_wideWindowAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
 	connect(m_maximizeAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
+    connect(m_preferencesAction, SIGNAL(triggered(bool)), m_preferences, SLOT(show()));
 
 	// ui operations
 	connect(ui->addFileButton, SIGNAL(clicked(bool)), m_mediaFile, SLOT(openFile()));
@@ -329,6 +332,17 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 					break;
 			}
 
+            if (keyEvent->key() == Qt::Key_Return && keyEvent->modifiers() == Qt::AltModifier)
+            {
+                m_keyPressNumber++;
+
+                if (m_keyPressNumber == 1)
+                {
+                    m_globalVideoWidget->manageFullScreen();
+                    QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                }
+            }
+
 			break;
 		}
 		case QEvent::MouseButtonPress:
@@ -430,13 +444,17 @@ void MediaPlayer::initMenu()
 	m_exitAction = m_filemenu->addAction("Exit");
 	m_exitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
 
+    // edit
+    m_editmenu = m_menuBar->addMenu("Edit");
+    m_preferencesAction = m_editmenu->addAction(QIcon(":/buttons/img/buttons/preferences-24.png"), "Preferences");
+
 	// view
 	m_viewmenu = m_menuBar->addMenu("View");
 	m_thememenu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/paint-brush-16.ico"), "Theme");
 	m_windowMenu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/window-5-16.ico"), "Window size");
 	m_animation_menu = m_viewmenu->addMenu(QIcon(":/buttons/img/buttons/audio-spectrum-16.ico"), "Animation");
 
-	// theme
+    // view theme
 	m_orangeAction = m_thememenu->addAction(QIcon(":/custom/img/custom/orangemend.ico"), "Orange Mend");
 	m_blueAction = m_thememenu->addAction(QIcon(":/custom/img/custom/bluemend.ico"), "Blue Mend");
 	m_greyAction = m_thememenu->addAction(QIcon(":/custom/img/custom/greymend.ico"), "Grey Mend");
@@ -449,7 +467,7 @@ void MediaPlayer::initMenu()
 	m_fullScreenAction->setShortcut(QKeySequence(Qt::Key_F5));
 	m_viewmenu->addSeparator();
 
-	// window size
+    // view window size
 	m_smallWindowAction = m_windowMenu->addAction("Small");
 	m_smallWindowAction->setShortcut(QKeySequence(Qt::Key_1));
 	m_middleWindowAction = m_windowMenu->addAction("Middle");
@@ -461,7 +479,7 @@ void MediaPlayer::initMenu()
 	m_maximizeAction = m_windowMenu->addAction("Maximum");
 	m_maximizeAction->setShortcut(QKeySequence(Qt::Key_5));
 
-	// animation
+    // view animation
 	m_noneAnimationAction = m_animation_menu->addAction("None");
 	m_defaultAnimationAction = m_animation_menu->addAction("Default");
 	m_equalizerAnimationAction = m_animation_menu->addAction("Equalizer");
@@ -526,7 +544,7 @@ void MediaPlayer::adjustVideoWidget()
 	m_progressTimeInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 	m_durationInFullScreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
-	// buttons size and style policy
+    // buttons size and m_style policy
 	m_playInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	m_pauseInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 	m_stopInFullScreen->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -772,11 +790,13 @@ void MediaPlayer::clearPlaylist()
 void MediaPlayer::onShuffleButton()
 {
 	m_shuffleMode = ui->shuffleButton->isChecked();
+    ui->shuffleButton->setStyleSheet(m_shuffleMode ? m_style->buttonCheckedTheme : m_style->backcolor);
 	m_playerControls->setShuffleMode(m_shuffleMode);
 }
 
 void MediaPlayer::onRepeatButton()
 {
+    ui->repeatButton->setStyleSheet(ui->repeatButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
 	m_playerControls->setRepeatMode(ui->repeatButton->isChecked());
 }
 
@@ -787,9 +807,9 @@ void MediaPlayer::updateTheme()
 
 	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
 
-	styles_data_t *style = m_xmldp.getStylesXML(theme_file, theme_name);
+    m_style = m_xmldp.getStylesXML(theme_file, theme_name);
 
-	if (!style)
+    if (!m_style)
 	{
 		qWarning() << __FUNCTION__ << ": nullptr detected" << endl;
 		return;
@@ -801,54 +821,53 @@ void MediaPlayer::updateTheme()
 		return;
 	}
 
-	m_search->updateTheme(style);
+    m_search->updateTheme(m_style);
 
-    ui->addFileButton->setStyleSheet(style->backcolor);
-    ui->addFolderButton->setStyleSheet(style->backcolor);
-	ui->allItemsLabel->setStyleSheet(style->color);
-    ui->clearButton->setStyleSheet(style->backcolor);
-	ui->currentItemLabel->setStyleSheet(style->color);
-    ui->fast2Button->setStyleSheet(style->backcolor);
-    ui->fast4Button->setStyleSheet(style->backcolor);
-    ui->fullScreenButton->setStyleSheet(style->backcolor);
-    ui->nextButton->setStyleSheet(style->backcolor);
-    ui->pauseButton->setStyleSheet(style->backcolor);
-    ui->playButton->setStyleSheet(style->buttonTheme);
-	ui->playlistWidget->setStyleSheet(style->playlistTheme);
-    ui->prevButton->setStyleSheet(style->backcolor);
-	ui->progressSlider->setStyleSheet(style->progressSliderTheme);
-	ui->volumeSlider->setStyleSheet(style->volumeSliderTheme);
-    ui->searchButton->setStyleSheet(style->backcolor);
-    ui->stopButton->setStyleSheet(style->backcolor);
-    ui->stopButton->setStyleSheet(style->backcolor);
-    ui->volumeUpButton->setStyleSheet(style->backcolor);
-    ui->volumeDownButton->setStyleSheet(style->backcolor);
-    ui->muteButton->setStyleSheet(style->backcolor);
-    ui->trademarkInfoLabel->setStyleSheet(style->color);
-	ui->titleLabel->setStyleSheet(style->color);
-	ui->indexInfoLabel->setStyleSheet(style->color);
-    ui->showHidePlaylistButton->setStyleSheet(style->backcolor);
-    ui->shuffleButton->setStyleSheet(style->backcolor);
-    ui->repeatButton->setStyleSheet(style->backcolor);
-	ui->underPlaylistLabel->setStyleSheet(style->color);
-	ui->totalTimeLabel->setStyleSheet(style->color);
-	m_menuBar->setStyleSheet(style->menucolor);
+    ui->addFileButton->setStyleSheet(m_style->backcolor);
+    ui->addFolderButton->setStyleSheet(m_style->backcolor);
+    ui->allItemsLabel->setStyleSheet(m_style->color);
+    ui->clearButton->setStyleSheet(m_style->backcolor);
+    ui->currentItemLabel->setStyleSheet(m_style->color);
+    ui->fast2Button->setStyleSheet(m_style->backcolor);
+    ui->fast4Button->setStyleSheet(m_style->backcolor);
+    ui->fullScreenButton->setStyleSheet(m_style->backcolor);
+    ui->nextButton->setStyleSheet(m_style->backcolor);
+    ui->pauseButton->setStyleSheet(ui->pauseButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    ui->playButton->setStyleSheet(ui->playButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    ui->playlistWidget->setStyleSheet(m_style->playlistTheme);
+    ui->prevButton->setStyleSheet(m_style->backcolor);
+    ui->progressSlider->setStyleSheet(m_style->progressSliderTheme);
+    ui->volumeSlider->setStyleSheet(m_style->volumeSliderTheme);
+    ui->searchButton->setStyleSheet(m_style->backcolor);
+    ui->stopButton->setStyleSheet(m_style->backcolor);
+    ui->volumeUpButton->setStyleSheet(m_style->backcolor);
+    ui->volumeDownButton->setStyleSheet(m_style->backcolor);
+    ui->muteButton->setStyleSheet(ui->muteButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    ui->trademarkInfoLabel->setStyleSheet(m_style->color);
+    ui->titleLabel->setStyleSheet(m_style->color);
+    ui->indexInfoLabel->setStyleSheet(m_style->color);
+    ui->showHidePlaylistButton->setStyleSheet(m_style->backcolor);
+    ui->shuffleButton->setStyleSheet(ui->shuffleButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    ui->repeatButton->setStyleSheet(ui->repeatButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    ui->underPlaylistLabel->setStyleSheet(m_style->color);
+    ui->totalTimeLabel->setStyleSheet(m_style->color);
+    m_menuBar->setStyleSheet(m_style->menucolor);
 
 	// full screen mode
-	m_sliderInFullScreen->setStyleSheet(style->progressSliderTheme);
-	m_volumeSliderInFullScreen->setStyleSheet(style->volumeSliderTheme);
-	m_titleInFullScreen->setStyleSheet(style->color);
-	m_durationInFullScreen->setStyleSheet(style->color);
-	m_progressTimeInFullScreen->setStyleSheet(style->color);
-    m_playInFullScreen->setStyleSheet(style->backcolor);
-    m_pauseInFullScreen->setStyleSheet(style->backcolor);
-    m_stopInFullScreen->setStyleSheet(style->backcolor);
-    m_nextInFullScreen->setStyleSheet(style->backcolor);
-    m_prevInFullScreen->setStyleSheet(style->backcolor);
-    m_disableFullScreen->setStyleSheet(style->backcolor);
-    m_volumeUpInFullScreen->setStyleSheet(style->backcolor);
-    m_volumeDownInFullScreen->setStyleSheet(style->backcolor);
-    m_volumeMuteInFullScreen->setStyleSheet(style->backcolor);
+    m_sliderInFullScreen->setStyleSheet(m_style->progressSliderTheme);
+    m_volumeSliderInFullScreen->setStyleSheet(m_style->volumeSliderTheme);
+    m_titleInFullScreen->setStyleSheet(m_style->color);
+    m_durationInFullScreen->setStyleSheet(m_style->color);
+    m_progressTimeInFullScreen->setStyleSheet(m_style->color);
+    m_playInFullScreen->setStyleSheet(m_playInFullScreen->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    m_pauseInFullScreen->setStyleSheet(m_pauseInFullScreen->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    m_stopInFullScreen->setStyleSheet(m_style->backcolor);
+    m_nextInFullScreen->setStyleSheet(m_style->backcolor);
+    m_prevInFullScreen->setStyleSheet(m_style->backcolor);
+    m_disableFullScreen->setStyleSheet(m_style->backcolor);
+    m_volumeUpInFullScreen->setStyleSheet(m_style->backcolor);
+    m_volumeDownInFullScreen->setStyleSheet(m_style->backcolor);
+    m_volumeMuteInFullScreen->setStyleSheet(m_volumeMuteInFullScreen->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
 }
 
 void MediaPlayer::updateAnimation()
@@ -974,13 +993,17 @@ void MediaPlayer::onVolumeMute(bool isMuted)
 {
 	if (isMuted)
 	{
-		m_volumeMuteInFullScreen->setChecked(true);
-		ui->muteButton->setChecked(true);
+        m_volumeMuteInFullScreen->setChecked(true);
+        ui->muteButton->setChecked(true);
+        ui->muteButton->setStyleSheet(m_style->buttonCheckedTheme);
+        m_volumeMuteInFullScreen->setStyleSheet(m_style->buttonCheckedTheme);
 	}
 	else
 	{
-		m_volumeMuteInFullScreen->setChecked(false);
-		ui->muteButton->setChecked(false);
+        m_volumeMuteInFullScreen->setChecked(false);
+        ui->muteButton->setChecked(false);
+        ui->muteButton->setStyleSheet(m_style->backcolor);
+        m_volumeMuteInFullScreen->setStyleSheet(m_style->backcolor);
 	}
 }
 
@@ -1113,9 +1136,31 @@ void MediaPlayer::stopAnimation(bool isPaused)
     m_isPaused = isPaused;
 
 	if (isPaused)
+    {
+        ui->pauseButton->setChecked(true);
+        m_pauseInFullScreen->setChecked(true);
+        ui->playButton->setChecked(false);
+        m_playInFullScreen->setChecked(false);
+        ui->pauseButton->setStyleSheet(m_style->buttonCheckedTheme);
+        m_pauseInFullScreen->setStyleSheet(m_style->buttonCheckedTheme);
+        ui->playButton->setStyleSheet(m_style->backcolor);
+        m_playInFullScreen->setStyleSheet(m_style->backcolor);
+
 		m_movieMusic->stop();
+    }
 	else
+    {
+        ui->playButton->setChecked(true);
+        m_playInFullScreen->setChecked(true);
+        ui->pauseButton->setChecked(false);
+        m_pauseInFullScreen->setChecked(false);
+        ui->playButton->setStyleSheet(m_style->buttonCheckedTheme);
+        m_playInFullScreen->setStyleSheet(m_style->buttonCheckedTheme);
+        ui->pauseButton->setStyleSheet(m_style->backcolor);
+        m_pauseInFullScreen->setStyleSheet(m_style->backcolor);
+
 		m_movieMusic->start();
+    }
 }
 
 void MediaPlayer::postInit()
