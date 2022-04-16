@@ -332,7 +332,7 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 					break;
 			}
 
-            if (keyEvent->key() == Qt::Key_Return && keyEvent->modifiers() == Qt::AltModifier)
+            if ((keyEvent->key() == Qt::Key_Return && keyEvent->modifiers() == Qt::AltModifier) || keyEvent->key() == Qt::Key_F5)
             {
                 m_keyPressNumber++;
 
