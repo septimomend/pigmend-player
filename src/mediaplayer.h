@@ -87,6 +87,7 @@ private slots:
 	void onVolumeMute(bool isMuted);
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
+    void hideVideoControlPanel();
 	void updateTheme();
 	void updateAnimation();
 	void stopAnimation(bool isPaused);
@@ -98,6 +99,7 @@ private slots:
 	void onContentTypeChange(bool isAudio);
     void onKeyPressed();
     void toggleVideoWidgetFullscreen();
+    void removeItemFromPlaylist();
 
 private:
     int m_global_height;
@@ -107,6 +109,7 @@ private:
     bool m_shuffleMode;
     bool m_isPlaylistLoaded;
     bool m_isPaused;
+    bool m_isUpdateOnRemove;
     VideoWidget *m_videoWidget;
     VideoWidget *m_globalVideoWidget;
     PlayerControls *m_playerControls;
@@ -120,6 +123,7 @@ private:
     QSize m_movieImageSize;
     QString m_theme_config_path;
 	QTimer *m_timer;
+    QTimer *m_videoControlTimer;
 
     // shortcuts
     QShortcut *m_playSC;

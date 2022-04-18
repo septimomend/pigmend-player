@@ -17,6 +17,7 @@ E-mail: chapkailo.ivan@gmail.com
 #include <QMap>
 #include <QVector>
 #include <algorithm>
+#include <QTableWidgetItem>
 
 QT_BEGIN_NAMESPACE
 class QMediaPlaylist;
@@ -40,6 +41,7 @@ public:
     size_t makeShuffle(bool shuffleMode);
 	QString getAudioTotalTime();
 	QString getAudioTime(QString &audio_file);
+    void deletePlaylistItem(QTableWidgetItem *item);
 
 public:
     QMap<QString, QString> m_plData;    // container for pairs of filename and filepath

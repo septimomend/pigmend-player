@@ -49,6 +49,11 @@ size_t PlaylistSingleton::clearPlaylistData()
 	return size_t(m_plData.size());
 }
 
+void PlaylistSingleton::deletePlaylistItem(QTableWidgetItem *item)
+{
+    m_plData.remove(item->text());
+}
+
 size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
 {
     // if the suffle mode is enabled - copy filepath of playlist data to the vector

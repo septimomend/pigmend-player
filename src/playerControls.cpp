@@ -81,6 +81,10 @@ void PlayerControls::play()
     emit currentMediaItem(QString(m_player->currentMedia().canonicalUrl().toString()));  // send signal with path of current media file
     m_player->setMedia(m_player->currentMedia().canonicalUrl());
 
+#if DEBUG
+    qDebug() << "Play " << QString(m_player->currentMedia().canonicalUrl().toString());
+#endif
+
     if (m_vw == nullptr)
     {
         qCritical() << "Error: Video widget is not defined" << endl;
@@ -140,6 +144,7 @@ void PlayerControls::nextForced()
 #elif unix
         QString canonical_path = "file://" + it.value();
 #endif
+
         if (path == canonical_path)
         {
             // and this is not last item so set next item to media playing
@@ -227,8 +232,6 @@ void PlayerControls::setMediaFile(QString item)
        m_player->setMedia(QUrl::fromLocalFile(iter.value()));
        play();
     }
-
-	qDebug() << "Play " << item;
 }
 
 void PlayerControls::setVolume(int volume)
@@ -384,4 +387,15 @@ void PlayerControls::setVolumeMuted()
 void PlayerControls::interrupt()
 {
     m_stopMouseThread = true;
+}
+
+QString PlayerControls::getCurrentMediaItemValue()
+{
+    QStringList sl = m_player->currentMedia().canonicalUrl().toString().split("/");
+    return sl.at(sl.count() - 1);
+}
+
+QString PlayerControls::getCurrentMediaItem()
+{
+    return m_player->currentMedia().canonicalUrl().toString();
 }

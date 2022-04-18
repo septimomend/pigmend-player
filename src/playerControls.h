@@ -37,6 +37,8 @@ public:
     bool isRepeatMode();                        // sets current media file again
     bool nextInShuffle();                       // sets next media file in accordance with shuffled data
     bool prevInShuffle();                       // sets previous media file in accordance with shuffled data
+    QString getCurrentMediaItem();
+    QString getCurrentMediaItemValue();
 
     static void captureMousePosition(PlayerControls *pc);
 

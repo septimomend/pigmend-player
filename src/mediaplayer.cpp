@@ -29,6 +29,7 @@ using namespace  tinyxml2;
 #define PLAYLIST_TIME_COLUMN 2
 #define SLIDER_STEP 10
 #define PLAYLIST_COLUMN_COUNT 3
+#define TIME_TO_HIDE_VIDEO_CTRL_MS 1000
 
 MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *parent) : QMainWindow(parent),
 	m_global_height(screen_size.height()), m_global_width(screen_size.width()),
@@ -42,6 +43,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     m_preferences = new PreferencesDialog();
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
 	m_timer = new QTimer(this);
+    m_videoControlTimer = new QTimer(this);
     m_keyPressNumber = 0;
     m_style = NULL;
 
@@ -61,6 +63,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	updateTheme();
 
 	//
+    m_isUpdateOnRemove = false;
 	m_isPlaylistLoaded = false;
     m_isPaused = true;
 	m_shuffleMode = false;
@@ -148,6 +151,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(m_videoWidget, SIGNAL(videoWidgetToggleRequest()), this, SLOT(toggleVideoWidgetFullscreen()));
     connect(m_globalVideoWidget, SIGNAL(videoWidgetToggleRequest()), this, SLOT(toggleVideoWidgetFullscreen()));
     connect(this, SIGNAL(videoFullscreenToggled()), m_videoWidget, SLOT(onFullscreenToggled()));
+    connect(m_videoControlTimer, SIGNAL(timeout()), this, SLOT(hideVideoControlPanel()));
 
 	// internal operations
 	connect(m_playerControls, SIGNAL(currentMediaItem(QString)), this, SLOT(focusItem(QString)));
@@ -185,6 +189,7 @@ MediaPlayer::~MediaPlayer()
 	delete m_nextSC;
 	delete m_prevSC;
 	delete m_stopSC;
+    delete m_videoControlTimer;
 	delete m_timer;
 	delete m_movieMusic;
 }
@@ -314,6 +319,15 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
                         else
                             m_playerControls->pause();
 
+                        QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                    }
+                    break;
+                case Qt::Key_Delete:
+                    m_keyPressNumber++;
+
+                    if (m_keyPressNumber == 1)
+                    {
+                        removeItemFromPlaylist();
                         QTimer::singleShot(500, this, SLOT(onKeyPressed()));
                     }
                     break;
@@ -692,7 +706,12 @@ void MediaPlayer::onPlaylistUpdate()
 
 	// if added new files - shuffle it all
 	if (m_shuffleMode)
+    {
 		m_playerControls->setShuffleMode(true);
+
+        if (m_isUpdateOnRemove)
+            m_playerControls->nextForced();
+    }
 
 	// prepare first media file
 	// while loaded playlist first time - prepare first file for playing
@@ -709,6 +728,9 @@ void MediaPlayer::onPlaylistUpdate()
 
     if (!ui->playlistLabel->isHidden())
         m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+
+    focusItem(m_playerControls->getCurrentMediaItem());
+    m_isUpdateOnRemove = false;
 }
 
 void MediaPlayer::updatePlaylist()
@@ -1055,6 +1077,7 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
 		position->y() >= (m_global_height - (m_global_height * 0.07))) ||
 		(position->y() >= 0 && position->y() <= m_global_height * 0.04)))
 	{
+        m_videoControlTimer->stop();
 		m_videoTitleLayout->setMargin(10);
 		m_videoControlGridLayout->setMargin(10);
 		m_spaceInFullScreenButtonsLeft->changeSize(int(m_global_width * 0.26), 0, QSizePolicy::Expanding);
@@ -1076,8 +1099,13 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
         m_globalVideoWidget->showCursorOnFullScreen();
         m_videoWidget->showCursorOnFullScreen();
 	}
-	else
-		hideControlPanelInNormalMode(true);
+    else if (m_globalVideoWidget->isFullScreen() && !m_videoControlTimer->isActive() && !m_titleInFullScreen->isHidden())
+        m_videoControlTimer->start(TIME_TO_HIDE_VIDEO_CTRL_MS);
+}
+
+void MediaPlayer::hideVideoControlPanel()
+{
+    hideControlPanelInNormalMode(true);
 }
 
 void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
@@ -1085,6 +1113,7 @@ void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
     if (m_globalVideoWidget->isFullScreen() && !forcedHide)
 		return;
 
+    m_videoControlTimer->stop();
 	m_videoTitleLayout->setMargin(0);
 	m_videoControlGridLayout->setMargin(0);
 	m_spaceInFullScreenButtonsLeft->changeSize(0, 0);
@@ -1228,4 +1257,30 @@ void MediaPlayer::toggleVideoWidgetFullscreen()
     }
 
     emit videoFullscreenToggled();
+}
+
+void MediaPlayer::removeItemFromPlaylist()
+{
+    if (!ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1))
+        return;
+
+    if (m_playerControls->getCurrentMediaItemValue() == ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1)->text())
+    {
+        QTableWidgetItem *currItem = ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1);
+        int currRow = ui->playlistWidget->currentRow();
+
+        if (!m_shuffleMode)
+            m_playerControls->nextForced();
+
+        m_playlist.deletePlaylistItem(currItem);
+        ui->playlistWidget->removeRow(currRow);
+    }
+    else
+    {
+        m_playlist.deletePlaylistItem(ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1));
+        ui->playlistWidget->removeRow(ui->playlistWidget->currentRow());
+    }
+
+    m_isUpdateOnRemove = true;
+    updatePlaylist();
 }
