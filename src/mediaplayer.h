@@ -61,11 +61,13 @@ private:
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
 	void resizeEvent(QResizeEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 signals:
     void fullScreenChanged(bool fullScreen);
     void changeVolume(int volume);
     void progressSliderValueChanged(int);   // use this signal while silder value changes instead of QSlider::valueChanged(int) - it is slow and bugged
+    void closeMainWindow();
 
 private slots:
     void updatePlaylist();                  // read playlist QMap to playlist widget

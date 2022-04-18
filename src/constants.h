@@ -27,6 +27,7 @@ struct styles_data_t
 	QString progressSliderTheme;
 	QString volumeSliderTheme;
 	QString playlistTheme;
+    QString preferencesTheme;
 };
 
 struct about_data_t
@@ -55,6 +56,30 @@ namespace constants
 // animations
 static const char *NONE_ANIMATION = "noneAnimation";
 static const char *DEFAULT_ANIMATION = "defaultAnimation";
+}
+
+namespace main_menu_constants
+{
+#define PREFERENCES_ICON_PATH ":/buttons/img/buttons/preferences-24.png"), "Preferences"
+}
+
+namespace preferences_constants
+{
+#define SECTION_GENERAL         "General"
+#define SECTION_APPLICATION     "Application"
+#define SECTION_VIEW            "View"
+#define SECTION_SHORTCUTS       "Shortcuts"
+#define SECTION_AUDIO           "Audio"
+#define SECTION_VIDEO           "Video"
+#define SECTION_ABOUT           "About"
+
+#define SECTION_GENERAL_ICON        ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_APPLICATION_ICON     ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_VIEW_ICON            ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_SHORTCUTS_ICON       ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_AUDIO_ICON           ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_VIDEO_ICON           ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_ABOUT_ICON           ":/buttons/img/buttons/preferences-24.png"
 }
 
 #endif // CONSTANTS_H

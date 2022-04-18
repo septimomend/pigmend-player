@@ -45,7 +45,7 @@ struct conf_data
 	char ssl_crt[PATH_MAX];
 	char theme_config[PATH_MAX];
 	char about_config[PATH_MAX];
-	char animations_config[PATH_MAX];
+    char animations_config[PATH_MAX];
 	int tokens_checker[NUMBER_OF_TOKENS];
 };
 
@@ -65,7 +65,7 @@ static char *conf_str_token[NUMBER_OF_TOKENS] =
 	[SSL_CRT] = "SSL_CRT",
 	[THEME_CONFIG] = "THEME_CONFIG",
 	[ABOUT_CONFIG] = "ABOUT_CONFIG",
-	[ANIMATIONS_CONFIG] = "ANIMATIONS_CONFIG",
+    [ANIMATIONS_CONFIG] = "ANIMATIONS_CONFIG",
 };
 
 static char *conf_type2str(conf_type_t conf_type)
@@ -233,7 +233,7 @@ static int config_set_value(conf_type_t conf_type, conf_data_t *conf_data,
 		case ANIMATIONS_CONFIG:
 			if (check_and_set_value(conf_data->animations_config, value, NULL, PATH_MAX))
 				goto Error;
-			break;
+            break;
 		default:
 			goto Error;
 	}
@@ -338,13 +338,12 @@ const char *getDBXML()
 
 void setDBXML(const char *database)
 {
-    sDBXML= database;
+    sDBXML = (char *)database;
 }
 
 conf_data_t *config_init(const char *config_file)
 {
-    if (!config_file)
-        return NULL;
+    if (!config_file) return NULL;
 
 	conf_data_t *conf_data = calloc(1, sizeof(conf_data_t));
 
@@ -392,7 +391,7 @@ void *config_get_data(conf_type_t conf_type, conf_data_t *conf_data)
 		case ABOUT_CONFIG:
 			return conf_data->about_config;
 		case ANIMATIONS_CONFIG:
-			return conf_data->animations_config;
+            return conf_data->animations_config;
 		default:
 			return NULL;
 	}

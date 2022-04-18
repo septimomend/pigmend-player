@@ -32,6 +32,8 @@ public:
 	PlayerControls(QWidget *parent = nullptr);
     ~PlayerControls();
 
+    bool m_stopMouseThread;
+
     bool isRepeatMode();                        // sets current media file again
     bool nextInShuffle();                       // sets next media file in accordance with shuffled data
     bool prevInShuffle();                       // sets previous media file in accordance with shuffled data
@@ -58,6 +60,7 @@ public slots:
     void setFirstFile(QListWidgetItem *item);   // sets playing first file after pressing `play` at once after playlist filling
     void setVolume(int volume);
 	void setVolumeMuted();
+    void interrupt();
 
 private slots:
     void setMetaData();                         // reads and sets metadata of file
@@ -86,6 +89,7 @@ private:
     PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();
     static int m_mediaOrder;
     std::mutex m_mtx;
+    std::thread m_thread;
 };
 
 #endif // PLAYER_H

@@ -18,20 +18,20 @@
 				selection-background-color: rgb(0, 170, 127); background-color: rgb(0, 170, 127, 125); color: rgb(255, 255, 255);
 			</menucolor>
             <progressSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 5px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127)); } 
-                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} 
-                QSlider::handle:horizontal { background: rgb(0, 170, 127); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } 
-                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
+				QSlider::groove:horizontal { background: white; height: 5px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127)); }
+                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);}
+                QSlider::handle:horizontal { background: rgb(0, 170, 127); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; }
+                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</progressSliderTheme>
             <volumeSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 10px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(0, 170, 127)); } 
-				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127));} 
-				QSlider::handle:horizontal { background: rgb(0, 170, 127); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } 
-				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
-				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
+				QSlider::groove:horizontal { background: white; height: 10px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(0, 170, 127)); }
+				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(0, 170, 127), stop: 1 rgb(0, 170, 127));}
+				QSlider::handle:horizontal { background: rgb(0, 170, 127); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; }
+				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
+				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</volumeSliderTheme>
             <playlistTheme>
 				QTableWidget { background-color: rgb(0, 170, 127, 127); gridline-color: rgb(0, 170, 127, 127); color: white; selection-background-color:  rgb(0, 170, 127); border: 0px; }
@@ -48,6 +48,21 @@
 				QPushButton:pressed { background-color: rgb(0, 170, 127); color: rgb(0, 170, 127); }
 				QToolTip { background-color: rgb(0, 170, 127); color: #ffffff; border: 0px; }
 			</button_checked>
+            <preferences_theme>
+				QWidget { background-color: rgb(53, 53, 53); color: rgb(255, 255, 255); border-width: 0px; border-color: transparent; }
+				QTableWidget { background-color: rgb(53, 53, 53); gridline-color: rgb(53, 53, 53); color: white; selection-background-color:  rgb(53, 53, 53); border: 0px; }
+				QTableWidget QTableCornerButton::section { background: rgb(0, 170, 127); }
+				QHeaderView::section { background-color: rgb(0, 170, 127); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(0, 170, 150, 127); color: white; }
+				QTabBar {background-color: transparent; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab {background-color: transparent; color: #e6e6e6; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab:selected {background-color: rgb(0, 170, 127); border-style: solid; border-width: 4px; border-color: rgb(0, 170, 127); border-radius: 3px; }
+				QListWidget { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+				QListWidget::item { border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; background-color: transparent; }
+				QListWidget::item:selected { background-color: rgb(0, 170, 127); border-style: solid; border-width: 0px; border-color: rgb(0, 170, 127); border-radius: 3px; }
+				QPushButton { background-color: rgb(0, 170, 127); border-style: solid; border-width: 1px; border-color: rgb(0, 170, 127); border-radius: 3px; qproperty-icon: url(" "); qproperty-iconSize: 16px 16px; }
+				QCheckBox { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+			</preferences_theme>
         </Theme>
         <Theme name="orange mend">
             <backcolor>
@@ -65,20 +80,20 @@
 				selection-background-color: rgb(255, 85, 0); background-color: rgb(255, 85, 0, 125); color: rgb(255, 255, 255);
 			</menucolor>
             <progressSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 5px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0)); } 
-                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} 
-                QSlider::handle:horizontal { background: rgb(255, 85, 0); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } 
-                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
+				QSlider::groove:horizontal { background: white; height: 5px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0)); }
+                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);}
+                QSlider::handle:horizontal { background: rgb(255, 85, 0); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; }
+                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</progressSliderTheme>
             <volumeSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 10px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(255, 85, 0)); } 
-				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0));} 
-				QSlider::handle:horizontal { background: rgb(255, 85, 0); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } 
-				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
-				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
+				QSlider::groove:horizontal { background: white; height: 10px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(255, 85, 0)); }
+				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(255, 85, 0), stop: 1 rgb(255, 85, 0));}
+				QSlider::handle:horizontal { background: rgb(255, 85, 0); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; }
+				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
+				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</volumeSliderTheme>
             <playlistTheme>
 				QTableWidget { background-color: rgb(255, 85, 0, 127); gridline-color: rgb(255, 85, 0, 127); color: white; selection-background-color:  rgb(255, 85, 0); border: 0px; }
@@ -95,6 +110,21 @@
 				QPushButton:pressed { background-color: rgb(255, 85, 0); color: rgb(255, 85, 0); }
 				QToolTip { background-color: rgb(255, 85, 0); color: #ffffff; border: 0px; }
 			</button_checked>
+            <preferences_theme>
+				QWidget { background-color: rgb(53, 53, 53); color: rgb(255, 255, 255); border-width: 0px; border-color: transparent; }
+				QTableWidget { background-color: rgb(53, 53, 53); gridline-color: rgb(53, 53, 53); color: white; selection-background-color:  rgb(53, 53, 53); border: 0px; }
+				QTableWidget QTableCornerButton::section { background: rgb(255, 85, 0); }
+				QHeaderView::section { background-color: rgb(255, 85, 0); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(0, 170, 150, 127); color: white; }
+				QTabBar {background-color: transparent; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab {background-color: transparent; color: #e6e6e6; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab:selected {background-color: rgb(255, 85, 0); border-style: solid; border-width: 4px; border-color: rgb(255, 85, 0); border-radius: 3px; }
+				QListWidget { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+				QListWidget::item { border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; background-color: transparent; }
+				QListWidget::item:selected { background-color: rgb(255, 85, 0); border-style: solid; border-width: 0px; border-color: rgb(255, 85, 0); border-radius: 3px; }
+				QPushButton { background-color: rgb(255, 85, 0); border-style: solid; border-width: 1px; border-color: rgb(255, 85, 0); border-radius: 3px; qproperty-icon: url(" "); qproperty-iconSize: 16px 16px; }
+				QCheckBox { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+			</preferences_theme>
         </Theme>
         <Theme name="grey mend">
             <backcolor>
@@ -112,20 +142,20 @@
 				selection-background-color: rgb(105, 105, 105); background-color: rgb(105, 105, 105, 125); color: rgb(255, 255, 255);
 			</menucolor>
             <progressSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 5px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105)); } 
-                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} 
-                QSlider::handle:horizontal { background: rgb(105, 105, 105); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } 
-                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
+				QSlider::groove:horizontal { background: white; height: 5px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105)); }
+                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);}
+                QSlider::handle:horizontal { background: rgb(105, 105, 105); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; }
+                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</progressSliderTheme>
             <volumeSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 10px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(105, 105, 105)); } 
-				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105));} 
-				QSlider::handle:horizontal { background: rgb(105, 105, 105); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } 
-				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
-				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
+				QSlider::groove:horizontal { background: white; height: 10px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(105, 105, 105)); }
+				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(105, 105, 105), stop: 1 rgb(105, 105, 105));}
+				QSlider::handle:horizontal { background: rgb(105, 105, 105); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; }
+				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
+				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</volumeSliderTheme>
             <playlistTheme>
 				QTableWidget { background-color: rgb(105, 105, 105, 127); gridline-color: rgb(105, 105, 105, 127); color: white; selection-background-color:  rgb(105, 105, 105); border: 0px; }
@@ -139,9 +169,24 @@
 			</button>
             <button_checked>
 				QPushButton { background-color: rgb(105, 105, 105); border-style: solid; border-width: 4px; border-color: rgb(105, 105, 105); border-radius: 5px; }
-				QPushButton:pressed { background-color: rgb(105, 105, 105); color: rgb(0, 170, 127); }
+				QPushButton:pressed { background-color: rgb(105, 105, 105); color: rgb(105, 105, 105); }
 				QToolTip { background-color: rgb(105, 105, 105); color: #ffffff; border: 0px; }
 			</button_checked>
+            <preferences_theme>
+				QWidget { background-color: rgb(53, 53, 53); color: rgb(255, 255, 255); border-width: 0px; border-color: transparent; }
+				QTableWidget { background-color: rgb(53, 53, 53); gridline-color: rgb(53, 53, 53); color: white; selection-background-color:  rgb(53, 53, 53); border: 0px; }
+				QTableWidget QTableCornerButton::section { background: rgb(105, 105, 105); }
+				QHeaderView::section { background-color: rgb(105, 105, 105); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(0, 170, 150, 127); color: white; }
+				QTabBar {background-color: transparent; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab {background-color: transparent; color: #e6e6e6; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab:selected {background-color: rgb(105, 105, 105); border-style: solid; border-width: 4px; border-color: rgb(105, 105, 105); border-radius: 3px; }
+				QListWidget { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+				QListWidget::item { border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; background-color: transparent; }
+				QListWidget::item:selected { background-color: rgb(105, 105, 105); border-style: solid; border-width: 0px; border-color: rgb(105, 105, 105); border-radius: 3px; }
+				QPushButton { background-color: rgb(105, 105, 105); border-style: solid; border-width: 1px; border-color: rgb(105, 105, 105); border-radius: 3px; qproperty-icon: url(" "); qproperty-iconSize: 16px 16px; }
+				QCheckBox { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+			</preferences_theme>
         </Theme>
         <Theme name="dark grey mend">
             <backcolor>
@@ -159,20 +204,20 @@
 				selection-background-color: rgb(47, 79, 79); background-color: rgb(47, 79, 79, 125); color: rgb(255, 255, 255);
 			</menucolor>
             <progressSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 5px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79)); } 
-                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);} 
-                QSlider::handle:horizontal { background: rgb(47, 79, 79); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; } 
-                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
+				QSlider::groove:horizontal { background: white; height: 5px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79)); }
+                QSlider::add-page:horizontal { background: rgb(255, 255, 255); border: 1px solid rgb(53, 53, 53);}
+                QSlider::handle:horizontal { background: rgb(47, 79, 79); border: 1px solid rgb(53, 53, 53); width: 13px; margin-top: -5px; margin-bottom: -5px; border-radius: 4px; }
+                QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
 				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</progressSliderTheme>
             <volumeSliderTheme>
-				QSlider::groove:horizontal { background: white; height: 10px; } 
-                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(47, 79, 79)); } 
-				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79));} 
-				QSlider::handle:horizontal { background: rgb(47, 79, 79); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; } 
-				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255)); 
-				border: 1px solid rgb(53, 53, 53); border-radius: 4px; } 
+				QSlider::groove:horizontal { background: white; height: 10px; }
+                QSlider::sub-page:horizontal { background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(53, 53, 53), stop: 1 rgb(47, 79, 79)); }
+				QSlider::add-page:horizontal { background: rgb(53, 53, 53); border: 1px solid qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 rgb(47, 79, 79), stop: 1 rgb(47, 79, 79));}
+				QSlider::handle:horizontal { background: rgb(47, 79, 79); width: 5px; margin-top: -3px; margin-bottom: -3px; border-radius: 4px; }
+				QSlider::handle:horizontal:hover { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgb(255, 255, 255), stop:1 rgb(255, 255, 255));
+				border: 1px solid rgb(53, 53, 53); border-radius: 4px; }
 			</volumeSliderTheme>
             <playlistTheme>
 				QTableWidget { background-color: rgb(47, 79, 79, 127); gridline-color: rgb(47, 79, 79, 127); color: white; selection-background-color:  rgb(47, 79, 79); border: 0px; }
@@ -189,6 +234,21 @@
 				QPushButton:pressed { background-color: rgb(47, 79, 79); color: rgb(47, 79, 79); }
 				QToolTip { background-color: rgb(47, 79, 79); color: #ffffff; border: 0px; }
 			</button_checked>
+            <preferences_theme>
+				QWidget { background-color: rgb(53, 53, 53); color: rgb(255, 255, 255); border-width: 0px; border-color: transparent; }
+				QTableWidget { background-color: rgb(53, 53, 53); gridline-color: rgb(53, 53, 53); color: white; selection-background-color:  rgb(53, 53, 53); border: 0px; }
+				QTableWidget QTableCornerButton::section { background: rgb(47, 79, 79); }
+				QHeaderView::section { background-color: rgb(47, 79, 79); color: rgb(53, 53, 53); font-size: 7pt; }
+				QHeaderView::section:checked { background-color:  rgb(0, 170, 150, 127); color: white; }
+				QTabBar {background-color: transparent; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab {background-color: transparent; color: #e6e6e6; border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; }
+				QTabBar::tab:selected {background-color: rgb(47, 79, 79); border-style: solid; border-width: 4px; border-color: rgb(47, 79, 79); border-radius: 3px; }
+				QListWidget { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+				QListWidget::item { border-style: solid; border-width: 4px; border-color: transparent; border-radius: 3px; background-color: transparent; }
+				QListWidget::item:selected { background-color: rgb(47, 79, 79); border-style: solid; border-width: 0px; border-color: rgb(47, 79, 79); border-radius: 3px; }
+				QPushButton { background-color: rgb(47, 79, 79); border-style: solid; border-width: 1px; border-color: rgb(47, 79, 79); border-radius: 3px; qproperty-icon: url(" "); qproperty-iconSize: 16px 16px; }
+				QCheckBox { border-width: 0px; border-color: transparent; background-color: rgb(53, 53, 53); }
+			</preferences_theme>
         </Theme>
     </Themes>
 </PigmendPlayer>

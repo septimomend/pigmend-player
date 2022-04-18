@@ -1,63 +1,160 @@
+#include <QApplication>
+
 #include "preferencesdialog.h"
-#include "ui_preferences.h"
+#include "constants.h"
+#include "config-dp/config.h"
 
-#include <qsettingsdialog.h>
-#include <qsettingssettingsloader.h>
-#include <qsettingspropertyentry.h>
+#if DEBUG
+#include <QDebug>
+#endif
 
-PreferencesDialog::PreferencesDialog(QWidget *parent) : QDialog(parent), ui(new Ui::PreferencesDialog)
+using namespace preferences_constants;
+
+PreferencesDialog::PreferencesDialog() :
+    m_parentWidget(NULL),
+    m_preferenceSettings(QApplication::applicationDirPath() + "/../config/settings.ini", QSettings::IniFormat)
 {
-    ui->setupUi(this);
+    qDebug() << QApplication::applicationDirPath()  << endl;
+    initParentWidget();
+    initSections();
 
-    setWindowFlags(Qt::Window);
-    setModal(true);
-
-    connect(ui->cancelButton, SIGNAL(clicked(bool)), this, SLOT(close()));
-    connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(showSettings()));
-
-    ui->listWidget->addItem("Test");
+    connect(&m_preferencesDialog, SIGNAL(saved(bool)), this, SLOT(saveSettings(bool)));
 }
 
 PreferencesDialog::~PreferencesDialog()
 {
-    delete ui;
+    delete m_parentWidget;
 }
 
-void PreferencesDialog::showSettings()
+void PreferencesDialog::initParentWidget()
 {
-//    QSettings settings(QApplication::applicationDirPath() + "/test.ini", QSettings::IniFormat);
-//    //create the dialog
-//    QSettingsDialog dialog;
-//    // add a new entry
-//    dialog.appendEntry(new QSettingsEntry(QMetaType::QString,// <- The display id. In this case, an edit for a QString is loaded, a QLineEdit
-//                                          new QSettingsSettingsLoader(&settings, "appName"),// <- The loader loads a value with the key "appName" from the settings
-//                                          "App name"));//Other properties of the entry, i.e. The label text
+    m_parentWidget = new QWidget;
+    //m_parentWidget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
-//    //show the dialog (blocking)
-//    dialog.execSettings();
+    if (!m_parentWidget)
+    {
+#if DEBUG
+        qDebug() << "Failed to allocate preferences parent widget" << endl;
+#endif
+        return;
+    }
+}
 
-    QSettingsDialog dialog;
+void PreferencesDialog::initSections()
+{
+    /*
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "appName"),
+                                          "App name"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "companyName"),
+                                          "Company name"));
 
-        QObject::connect(&dialog, &QSettingsDialog::saved, [](bool close) {
-            qDebug() << "---- Save completed" << (close ? "with" : "without") << "closing ----";
-        });
-        QObject::connect(&dialog, &QSettingsDialog::resetted, []() {
-            qDebug() << "---- Reset completed ----";
-        });
-        QObject::connect(&dialog, &QSettingsDialog::canceled, []() {
-            qDebug() << "---- Dialog was canceled ----";
-        });
+    m_preferencesDialog.setGroup("versionGroup", 0, "Version", true, "Please configure the version");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "version/major"),
+                                          "Major",
+                                          false,
+                                          QString(),
+                                          {{"minimum", 0}, {"maximum", 9}}));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "version/minor"),
+                                          "Minor",
+                                          false,
+                                          QString(),
+                                          {{"minimum", 0}, {"maximum", 9}}));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Int,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "version/patch"),
+                                          "Patch",
+                                          false,
+                                          QString(),
+                                          {{"minimum", 0}, {"maximum", 9}}));
 
-        QObject::connect(qApp, &QApplication::applicationNameChanged, []() {
-            qDebug() << "Name was changed!!! To" << QApplication::applicationName();
-        });
+    m_preferencesDialog.unsetGroup();
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QString,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "authorName"),
+                                          "Load Programmer",
+                                          true));
 
-        dialog.appendEntry(new QSettingsPropertyEntry("applicationName", qApp, "property"));
+    m_preferencesDialog.setSection("more", "More Stuff");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "allow/A"),
+                                          "Allow Option A"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "allow/B"),
+                                          "Allow Option B"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Bool,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "allow/C"),
+                                          "Allow Option C"));
+*/
+    m_preferencesDialog.setCategory(SECTION_GENERAL, SECTION_GENERAL, QIcon(SECTION_GENERAL_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QUrl,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
 
-        QSettings settings(QApplication::applicationDirPath() + "/settings.ini", QSettings::IniFormat);
-        dialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
-                                              new QSettingsSettingsLoader(&settings, "datetime"),
-                                              "settings.ini"));
+    m_preferencesDialog.setCategory(SECTION_VIEW, SECTION_VIEW, QIcon(SECTION_VIEW_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
 
-        dialog.openSettings();
+    m_preferencesDialog.setCategory(SECTION_SHORTCUTS, SECTION_SHORTCUTS, QIcon(SECTION_SHORTCUTS_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
+
+    m_preferencesDialog.setCategory(SECTION_APPLICATION, SECTION_APPLICATION, QIcon(SECTION_APPLICATION_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
+
+    m_preferencesDialog.setCategory(SECTION_AUDIO, SECTION_AUDIO, QIcon(SECTION_AUDIO_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
+
+    m_preferencesDialog.setCategory(SECTION_VIDEO, SECTION_VIDEO, QIcon(SECTION_VIDEO_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
+}
+
+void PreferencesDialog::showPreferences()
+{
+    m_preferencesDialog.execSettings(m_parentWidget);
+}
+
+void PreferencesDialog::saveSettings(bool closed)
+{
+#if DEBUG
+    qDebug() << "Changes saved, close flag: " << closed << endl;
+#endif
+}
+
+void PreferencesDialog::updateTheme(QString &style)
+{
+    m_parentWidget->setStyleSheet(style);
 }

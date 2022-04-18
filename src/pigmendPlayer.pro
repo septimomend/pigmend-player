@@ -66,7 +66,6 @@ HEADERS += \
 
 FORMS += \
         mediaplayer.ui \
-    preferences.ui \
     searchdialog.ui \
     aboutpigmend.ui
 

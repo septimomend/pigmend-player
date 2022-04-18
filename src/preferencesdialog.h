@@ -1,25 +1,32 @@
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
-#include <QDialog>
+#include <QWidget>
+#include <qsettingsdialog.h>
+#include <qsettingssettingsloader.h>
+#include <qsettingspropertyentry.h>
 
-namespace Ui {
-class PreferencesDialog;
-}
-
-class PreferencesDialog : public QDialog
+class PreferencesDialog : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PreferencesDialog(QWidget *parent = 0);
+    PreferencesDialog();
     ~PreferencesDialog();
 
+    void updateTheme(QString &style);
+
 private:
-    Ui::PreferencesDialog *ui;
+    void initParentWidget();
+    void initSections();
+
+    QWidget *m_parentWidget;
+    QSettings m_preferenceSettings;
+    QSettingsDialog m_preferencesDialog;
 
 public slots:
-    void showSettings();
+    void showPreferences();
+    void saveSettings(bool closed);
 };
 
 #endif // PREFERENCESDIALOG_H

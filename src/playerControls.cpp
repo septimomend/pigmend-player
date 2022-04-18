@@ -35,9 +35,10 @@ PlayerControls::PlayerControls(QWidget *parent) : m_vw(static_cast<VideoWidget*>
     m_shuffleMode = false;
     m_handleSelected = false;
     m_position = 0;
+    m_stopMouseThread = false;
 
-    std::thread thr(&captureMousePosition, this);
-    thr.detach();
+    m_thread = std::thread(&captureMousePosition, this);
+    m_thread.detach();
 }
 
 PlayerControls::~PlayerControls()
@@ -367,7 +368,7 @@ void PlayerControls::captureMousePosition(PlayerControls *pc)
 {
     std::lock_guard<std::mutex> locker(pc->m_mtx);
 
-    while (true)
+    while (!pc->m_stopMouseThread)
     {
         QPoint cursor_position = pc->mapFromGlobal(QCursor::pos());
         emit pc->mousePositionChanged(&cursor_position);
@@ -378,4 +379,9 @@ void PlayerControls::setVolumeMuted()
 {
 	m_player->setMuted(!m_player->isMuted());
 	emit volumeMutedChanged(m_player->isMuted());
+}
+
+void PlayerControls::interrupt()
+{
+    m_stopMouseThread = true;
 }

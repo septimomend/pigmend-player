@@ -39,7 +39,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_playerControls = new PlayerControls();
 	m_mediaFile = new MediafileController(this);
 	m_search = new SearchDialog(this);
-    m_preferences = new PreferencesDialog(this);
+    m_preferences = new PreferencesDialog();
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
 	m_timer = new QTimer(this);
     m_keyPressNumber = 0;
@@ -106,7 +106,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_normalWindowAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
 	connect(m_wideWindowAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
 	connect(m_maximizeAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
-    connect(m_preferencesAction, SIGNAL(triggered(bool)), m_preferences, SLOT(show()));
+    connect(m_preferencesAction, SIGNAL(triggered(bool)), m_preferences, SLOT(showPreferences()));
 
 	// ui operations
 	connect(ui->addFileButton, SIGNAL(clicked(bool)), m_mediaFile, SLOT(openFile()));
@@ -161,6 +161,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(onPlaylistUpdate()));
 	connect(m_playerControls, SIGNAL(isMusicContent(bool)), this, SLOT(onContentTypeChange(bool)));
 	connect(m_playerControls, SIGNAL(paused(bool)), this, SLOT(stopAnimation(bool)));
+    connect(this, SIGNAL(closeMainWindow()), m_playerControls, SLOT(interrupt()));
 
 	setGeometry(screen_size.x(), screen_size.y(), m_global_width / 2, m_global_height / 2);
 }
@@ -446,7 +447,7 @@ void MediaPlayer::initMenu()
 
     // edit
     m_editmenu = m_menuBar->addMenu("Edit");
-    m_preferencesAction = m_editmenu->addAction(QIcon(":/buttons/img/buttons/preferences-24.png"), "Preferences");
+    m_preferencesAction = m_editmenu->addAction(QIcon(PREFERENCES_ICON_PATH);
 
 	// view
 	m_viewmenu = m_menuBar->addMenu("View");
@@ -868,6 +869,7 @@ void MediaPlayer::updateTheme()
     m_volumeUpInFullScreen->setStyleSheet(m_style->backcolor);
     m_volumeDownInFullScreen->setStyleSheet(m_style->backcolor);
     m_volumeMuteInFullScreen->setStyleSheet(m_volumeMuteInFullScreen->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
+    m_preferences->updateTheme(m_style->preferencesTheme);
 }
 
 void MediaPlayer::updateAnimation()
@@ -1166,4 +1168,10 @@ void MediaPlayer::stopAnimation(bool isPaused)
 void MediaPlayer::postInit()
 {
     m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+}
+
+void MediaPlayer::closeEvent(QCloseEvent *event)
+{
+    emit closeMainWindow();
+    event->accept();
 }

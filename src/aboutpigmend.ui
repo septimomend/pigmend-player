@@ -70,7 +70,7 @@
     </sizepolicy>
    </property>
    <property name="toolTip">
-    <string>Search data [Enter]</string>
+    <string/>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(243, 243, 243);</string>
