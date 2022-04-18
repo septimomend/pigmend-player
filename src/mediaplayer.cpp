@@ -1052,6 +1052,7 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
 		position->y() >= (m_global_height - (m_global_height * 0.07))) ||
 		(position->y() >= 0 && position->y() <= m_global_height * 0.04)))
 	{
+        m_globalVideoWidget->showCursorOnFullScreen();
 		m_videoTitleLayout->setMargin(10);
 		m_videoControlGridLayout->setMargin(10);
 		m_spaceInFullScreenButtonsLeft->changeSize(int(m_global_width * 0.26), 0, QSizePolicy::Expanding);

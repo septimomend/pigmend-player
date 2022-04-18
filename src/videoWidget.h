@@ -26,6 +26,8 @@ public:
     VideoWidget(bool isMainScreen = false, QWidget *parent = 0);
     ~VideoWidget();
 
+    void showCursorOnFullScreen();
+
 public slots:
     void manageFullScreen();    // sets full screen after fullScreenButton is clicked
 
