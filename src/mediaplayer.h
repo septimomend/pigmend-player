@@ -55,6 +55,7 @@ private:
     void adjustVideoWidget();
     void deleteObjectsInFullScreen();
 	void initAnimations();
+    void initContextMenu();
     void resizeMovieLabel();
     void unfocusButtons();
 

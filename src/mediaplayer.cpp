@@ -59,6 +59,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	// initialize menu and load stylr
 	initAnimations();
 	initMenu();
+    initContextMenu();
 	adjustVideoWidget();
 	updateTheme();
 
@@ -432,6 +433,21 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 void MediaPlayer::onKeyPressed()
 {
     m_keyPressNumber = 0;
+}
+
+void MediaPlayer::initContextMenu()
+{
+    auto actInsert = new QAction("Add item", this);
+    auto actDelete = new QAction("Delete", this);
+
+    actInsert->setIcon(QIcon(":/buttons/img/buttons/add-file-16.ico"));
+    actDelete->setIcon(QIcon(":/buttons/img/buttons/x-mark-16.ico"));
+
+    connect(actInsert, &QAction::triggered, [=]() { m_mediaFile->openFile(); });
+    connect(actDelete, &QAction::triggered, [=]() { removeItemFromPlaylist(); });
+
+    ui->playlistWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
+    ui->playlistWidget->addActions({ actInsert, actDelete });
 }
 
 void MediaPlayer::resizeMovieLabel()
