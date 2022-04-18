@@ -50,4 +50,15 @@
         <file>img/custom/musgif/equalizerAnimationBricks.gif</file>
         <file>img/custom/musgif/astralAnimation.gif</file>
     </qresource>
+    <qresource prefix="/settings_icons">
+        <file>img/settings_icons/about-50.png</file>
+        <file>img/settings_icons/headphone-66.png</file>
+        <file>img/settings_icons/keyboard-50.png</file>
+        <file>img/settings_icons/video-50.png</file>
+        <file>img/settings_icons/window-settings-50.png</file>
+        <file>img/settings_icons/settings-64.png</file>
+        <file>img/settings_icons/view-64.png</file>
+        <file>img/settings_icons/down-arrow-64.png</file>
+        <file>img/settings_icons/up-arrow-64.png</file>
+    </qresource>
 </RCC>

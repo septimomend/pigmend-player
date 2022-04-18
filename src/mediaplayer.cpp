@@ -343,6 +343,36 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
                     QTimer::singleShot(500, this, SLOT(onKeyPressed()));
                 }
             }
+            else if (keyEvent->key() == Qt::Key_O && keyEvent->modifiers() == Qt::CTRL)
+            {
+                m_keyPressNumber++;
+
+                if (m_keyPressNumber == 1)
+                {
+                    m_mediaFile->openFile();
+                    QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                }
+            }
+            else if (keyEvent->key() == Qt::Key_P && keyEvent->modifiers() == Qt::CTRL)
+            {
+                m_keyPressNumber++;
+
+                if (m_keyPressNumber == 1)
+                {
+                    m_mediaFile->openFolder();
+                    QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                }
+            }
+            else if (keyEvent->key() == Qt::Key_Q && keyEvent->modifiers() == Qt::CTRL)
+            {
+                m_keyPressNumber++;
+
+                if (m_keyPressNumber == 1)
+                {
+                    this->close();
+                    QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                }
+            }
 
 			break;
 		}
@@ -836,6 +866,7 @@ void MediaPlayer::updateTheme()
     ui->pauseButton->setStyleSheet(ui->pauseButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
     ui->playButton->setStyleSheet(ui->playButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
     ui->playlistWidget->setStyleSheet(m_style->playlistTheme);
+    ui->playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
     ui->prevButton->setStyleSheet(m_style->backcolor);
     ui->progressSlider->setStyleSheet(m_style->progressSliderTheme);
     ui->volumeSlider->setStyleSheet(m_style->volumeSliderTheme);

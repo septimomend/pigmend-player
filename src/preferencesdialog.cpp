@@ -106,13 +106,55 @@ void PreferencesDialog::initSections()
                                           "Very secret color"));
 
     m_preferencesDialog.setCategory(SECTION_SHORTCUTS, SECTION_SHORTCUTS, QIcon(SECTION_SHORTCUTS_ICON));
-    m_preferencesDialog.setSection(".");
-    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
-                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
-                                          "Very secret url"));
-    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
-                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
-                                          "Very secret color"));
+    m_preferencesDialog.setSection(SECTION_SHORTCUTS);
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "add_file_key"),
+                                          "Add file"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "add_folder_key"),
+                                          "Add folder"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "exit_key"),
+                                          "Exit"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "play_pause_key"),
+                                          "Play/pause"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "forward_key"),
+                                          "Forward for 10s"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "backward_key"),
+                                          "Backward for 10s"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "volume_up_key"),
+                                          "Volume up"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "volume_down_key"),
+                                          "Volume down"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "mute_key"),
+                                          "Mute"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "window_size_1_key"),
+                                          "Window size 1"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "window_size_2_key"),
+                                          "Window size 2"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "window_size_3_key"),
+                                          "Window size 3"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "window_size_4_key"),
+                                          "Window size 4"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "maximize_key"),
+                                          "Maximize"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "maximize_key"),
+                                          "Maximize"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "full_screen_key"),
+                                          "Full screen"));
 
     m_preferencesDialog.setCategory(SECTION_APPLICATION, SECTION_APPLICATION, QIcon(SECTION_APPLICATION_ICON));
     m_preferencesDialog.setSection(".");
@@ -134,7 +176,16 @@ void PreferencesDialog::initSections()
 
     m_preferencesDialog.setCategory(SECTION_VIDEO, SECTION_VIDEO, QIcon(SECTION_VIDEO_ICON));
     m_preferencesDialog.setSection(".");
-    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QDateTime,
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QFont,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
+                                          "Very secret url"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,
+                                          new QSettingsSettingsLoader(&m_preferenceSettings, "secretColor"),
+                                          "Very secret color"));
+
+    m_preferencesDialog.setCategory(SECTION_ABOUT, SECTION_ABOUT, QIcon(SECTION_ABOUT_ICON));
+    m_preferencesDialog.setSection(".");
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence,
                                           new QSettingsSettingsLoader(&m_preferenceSettings, "secretUrl"),
                                           "Very secret url"));
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QColor,

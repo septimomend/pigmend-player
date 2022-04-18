@@ -58,6 +58,7 @@ styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
             themes_data->buttonTheme = theme_data_node->first_node("button")->value();
             themes_data->buttonCheckedTheme = theme_data_node->first_node("button_checked")->value();
             themes_data->preferencesTheme = theme_data_node->first_node("preferences_theme")->value();
+            themes_data->playlistScrollBar = theme_data_node->first_node("playlistScrollBar")->value();
 		}
 	}
 

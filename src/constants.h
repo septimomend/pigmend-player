@@ -27,6 +27,7 @@ struct styles_data_t
 	QString progressSliderTheme;
 	QString volumeSliderTheme;
 	QString playlistTheme;
+    QString playlistScrollBar;
     QString preferencesTheme;
 };
 
@@ -73,13 +74,13 @@ namespace preferences_constants
 #define SECTION_VIDEO           "Video"
 #define SECTION_ABOUT           "About"
 
-#define SECTION_GENERAL_ICON        ":/buttons/img/buttons/preferences-24.png"
-#define SECTION_APPLICATION_ICON     ":/buttons/img/buttons/preferences-24.png"
-#define SECTION_VIEW_ICON            ":/buttons/img/buttons/preferences-24.png"
-#define SECTION_SHORTCUTS_ICON       ":/buttons/img/buttons/preferences-24.png"
-#define SECTION_AUDIO_ICON           ":/buttons/img/buttons/preferences-24.png"
-#define SECTION_VIDEO_ICON           ":/buttons/img/buttons/preferences-24.png"
-#define SECTION_ABOUT_ICON           ":/buttons/img/buttons/preferences-24.png"
+#define SECTION_GENERAL_ICON        ":/settings_icons/img/settings_icons/settings-64.png"
+#define SECTION_APPLICATION_ICON     ":/settings_icons/img/settings_icons/window-settings-50.png"
+#define SECTION_VIEW_ICON            ":/settings_icons/img/settings_icons/view-64.png"
+#define SECTION_SHORTCUTS_ICON       ":/settings_icons/img/settings_icons/keyboard-50.png"
+#define SECTION_AUDIO_ICON           ":/settings_icons/img/settings_icons/headphone-66.png"
+#define SECTION_VIDEO_ICON           ":/settings_icons/img/settings_icons/video-50.png"
+#define SECTION_ABOUT_ICON           ":/settings_icons/img/settings_icons/about-50.png"
 }
 
 #endif // CONSTANTS_H
