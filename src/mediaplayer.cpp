@@ -1280,21 +1280,23 @@ void MediaPlayer::removeItemFromPlaylist()
     if (!ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1))
         return;
 
-    if (m_playerControls->getCurrentMediaItemValue() == ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1)->text())
-    {
-        QTableWidgetItem *currItem = ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1);
-        int currRow = ui->playlistWidget->currentRow();
+    QList<QTableWidgetItem*> selectedRows = ui->playlistWidget->selectedItems();
 
-        if (!m_shuffleMode)
-            m_playerControls->nextForced();
-
-        m_playlist.deletePlaylistItem(currItem);
-        ui->playlistWidget->removeRow(currRow);
-    }
-    else
+    foreach(QTableWidgetItem *obj, selectedRows)
     {
-        m_playlist.deletePlaylistItem(ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1));
-        ui->playlistWidget->removeRow(ui->playlistWidget->currentRow());
+        if (obj->column() != 1)
+            continue;
+
+        if (m_playerControls->getCurrentMediaItemValue() == obj->text())
+        {
+            if (!m_shuffleMode)
+                m_playerControls->nextForced();
+
+            m_playlist.deletePlaylistItem(obj);
+        }
+        else
+            m_playlist.deletePlaylistItem(obj);
+
     }
 
     m_isUpdateOnRemove = true;
