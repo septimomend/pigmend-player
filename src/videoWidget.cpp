@@ -20,7 +20,7 @@ E-mail: chapkailo.ivan@gmail.com
 #include <QDebug>
 #endif
 
-#define TIME_TO_HIDE_CURSOR_MS 1000
+#define TIME_TO_HIDE_CURSOR_MS 3000
 
 VideoWidget::VideoWidget(bool isMainScreen, QWidget *parent) : QVideoWidget(parent),
     m_isGlobalWidget(!isMainScreen)
@@ -47,7 +47,7 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Escape && isFullScreen())
     {
-        this->setFullScreen(false);
+        emit videoWidgetToggleRequest();
         event->accept();
     }
     else
@@ -56,21 +56,7 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 
 void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-	QVideoWidget *self = m_isGlobalWidget ? this : m_globalVideoWidget;
-
-	if (self->isFullScreen())
-	{
-		self->setFullScreen(false);
-        m_timer->stop();
-        QApplication::setOverrideCursor(Qt::ArrowCursor);
-        QApplication::changeOverrideCursor(Qt::ArrowCursor);
-	}
-	else
-    {
-		self->setFullScreen(true);
-        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
-    }
-
+    emit videoWidgetToggleRequest();
     event->accept();
 }
 
@@ -94,10 +80,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 
 void VideoWidget::manageFullScreen()
 {
-    if (isFullScreen())
-        this->setFullScreen(false);
-    else
-        this->setFullScreen(true);
+    emit videoWidgetToggleRequest();
 }
 
 void VideoWidget::hideCursorOnFullScreen()
@@ -110,10 +93,18 @@ void VideoWidget::hideCursorOnFullScreen()
 
 void VideoWidget::showCursorOnFullScreen()
 {
+    m_timer->stop();
+}
+
+void VideoWidget::onFullscreenToggled()
+{
     QApplication::setOverrideCursor(Qt::ArrowCursor);
     QApplication::changeOverrideCursor(Qt::ArrowCursor);
 
-    m_timer->stop();
+    if (m_globalVideoWidget->isFullScreen())
+        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+    else
+        m_timer->stop();
 }
 
 void VideoWidget::paintEvent(QPaintEvent *pe)

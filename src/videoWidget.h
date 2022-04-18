@@ -28,8 +28,12 @@ public:
 
     void showCursorOnFullScreen();
 
+signals:
+    void videoWidgetToggleRequest();
+
 public slots:
     void manageFullScreen();    // sets full screen after fullScreenButton is clicked
+    void onFullscreenToggled();
 
 private slots:
     void hideCursorOnFullScreen();

@@ -68,6 +68,7 @@ signals:
     void changeVolume(int volume);
     void progressSliderValueChanged(int);   // use this signal while silder value changes instead of QSlider::valueChanged(int) - it is slow and bugged
     void closeMainWindow();
+    void videoFullscreenToggled();
 
 private slots:
     void updatePlaylist();                  // read playlist QMap to playlist widget
@@ -96,6 +97,7 @@ private slots:
 	void onPlaylistUpdate();
 	void onContentTypeChange(bool isAudio);
     void onKeyPressed();
+    void toggleVideoWidgetFullscreen();
 
 private:
     int m_global_height;

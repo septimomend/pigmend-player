@@ -116,7 +116,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(ui->stopButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(stop()));
 	connect(ui->nextButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(nextForced()));
 	connect(ui->prevButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(prev()));
-	connect(ui->fullScreenButton, SIGNAL(clicked(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
+    connect(ui->fullScreenButton, SIGNAL(clicked(bool)), this, SLOT(toggleVideoWidgetFullscreen()));
 	connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
 	connect(ui->playlistWidget, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(onPlaylistDoubleClicked(int, int)));
 	connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
@@ -134,17 +134,20 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
 	connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
 	connect(ui->showHidePlaylistButton, SIGNAL(clicked(bool)), this, SLOT(showHidePlaylist()));
-	// full screenonPlaylist
+    // full screen
 	connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
 	connect(m_pauseInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(pause()));
 	connect(m_stopInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(stop()));
 	connect(m_nextInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(nextForced()));
 	connect(m_prevInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(prev()));
-	connect(m_disableFullScreen, SIGNAL(clicked(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
+	connect(m_disableFullScreen, SIGNAL(clicked(bool)), this, SLOT(toggleVideoWidgetFullscreen()));
 	connect(m_volumeUpInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonUpChanged()));
 	connect(m_volumeDownInFullScreen, SIGNAL(clicked(bool)), this, SLOT(onVolumeButtonDownChanged()));
 	connect(m_volumeMuteInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(setVolumeMuted()));
 	connect(m_globalVideoWidget, SIGNAL(fullScreenChanged(bool)), this, SLOT(hideControlPanelInNormalMode(bool)));
+    connect(m_videoWidget, SIGNAL(videoWidgetToggleRequest()), this, SLOT(toggleVideoWidgetFullscreen()));
+    connect(m_globalVideoWidget, SIGNAL(videoWidgetToggleRequest()), this, SLOT(toggleVideoWidgetFullscreen()));
+    connect(this, SIGNAL(videoFullscreenToggled()), m_videoWidget, SLOT(onFullscreenToggled()));
 
 	// internal operations
 	connect(m_playerControls, SIGNAL(currentMediaItem(QString)), this, SLOT(focusItem(QString)));
@@ -339,7 +342,7 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 
                 if (m_keyPressNumber == 1)
                 {
-                    m_globalVideoWidget->manageFullScreen();
+                    this->toggleVideoWidgetFullscreen();
                     QTimer::singleShot(500, this, SLOT(onKeyPressed()));
                 }
             }
@@ -1052,7 +1055,6 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
 		position->y() >= (m_global_height - (m_global_height * 0.07))) ||
 		(position->y() >= 0 && position->y() <= m_global_height * 0.04)))
 	{
-        m_globalVideoWidget->showCursorOnFullScreen();
 		m_videoTitleLayout->setMargin(10);
 		m_videoControlGridLayout->setMargin(10);
 		m_spaceInFullScreenButtonsLeft->changeSize(int(m_global_width * 0.26), 0, QSizePolicy::Expanding);
@@ -1071,6 +1073,8 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
 		m_volumeUpInFullScreen->show();
 		m_volumeDownInFullScreen->show();
 		m_volumeMuteInFullScreen->show();
+        m_globalVideoWidget->showCursorOnFullScreen();
+        m_videoWidget->showCursorOnFullScreen();
 	}
 	else
 		hideControlPanelInNormalMode(true);
@@ -1078,7 +1082,7 @@ void MediaPlayer::updateCursorPosition(QPoint *position)
 
 void MediaPlayer::hideControlPanelInNormalMode(bool forcedHide)
 {
-	if (m_globalVideoWidget->isFullScreen() && !forcedHide)
+    if (m_globalVideoWidget->isFullScreen() && !forcedHide)
 		return;
 
 	m_videoTitleLayout->setMargin(0);
@@ -1206,4 +1210,22 @@ void MediaPlayer::closeEvent(QCloseEvent *event)
 {
     emit closeMainWindow();
     event->accept();
+}
+
+void MediaPlayer::toggleVideoWidgetFullscreen()
+{
+    if (m_globalVideoWidget->windowState() == Qt::WindowFullScreen)
+    {
+        m_globalVideoWidget->setParent(this);
+        m_globalVideoWidget->setWindowState(Qt::WindowNoState);
+        ui->videoLayout->addWidget(m_globalVideoWidget);
+    }
+    else
+    {
+        ui->videoLayout->removeWidget(m_globalVideoWidget);
+        m_globalVideoWidget->setParent(this, Qt::Tool | Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
+        m_globalVideoWidget->showFullScreen();
+    }
+
+    emit videoFullscreenToggled();
 }
