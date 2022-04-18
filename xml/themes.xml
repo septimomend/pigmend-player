@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PigmendPlayer>
     <Themes>
-        <CurrentTheme>dark grey mend</CurrentTheme>
+        <CurrentTheme>blue mend</CurrentTheme>
         <Theme name="blue mend">
             <backcolor>
 				QPushButton { background-color: rgb(0, 170, 127); color: rgb(0, 170, 127); }
