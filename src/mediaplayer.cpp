@@ -122,6 +122,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(ui->prevButton, SIGNAL(clicked(bool)), m_playerControls, SLOT(prev()));
     connect(ui->fullScreenButton, SIGNAL(clicked(bool)), this, SLOT(toggleVideoWidgetFullscreen()));
 	connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
+    connect(ui->deleteItemButton, SIGNAL(clicked(bool)), this, SLOT(removeItemFromPlaylist()));
 	connect(ui->playlistWidget, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(onPlaylistDoubleClicked(int, int)));
 	connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
 	connect(m_sliderInFullScreen, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
@@ -230,6 +231,7 @@ void MediaPlayer::unfocusButtons()
     ui->addFileButton->setFocusPolicy(Qt::NoFocus);
     ui->addFolderButton->setFocusPolicy(Qt::NoFocus);
     ui->clearButton->setFocusPolicy(Qt::NoFocus);
+    ui->deleteItemButton->setFocusPolicy(Qt::NoFocus);
     ui->fast2Button->setFocusPolicy(Qt::NoFocus);
     ui->fast4Button->setFocusPolicy(Qt::NoFocus);
     ui->fullScreenButton->setFocusPolicy(Qt::NoFocus);
@@ -680,7 +682,7 @@ void MediaPlayer::initAnimations()
 	ui->loadingLabel->setMovie(m_movieLoading);
 	m_movieLoading->start();
 
-	ui->indexInfoLabel->setText("Indexing...");
+    ui->indexInfoLabel->setText("Indexing media on this device...");
 
 	QString pathMusicAnimation = m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)));
 
@@ -717,8 +719,8 @@ void MediaPlayer::onPlaylistUpdate()
 		++row;
 	}
 
-	ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
-	ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->rowCount()));   // set count of tracks
+    ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
+    ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->rowCount()));   // set count of tracks
 
 	// if added new files - shuffle it all
 	if (m_shuffleMode)
@@ -733,7 +735,7 @@ void MediaPlayer::onPlaylistUpdate()
 	// while loaded playlist first time - prepare first file for playing
 	// and don't prepare first file after adding files to existing playlist
 	// because then current media file stops playing and sets first file as media file
-	if (!m_isPlaylistLoaded)
+    if (!m_isPlaylistLoaded && !m_playlist.m_plData.isEmpty())
 	{
 		QListWidgetItem* item = new QListWidgetItem(m_playlist.m_plData.value(m_playlist.m_plData.firstKey()));
 		m_playerControls->setFirstFile(item);
@@ -742,7 +744,7 @@ void MediaPlayer::onPlaylistUpdate()
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
 
-    if (!ui->playlistLabel->isHidden())
+    if (!ui->playlistWidget->isHidden())
         m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
 
     focusItem(m_playerControls->getCurrentMediaItem());
@@ -853,7 +855,7 @@ void MediaPlayer::clearPlaylist()
 	if (m_playlist.clearPlaylistData() != 0)
 		qCritical() << "Can't clear playlist data" << endl;
 
-	//updatePlaylist();
+    updatePlaylist();
 	// set false
 	// when new data will be added to empty playlist then enable ability to prepare first file
 	m_isPlaylistLoaded = false;
@@ -899,6 +901,7 @@ void MediaPlayer::updateTheme()
     ui->addFolderButton->setStyleSheet(m_style->backcolor);
     ui->allItemsLabel->setStyleSheet(m_style->color);
     ui->clearButton->setStyleSheet(m_style->backcolor);
+    ui->deleteItemButton->setStyleSheet(m_style->backcolor);
     ui->currentItemLabel->setStyleSheet(m_style->color);
     ui->fast2Button->setStyleSheet(m_style->backcolor);
     ui->fast4Button->setStyleSheet(m_style->backcolor);
@@ -984,20 +987,20 @@ void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool statu
 {
 	if (status)
 	{
-		ui->indexInfoLabel->setText("PC Media:");
+        ui->indexInfoLabel->setText("Media available on this device:");
 		m_movieLoading->stop();
 		ui->loadingLabel->setMovie(m_movieDone);
 		m_movieDone->start();
 	}
 
 	if (audio_count == 0)
-		ui->indexAudioLabel->setText("no audio on this PC");
+        ui->indexAudioLabel->setText("🎧 0");
 	if (video_count == 0)
-		ui->indexVideoLabel->setText("no video on this PC");
+        ui->indexVideoLabel->setText("📽 0");
 	else
 	{
-		ui->indexAudioLabel->setText("Audio: " + QString::number(audio_count));
-		ui->indexVideoLabel->setText("Video: " + QString::number(video_count));
+        ui->indexAudioLabel->setText("🎧 " + QString::number(audio_count));
+        ui->indexVideoLabel->setText("📽 " + QString::number(video_count));
 	}
 
     if (!ui->playlistLabel->isHidden())
@@ -1178,6 +1181,7 @@ void MediaPlayer::showHidePlaylist()
 	ui->addFileButton->setHidden(!ui->addFileButton->isHidden());
 	ui->addFolderButton->setHidden(!ui->addFolderButton->isHidden());
 	ui->clearButton->setHidden(!ui->clearButton->isHidden());
+    ui->deleteItemButton->setHidden(!ui->deleteItemButton->isHidden());
 	ui->searchButton->setHidden(!ui->searchButton->isHidden());
 	ui->repeatButton->setHidden(!ui->repeatButton->isHidden());
 	ui->shuffleButton->setHidden(!ui->shuffleButton->isHidden());

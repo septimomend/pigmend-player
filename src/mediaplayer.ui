@@ -54,6 +54,54 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
+      <item row="1" column="9" alignment="Qt::AlignLeft">
+       <widget class="QPushButton" name="shuffleButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Shuffle</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="playerui.qrc">
+          <normaloff>:/buttons/img/buttons/shuffle-16.png</normaloff>:/buttons/img/buttons/shuffle-16.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
       <item row="5" column="9">
        <widget class="QPushButton" name="addFolderButton">
         <property name="sizePolicy">
@@ -86,59 +134,63 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="8">
-       <widget class="QPushButton" name="addFileButton">
+      <item row="1" column="0" rowspan="3" colspan="8">
+       <layout class="QGridLayout" name="videoLayout">
+        <property name="horizontalSpacing">
+         <number>6</number>
+        </property>
+       </layout>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="progressTimeLabel">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="toolTip">
-         <string>Add files</string>
-        </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="playerui.qrc">
-          <normaloff>:/buttons/img/buttons/add-file-16.ico</normaloff>:/buttons/img/buttons/add-file-16.ico</iconset>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
+         <string>00:00:00</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="10">
-       <widget class="QPushButton" name="clearButton">
+      <item row="0" column="8" colspan="3" alignment="Qt::AlignBottom">
+       <widget class="QLabel" name="playlistLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="toolTip">
-         <string>Clear playlist</string>
+        <property name="font">
+         <font>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="text">
-         <string/>
+         <string>Playlist:</string>
         </property>
-        <property name="icon">
-         <iconset resource="playerui.qrc">
-          <normaloff>:/buttons/img/buttons/delete-column-16.ico</normaloff>:/buttons/img/buttons/delete-column-16.ico</iconset>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
         </property>
-        <property name="flat">
-         <bool>true</bool>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="5" column="12" colspan="2" alignment="Qt::AlignRight">
+      <item row="5" column="13" colspan="2" alignment="Qt::AlignRight">
        <widget class="QPushButton" name="searchButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -170,49 +222,6 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="7" column="9" colspan="2">
-       <widget class="QLabel" name="indexInfoLabel">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="6" colspan="2">
        <widget class="QLabel" name="durationLabel">
         <property name="sizePolicy">
@@ -229,19 +238,96 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="progressTimeLabel">
+      <item row="0" column="7">
+       <widget class="QPushButton" name="showHidePlaylistButton">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Hide playlist</string>
         </property>
         <property name="text">
-         <string>00:00:00</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="playerui.qrc">
+          <normaloff>:/buttons/img/buttons/hide-arrow-48.ico</normaloff>:/buttons/img/buttons/hide-arrow-48.ico</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="6">
+       <widget class="QLabel" name="trademarkInfoLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
+          <strikeout>false</strikeout>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Pigmend Player by Ivan Chapkailo © 2022</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="11">
+       <widget class="QPushButton" name="deleteItemButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Remove selected files</string>
+        </property>
+        <property name="icon">
+         <iconset resource="playerui.qrc">
+          <normaloff>:/buttons/img/buttons/delete-row-30.png</normaloff>:/buttons/img/buttons/delete-row-30.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -263,6 +349,45 @@
         </property>
         <property name="tickPosition">
          <enum>QSlider::NoTicks</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="10">
+       <widget class="QPushButton" name="clearButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Clear playlist</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="playerui.qrc">
+          <normaloff>:/buttons/img/buttons/delete-column-16.ico</normaloff>:/buttons/img/buttons/delete-column-16.ico</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -302,180 +427,18 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="8">
-       <widget class="QLabel" name="loadingLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item row="7" column="6" colspan="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="7">
-       <widget class="QPushButton" name="showHidePlaylistButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
+        <property name="sizeHint" stdset="0">
          <size>
-          <width>48</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Hide playlist</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="playerui.qrc">
-          <normaloff>:/buttons/img/buttons/hide-arrow-48.ico</normaloff>:/buttons/img/buttons/hide-arrow-48.ico</iconset>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="8" colspan="3" alignment="Qt::AlignBottom">
-       <widget class="QLabel" name="playlistLabel">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="text">
-         <string>Playlist:</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-        <property name="scaledContents">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="9" alignment="Qt::AlignLeft">
-       <widget class="QPushButton" name="shuffleButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip">
-         <string>Shuffle</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="playerui.qrc">
-          <normaloff>:/buttons/img/buttons/shuffle-16.png</normaloff>:/buttons/img/buttons/shuffle-16.png</iconset>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="11" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="indexAudioLabel">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" rowspan="3" colspan="8">
-       <layout class="QGridLayout" name="videoLayout">
-        <property name="horizontalSpacing">
-         <number>6</number>
-        </property>
-       </layout>
-      </item>
-      <item row="7" column="0" colspan="6">
-       <widget class="QLabel" name="trademarkInfoLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-          <italic>false</italic>
-          <bold>false</bold>
-          <strikeout>false</strikeout>
-          <kerning>true</kerning>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Pigmend Player by Ivan Chapkailo © 2022</string>
-        </property>
-       </widget>
+       </spacer>
       </item>
       <item row="1" column="8">
        <layout class="QHBoxLayout" name="playlistHorizontalLayout">
@@ -749,7 +712,20 @@
         </item>
        </layout>
       </item>
-      <item row="7" column="12" colspan="2" alignment="Qt::AlignRight">
+      <item row="6" column="4">
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="7" column="13" colspan="2" alignment="Qt::AlignRight">
        <widget class="QLabel" name="indexVideoLabel">
         <property name="enabled">
          <bool>false</bool>
@@ -769,93 +745,104 @@
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="frameShape">
-         <enum>QFrame::Box</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Sunken</enum>
         </property>
         <property name="text">
-         <string/>
+         <string>📽 0</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="12" colspan="2" alignment="Qt::AlignRight|Qt::AlignBottom">
-       <widget class="QLabel" name="allItemsLabel">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
+      <item row="2" column="8" rowspan="3" colspan="7">
+       <widget class="QTableWidget" name="playlistWidget">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="font">
          <font>
-          <bold>true</bold>
+          <pointsize>8</pointsize>
          </font>
         </property>
-        <property name="toolTip">
-         <string>Count of playlist items</string>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+        <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+        </property>
+        <property name="toolTipDuration">
+         <number>2</number>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">QScrollBar:vertical {border: none;background-color: #282828;width: 10px;margin: 25px 0 0px 0;}\
+QScrollBar::handle:vertical{border-radius: 4px;border-color: rgba(216, 216, 216, 75%);border-width: 1px; border-style: solid; background-color: rgba(216, 216, 216, 75%); min-height: 25px;}\
+QScrollBar::add-line:vertical{width: 0px; height: 0px;}\
+QScrollBar::sub-line:vertical{width: 0px; height: 0px;}\
+QScrollBar::add-page:vertical{background-color: transparent;}\
+QScrollBar::sub-page:vertical{background-color: transparent;}\</string>
         </property>
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Box</enum>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
         </property>
-        <property name="text">
-         <string/>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustIgnored</enum>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="dragEnabled">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <property name="gridStyle">
+         <enum>Qt::NoPen</enum>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>0</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>0</number>
+        </attribute>
+        <attribute name="horizontalHeaderHighlightSections">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
        </widget>
-      </item>
-      <item row="6" column="3">
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="6" column="4">
-       <spacer name="horizontalSpacer_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="6" column="5">
-       <spacer name="horizontalSpacer_1">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item row="5" column="0" colspan="8">
        <layout class="QHBoxLayout" name="controlLayout">
@@ -1299,8 +1286,34 @@
         </item>
        </layout>
       </item>
-      <item row="6" column="2">
-       <spacer name="horizontalSpacer_2">
+      <item row="5" column="8">
+       <widget class="QPushButton" name="addFileButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Add files</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="playerui.qrc">
+          <normaloff>:/buttons/img/buttons/add-file-16.ico</normaloff>:/buttons/img/buttons/add-file-16.ico</iconset>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="5">
+       <spacer name="horizontalSpacer_1">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -1312,7 +1325,56 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="11" alignment="Qt::AlignBottom">
+      <item row="7" column="8">
+       <widget class="QLabel" name="loadingLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="12" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="indexAudioLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="text">
+         <string>🎧 0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="11">
        <widget class="QLabel" name="currentItemLabel">
         <property name="enabled">
          <bool>false</bool>
@@ -1345,7 +1407,46 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="12" colspan="2" alignment="Qt::AlignRight|Qt::AlignBottom">
+      <item row="0" column="12" colspan="3">
+       <widget class="QLabel" name="allItemsLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Count of playlist items</string>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="11" colspan="4">
        <widget class="QLabel" name="totalTimeLabel">
         <property name="font">
          <font>
@@ -1355,95 +1456,39 @@
         <property name="text">
          <string/>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
-      <item row="2" column="8" rowspan="3" colspan="6">
-       <widget class="QTableWidget" name="playlistWidget">
+      <item row="7" column="9" colspan="3">
+       <widget class="QLabel" name="indexInfoLabel">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
         </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
          </font>
         </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="contextMenuPolicy">
-         <enum>Qt::NoContextMenu</enum>
-        </property>
-        <property name="toolTipDuration">
-         <number>2</number>
-        </property>
         <property name="styleSheet">
-         <string notr="true">QScrollBar:vertical {border: none;background-color: #282828;width: 10px;margin: 25px 0 0px 0;}\
-QScrollBar::handle:vertical{border-radius: 4px;border-color: rgba(216, 216, 216, 75%);border-width: 1px; border-style: solid; background-color: rgba(216, 216, 216, 75%); min-height: 25px;}\
-QScrollBar::add-line:vertical{width: 0px; height: 0px;}\
-QScrollBar::sub-line:vertical{width: 0px; height: 0px;}\
-QScrollBar::add-page:vertical{background-color: transparent;}\
-QScrollBar::sub-page:vertical{background-color: transparent;}\</string>
+         <string notr="true"/>
         </property>
         <property name="frameShape">
-         <enum>QFrame::Box</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
-        <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAsNeeded</enum>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
         </property>
-        <property name="horizontalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOff</enum>
+        <property name="text">
+         <string/>
         </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustIgnored</enum>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::NoEditTriggers</set>
-        </property>
-        <property name="dragEnabled">
-         <bool>false</bool>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::ExtendedSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
-        </property>
-        <property name="showGrid">
-         <bool>false</bool>
-        </property>
-        <property name="gridStyle">
-         <enum>Qt::NoPen</enum>
-        </property>
-        <attribute name="horizontalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="horizontalHeaderCascadingSectionResizes">
-         <bool>true</bool>
-        </attribute>
-        <attribute name="horizontalHeaderMinimumSectionSize">
-         <number>0</number>
-        </attribute>
-        <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>0</number>
-        </attribute>
-        <attribute name="horizontalHeaderHighlightSections">
-         <bool>true</bool>
-        </attribute>
-        <attribute name="horizontalHeaderStretchLastSection">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
        </widget>
       </item>
      </layout>

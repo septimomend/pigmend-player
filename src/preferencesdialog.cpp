@@ -12,7 +12,11 @@ using namespace preferences_constants;
 
 PreferencesDialog::PreferencesDialog() :
     m_parentWidget(NULL),
+#if DEBUG
     m_preferenceSettings(QApplication::applicationDirPath() + "/../config/settings.ini", QSettings::IniFormat)
+#else
+    m_preferenceSettings(QApplication::applicationDirPath() + "/config/settings.ini", QSettings::IniFormat)
+#endif
 {
     qDebug() << QApplication::applicationDirPath()  << endl;
     initParentWidget();

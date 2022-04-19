@@ -31,6 +31,7 @@
         <file>img/buttons/volume-up-4-16.png</file>
         <file>img/buttons/audio-spectrum-16.ico</file>
         <file>img/buttons/preferences-24.png</file>
+        <file>img/buttons/delete-row-30.png</file>
     </qresource>
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>
