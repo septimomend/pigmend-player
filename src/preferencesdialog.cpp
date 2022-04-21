@@ -75,6 +75,14 @@ void PreferencesDialog::initShortcutsSection()
     m_preferencesDialog.setCategory(SECTION_SHORTCUTS, SECTION_SHORTCUTS, QIcon(SECTION_SHORTCUTS_ICON));
     m_preferencesDialog.setSection(SECTION_SHORTCUTS);
 
+    /* How to retrieve data:
+    QSettingsSettingsLoader *load = new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/add_file_key");
+    QVariant data;
+    bool userEdit;
+    load->load(data, userEdit);
+    qDebug() << data;
+    */
+
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/add_file_key"), "Add file"));
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/add_folder_key"), "Add folder"));
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/exit_key"), "Exit"));

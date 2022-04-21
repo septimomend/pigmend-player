@@ -125,7 +125,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->fullScreenButton, SIGNAL(clicked(bool)), this, SLOT(toggleVideoWidgetFullscreen()));
 	connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
     connect(ui->deleteItemButton, SIGNAL(clicked(bool)), this, SLOT(removeItemFromPlaylist()));
-	connect(ui->playlistWidget, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(onPlaylistDoubleClicked(int, int)));
+    connect(ui->playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
 	connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
 	connect(m_sliderInFullScreen, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
 	connect(this, SIGNAL(progressSliderValueChanged(int)), m_playerControls, SLOT(seek(int)));
@@ -159,12 +159,12 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 
 	// internal operations
 	connect(m_playerControls, SIGNAL(currentMediaItem(QString)), this, SLOT(focusItem(QString)));
-	connect(m_playerControls, SIGNAL(titleChanged( QStringList*)), this, SLOT(updateTitle( QStringList*)));
+    connect(m_playerControls, SIGNAL(titleChanged(QStringList*)), this, SLOT(updateTitle(QStringList*)));
 	connect(m_playerControls, SIGNAL(durationChanged(int)), this, SLOT(updateDuration(int)));
 	connect(m_mediaFile, SIGNAL(filesChosen()), this, SLOT(updatePlaylist()));
 	connect(m_playerControls, SIGNAL(timeProgressChanged(int)), this, SLOT(updateTimeProgress(int)));
     connect(m_search, SIGNAL(matchesFound(QString)), m_playerControls, SLOT(setMediaFile(QString)));
-	connect(m_mediaFile, SIGNAL(filesFound(int,int, bool)), this, SLOT(updateIndexedData(int,int, bool)));
+    connect(m_mediaFile, SIGNAL(filesFound(int,int,bool)), this, SLOT(updateIndexedData(int,int,bool)));
 	connect(this, SIGNAL(changeVolume(int)), m_playerControls, SIGNAL(setVolumeToPlayer(int)));
 	connect(m_playerControls, SIGNAL(changeVolumeValue(float)), this, SLOT(updateVolumeValue(float)));
 	connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
@@ -1006,13 +1006,15 @@ void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool statu
 	}
 
 	if (audio_count == 0)
-        ui->indexAudioLabel->setText("🎧 0");
+        ui->indexAudioLabel->setText(tr("<img src=\":/custom/img/custom/headphones-48.png\" width=\"16\" height=\"16\"/> 0"));
 	if (video_count == 0)
-        ui->indexVideoLabel->setText("📽 0");
+        ui->indexVideoLabel->setText(tr("<img src=\":/custom/img/custom/video-camera-100.png\" width=\"16\" height=\"16\"/> 0"));
 	else
 	{
-        ui->indexAudioLabel->setText("🎧 " + QString::number(audio_count));
-        ui->indexVideoLabel->setText("📽 " + QString::number(video_count));
+        QString audio = "<img src=\":/custom/img/custom/headphones-48.png\" width=\"16\" height=\"16\"/> " + QString::number(audio_count);
+        QString video = "<img src=\":/custom/img/custom/video-camera-100.png\" width=\"16\" height=\"16\" /> " + QString::number(video_count);
+        ui->indexAudioLabel->setText(tr(audio.toStdString().c_str()));
+        ui->indexVideoLabel->setText(tr(video.toStdString().c_str()));
 	}
 
     if (!ui->playlistLabel->isHidden())

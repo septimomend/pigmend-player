@@ -43,6 +43,8 @@
         <file>img/custom/orangemend.ico</file>
         <file>img/custom/pigmendback.png</file>
         <file>img/custom/search_no_match.png</file>
+        <file>img/custom/headphones-48.png</file>
+        <file>img/custom/video-camera-100.png</file>
     </qresource>
     <qresource prefix="/animations">
         <file>img/custom/musgif/defaultAnimation.gif</file>
