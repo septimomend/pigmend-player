@@ -37,6 +37,8 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 {
 	ui->setupUi(this);
 
+    QSettingsWidgetDialogEngine::registerGlobalWidgetType<QSettingsDialogWidget<PluginDialog>>(777777);
+
 	m_playerControls = new PlayerControls();
 	m_mediaFile = new MediafileController(this);
 	m_search = new SearchDialog(this);
@@ -390,6 +392,16 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
                 if (m_keyPressNumber == 1)
                 {
                     this->close();
+                    QTimer::singleShot(500, this, SLOT(onKeyPressed()));
+                }
+            }
+            else if (keyEvent->key() == Qt::Key_M && keyEvent->modifiers() == Qt::CTRL)
+            {
+                m_keyPressNumber++;
+
+                if (m_keyPressNumber == 1)
+                {
+                    m_playerControls->setVolumeMuted();
                     QTimer::singleShot(500, this, SLOT(onKeyPressed()));
                 }
             }

@@ -61,5 +61,6 @@
         <file>img/settings_icons/view-64.png</file>
         <file>img/settings_icons/down-arrow-64.png</file>
         <file>img/settings_icons/up-arrow-64.png</file>
+        <file>img/settings_icons/check-16.png</file>
     </qresource>
 </RCC>

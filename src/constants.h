@@ -14,6 +14,26 @@ E-mail: chapkailo.ivan@gmail.com
 #define CONSTANTS_H
 
 #include <QtWidgets>
+#include <QObject>
+
+class MetaWrapper : public QObject
+{
+    Q_OBJECT
+public:
+    enum AudioChannelEnum {
+        Stereo,
+        Channel4,
+        Channel4_1,
+        Channel5,
+        Channel5_1,
+        AC3
+    };
+    Q_ENUM(AudioChannelEnum)
+
+    explicit MetaWrapper(QObject *parent = 0) : QObject(parent)
+    {
+    }
+};
 
 struct styles_data_t
 {
