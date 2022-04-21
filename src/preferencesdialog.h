@@ -53,7 +53,6 @@ public:
         return true;
     }
     bool save(const QVariant &data) override {
-        qDebug() << data;
         this->value = data;
         return true;
     }
