@@ -36,7 +36,9 @@ DEFINES += PRO_FILE_PWD=$$sprintf("\"\\\"%1\\\"\"", $$_PRO_FILE_PWD_)
 SOURCES += \
         main.cpp \
         mediaplayer.cpp \
+    plugin_installer/plugindialog.cpp \
     preferencesdialog.cpp \
+    translator_injector/translatorinjector.cpp \
     videoWidget.cpp \
     playerControls.cpp \
     playlistSingleton.cpp \
@@ -49,7 +51,9 @@ SOURCES += \
 
 HEADERS += \
         mediaplayer.h \
+    plugin_installer/plugindialog.h \
     preferencesdialog.h \
+    translator_injector/translatorinjector.h \
     videoWidget.h \
     playerControls.h \
     playlistSingleton.h \
@@ -66,6 +70,7 @@ HEADERS += \
 
 FORMS += \
         mediaplayer.ui \
+    plugin_installer/plugindialog.ui \
     searchdialog.ui \
     aboutpigmend.ui
 

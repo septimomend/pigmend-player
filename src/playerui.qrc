@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/icon">
         <file>pigmend.ico</file>
+        <file>img/icons/pigmend_setup.png</file>
     </qresource>
     <qresource prefix="/buttons">
         <file>img/buttons/add-file-16.ico</file>

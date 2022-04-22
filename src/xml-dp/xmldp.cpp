@@ -1,9 +1,9 @@
 /*
 
 GPL-2.0 License
-Copyright (c) 2018 Ivan Chapkailo
+Copyright (c) 2022 Ivan Chapkailo
 
-See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+See license: https://github.com/septimomend/pigmend-player
 
 Author: Ivan Chapkailo (https://github.com/septimomend/)
 E-mail: chapkailo.ivan@gmail.com
@@ -59,6 +59,7 @@ styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
             themes_data->buttonCheckedTheme = theme_data_node->first_node("button_checked")->value();
             themes_data->preferencesTheme = theme_data_node->first_node("preferences_theme")->value();
             themes_data->playlistScrollBar = theme_data_node->first_node("playlistScrollBar")->value();
+            themes_data->pluginsTheme = theme_data_node->first_node("plugins_theme")->value();
 		}
 	}
 

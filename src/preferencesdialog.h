@@ -1,3 +1,15 @@
+/*
+
+GPL-2.0 License
+Copyright (c) 2022 Ivan Chapkailo
+
+See license: https://github.com/septimomend/pigmend-player
+
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
+
+*/
+
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
@@ -9,7 +21,7 @@
 #include <qsettingssettingsloader.h>
 #include <qsettingspropertyentry.h>
 #include <qsettingswidgetdialogengine.h>
-#include <qsettingsdialogwidget.h>
+#include "plugin_installer/plugindialog.h"
 
 class PreferencesDialog : public QWidget
 {
@@ -62,28 +74,6 @@ public:
 
 private:
     QVariant value;
-};
-
-// TODO create QDialog via designer and move into separate header
-class PluginDialog : public QSettingsWidget<QDialog>
-{
-public:
-    PluginDialog(QWidget *parent = nullptr) :
-        QSettingsWidget(parent)
-    {
-        this->setWindowTitle("Plugins Installer");
-        QHBoxLayout *layout = new QHBoxLayout;
-        QLabel *label = new QLabel;
-        label->setText("Demo, not functional");
-        layout->addWidget(label);
-        this->setLayout(layout);
-    }
-
-    void setValue(const QVariant &) override {}
-    QVariant getValue() const override {
-        return QVariant();
-    }
-    void resetValue() override {}
 };
 
 #endif // PREFERENCESDIALOG_H

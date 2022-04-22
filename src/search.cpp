@@ -1,9 +1,9 @@
 /*
 
 GPL-2.0 License
-Copyright (c) 2018 Ivan Chapkailo
+Copyright (c) 2022 Ivan Chapkailo
 
-See license: https://github.com/septimomend/pigmend-player/blob/feature/PP_1_1/LICENSE
+See license: https://github.com/septimomend/pigmend-player
 
 Author: Ivan Chapkailo (https://github.com/septimomend/)
 E-mail: chapkailo.ivan@gmail.com
@@ -89,7 +89,7 @@ void SearchDialog::checkMatches()
 
 void SearchDialog::updateTheme(styles_data_t *style)
 {
-	ui->cancelButton->setStyleSheet(style->backcolor);
+    ui->cancelButton->setStyleSheet(style->backcolor);
 	ui->okButton->setStyleSheet(style->backcolor);
 	ui->searchLineEdit->setStyleSheet(style->color);
 }
