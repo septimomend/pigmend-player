@@ -61,3 +61,8 @@ void AboutPigmend::loadInfoAbout()
 							 " • Audio: MP3, WAV, FLAC;<br/>"
 							 " • Video: MP4, AVI, MKV.</font>");
 }
+
+void AboutPigmend::updateTheme(styles_data_t *style)
+{
+    ui->okButton->setStyleSheet(style->backcolor);
+}

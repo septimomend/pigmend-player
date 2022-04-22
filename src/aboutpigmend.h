@@ -31,6 +31,7 @@ public:
     ~AboutPigmend();
 
     about_data_t *getInfoAbout();
+    void updateTheme(styles_data_t *style);
 
 private:
 	void loadInfoAbout();

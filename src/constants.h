@@ -30,6 +30,12 @@ public:
     };
     Q_ENUM(AudioChannelEnum)
 
+    enum SupportedLanguagesEnum {
+        EN,
+        UA
+    };
+    Q_ENUM(SupportedLanguagesEnum)
+
     explicit MetaWrapper(QObject *parent = 0) : QObject(parent)
     {
     }

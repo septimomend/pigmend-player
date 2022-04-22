@@ -50,6 +50,15 @@ public:
             else
                 return sourceText;
         }
+        if (context == QStringLiteral("SupportedLanguagesEnum"))
+        {
+            if (!strcmp(sourceText, "EN"))
+                return "English";
+            else if (!strcmp(sourceText, "UA"))
+                return "Ukrainian";
+            else
+                return sourceText;
+        }
         else
             return QTranslator::translate(context, sourceText, disambiguation, n);
     }

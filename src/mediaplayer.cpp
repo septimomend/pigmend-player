@@ -908,6 +908,7 @@ void MediaPlayer::updateTheme()
 	}
 
     m_search->updateTheme(m_style);
+    m_aboutPlayer->updateTheme(m_style);
 
     ui->addFileButton->setStyleSheet(m_style->backcolor);
     ui->addFolderButton->setStyleSheet(m_style->backcolor);

@@ -106,6 +106,7 @@ void PreferencesDialog::initApplicationSection()
     m_preferencesDialog.setSection(SECTION_APPLICATION);
 
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Bool, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_APPLICATION"/default_app"), "Set as default media application"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(qMetaTypeId<MetaWrapper::SupportedLanguagesEnum>(), new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_APPLICATION"/language"), "Language"));
 }
 
 void PreferencesDialog::initAudioSection()
@@ -115,6 +116,7 @@ void PreferencesDialog::initAudioSection()
 
 
     m_preferencesDialog.appendEntry(new QSettingsEntry(qMetaTypeId<MetaWrapper::AudioChannelEnum>(), new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_AUDIO"/audio_type"), "Audio type"));
+    m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::Bool, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_AUDIO"/enable_autoplay"), "Enable autoplay"));
 }
 
 void PreferencesDialog::initVideoSection()
