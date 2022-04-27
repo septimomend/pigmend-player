@@ -252,17 +252,8 @@ bool PlaylistSingleton::removePlaylist(QString id)
     for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
     {
         if (it.key() == id)
-        {
-            //it.value().playlistWidget->clear();
-            //delete it.value().playlistWidget;
-
-            if (clearPlaylistData() != 0)
-                return false;
-
             m_playlists.remove(id);
 
-            return true;
-        }
         if (m_current_playlist->tabId == id)
         {
             m_plData = &it.value().plData;
@@ -270,7 +261,7 @@ bool PlaylistSingleton::removePlaylist(QString id)
         }
     }
 
-    return false;
+    return true;
 }
 
 QString PlaylistSingleton::getCurrentTabId()
