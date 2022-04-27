@@ -26,6 +26,16 @@ using namespace std;
 PlaylistSingleton::PlaylistSingleton(QObject *parent)
 {
     (void)parent;
+    m_style = nullptr;
+
+    m_actInsert = new QAction("Add item", this);
+    m_actDelete = new QAction("Delete", this);
+
+    m_actInsert->setIcon(QIcon(":/buttons/img/buttons/add-file-16.ico"));
+    m_actDelete->setIcon(QIcon(":/buttons/img/buttons/x-mark-16.ico"));
+
+    connect(m_actInsert, &QAction::triggered, [=]() { emit addActionTriggered(); });
+    connect(m_actDelete, &QAction::triggered, [=]() { emit removeActionTriggered(); });
 }
 
 PlaylistSingleton::~PlaylistSingleton()
@@ -41,17 +51,17 @@ PlaylistSingleton& PlaylistSingleton::getInstance()
 
 size_t PlaylistSingleton::clearPlaylistData()
 {
-    if (!m_plData.isEmpty())
+    if (!m_plData->isEmpty())
     {
-        m_plData.clear();
+        m_plData->clear();
         m_shuffledData.clear();
     }
-	return size_t(m_plData.size());
+    return size_t(m_plData->size());
 }
 
 void PlaylistSingleton::deletePlaylistItem(QTableWidgetItem *item)
 {
-    m_plData.remove(item->text());
+    m_plData->remove(item->text());
 }
 
 size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
@@ -63,7 +73,7 @@ size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
 
 	if (shuffleMode)
     {
-		for (auto it = m_plData.begin(); it != m_plData.end(); ++it)
+        for (auto it = m_plData->begin(); it != m_plData->end(); ++it)
             m_shuffledData.push_back(it.value());
         std::random_shuffle(m_shuffledData.begin(), m_shuffledData.end());
     }
@@ -94,7 +104,7 @@ QString PlaylistSingleton::convertIntToTimeStr(int hours, int min, int sec)
 QString PlaylistSingleton::getAudioTotalTime()
 {
 	int total = 0, seconds, hours, minutes;
-	for (auto it = m_plData.begin(); it != m_plData.end(); ++it)
+    for (auto it = m_plData->begin(); it != m_plData->end(); ++it)
 	{
 		TagLib::FileRef f(it.value().toStdString().c_str());
 
@@ -134,4 +144,136 @@ QString PlaylistSingleton::getAudioTime(QString &audio_file)
 	seconds = (time % 3600) % 60;
 
 	return convertIntToTimeStr(hours, minutes, seconds);
+}
+
+playlists_str PlaylistSingleton::createNewPlaylist()
+{
+    playlists_str newPlaylist = {};
+    newPlaylist.tabName = newPlaylist.tabId = "Playlist #" + QString::number(m_playlists.count() + 1);
+    newPlaylist.playlistWidget = new QTableWidget();
+    newPlaylist.playlistWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    newPlaylist.playlistWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    newPlaylist.playlistWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    newPlaylist.playlistWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    newPlaylist.playlistWidget->setFont(QFont("Ubuntu", 8));
+    newPlaylist.playlistWidget->setFocusPolicy(Qt::NoFocus);
+    newPlaylist.playlistWidget->setWordWrap(false);
+    newPlaylist.playlistWidget->setShowGrid(false);
+    newPlaylist.playlistWidget->setAutoScroll(true);
+    newPlaylist.playlistWidget->horizontalHeader()->setCascadingSectionResizes(true);
+    newPlaylist.playlistWidget->horizontalHeader()->setMinimumSectionSize(0);
+    newPlaylist.playlistWidget->horizontalHeader()->hide();
+    newPlaylist.playlistWidget->verticalHeader()->hide();
+    newPlaylist.plData.empty();
+    m_playlists.insert(newPlaylist.tabId, newPlaylist);
+
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        if (it.key() == newPlaylist.tabId)
+        {
+            m_plData = &it.value().plData;
+            m_playing_widget = it.value().playlistWidget;
+            connect(it.value().playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
+            break;
+        }
+    }
+
+    updateStylesheet();
+    initContextMenu();
+
+    return newPlaylist;
+}
+
+bool PlaylistSingleton::setActivePlaylist(QString id)
+{
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        if (it.key() == id)
+        {
+            m_current_playlist = &it.value();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void PlaylistSingleton::updateTheme(styles_data_t *style)
+{
+    m_style = style;
+    updateStylesheet();
+}
+
+void PlaylistSingleton::updateStylesheet()
+{
+    if (!m_style)
+        return;
+
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        it.value().playlistWidget->setStyleSheet(m_style->playlistTheme);
+        it.value().playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
+    }
+}
+
+QTableWidget *PlaylistSingleton::getCurrentPlaylistWidget(bool isCurrentlyPlaying)
+{
+    return isCurrentlyPlaying ? m_playing_widget : m_current_playlist->playlistWidget;
+}
+
+void PlaylistSingleton::initContextMenu()
+{
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        QTableWidget *widget = it.value().playlistWidget;
+        if (!widget->actions().isEmpty())
+            continue;
+
+        widget->setContextMenuPolicy(Qt::ActionsContextMenu);
+        widget->addActions({ m_actInsert, m_actDelete });
+    }
+}
+
+void PlaylistSingleton::onPlaylistDoubleClicked(int row, int column)
+{
+    m_plData = &m_current_playlist->plData;
+    m_playing_widget = m_current_playlist->playlistWidget;
+
+    emit activatePlaylist(row, column);
+}
+
+QMap<QString, QString> *PlaylistSingleton::getCurrentPlaylistContainer()
+{
+    return &m_current_playlist->plData;
+}
+
+bool PlaylistSingleton::removePlaylist(QString id)
+{
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        if (it.key() == id)
+        {
+            //it.value().playlistWidget->clear();
+            //delete it.value().playlistWidget;
+
+            if (clearPlaylistData() != 0)
+                return false;
+
+            m_playlists.remove(id);
+
+            return true;
+        }
+        if (m_current_playlist->tabId == id)
+        {
+            m_plData = &it.value().plData;
+            m_playing_widget = it.value().playlistWidget;
+        }
+    }
+
+    return false;
+}
+
+QString PlaylistSingleton::getCurrentTabId()
+{
+    return m_current_playlist->tabId;
 }

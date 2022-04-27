@@ -35,8 +35,9 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_global_height(screen_size.height()), m_global_width(screen_size.width()),
 	ui(new Ui::MediaPlayer), m_videoWidget(nullptr), m_conf_data(conf_data)
 {
-	ui->setupUi(this);
+    ui->setupUi(this);
 
+    initPlaylist();
     QSettingsWidgetDialogEngine::registerGlobalWidgetType<QSettingsDialogWidget<PluginDialog>>(777777);
 
 	m_playerControls = new PlayerControls();
@@ -58,10 +59,9 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     ui->trademarkInfoLabel->setText(m_aboutPlayer->getInfoAbout()->software_name + " by "
         + m_aboutPlayer->getInfoAbout()->author_name + " © " + m_aboutPlayer->getInfoAbout()->year);
 
-	// initialize menu and load stylr
+    // initialize modules
 	initAnimations();
 	initMenu();
-    initContextMenu();
 	adjustVideoWidget();
 	updateTheme();
 
@@ -125,7 +125,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(ui->fullScreenButton, SIGNAL(clicked(bool)), this, SLOT(toggleVideoWidgetFullscreen()));
 	connect(ui->clearButton, SIGNAL(clicked(bool)), this, SLOT(clearPlaylist()));
     connect(ui->deleteItemButton, SIGNAL(clicked(bool)), this, SLOT(removeItemFromPlaylist()));
-    connect(ui->playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
+    connect(&m_playlist, SIGNAL(activatePlaylist(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
 	connect(ui->progressSlider, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
 	connect(m_sliderInFullScreen, SIGNAL(sliderMoved(int)), m_playerControls, SLOT(seek(int)));
 	connect(this, SIGNAL(progressSliderValueChanged(int)), m_playerControls, SLOT(seek(int)));
@@ -141,6 +141,10 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(ui->volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
 	connect(m_volumeSliderInFullScreen, SIGNAL(valueChanged(int)), this, SLOT(onVolumeSliderValueChanged()));
 	connect(ui->showHidePlaylistButton, SIGNAL(clicked(bool)), this, SLOT(showHidePlaylist()));
+    connect(&m_playlist, SIGNAL(removeActionTriggered()), this, SLOT(removeItemFromPlaylist()));
+    connect(ui->playlistTabWidget, SIGNAL(currentChanged(int)), this, SLOT(playlistTabChanged(int)));
+    connect(ui->playlistTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closePlaylistTab(int)));
+
     // full screen
 	connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
 	connect(m_pauseInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(pause()));
@@ -196,6 +200,7 @@ MediaPlayer::~MediaPlayer()
     delete m_videoControlTimer;
 	delete m_timer;
 	delete m_movieMusic;
+    delete addPlaylistButton;
 }
 
 void MediaPlayer::deleteObjectsInFullScreen()
@@ -251,6 +256,7 @@ void MediaPlayer::unfocusButtons()
     ui->showHidePlaylistButton->setFocusPolicy(Qt::NoFocus);
     ui->progressSlider->setFocusPolicy(Qt::NoFocus);
     ui->volumeSlider->setFocusPolicy(Qt::NoFocus);
+    addPlaylistButton->setFocusPolicy(Qt::NoFocus);
 }
 
 bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
@@ -444,24 +450,36 @@ bool MediaPlayer::eventFilter(QObject* watched, QEvent* event)
 	return QMainWindow::eventFilter(watched, event);
 }
 
+void MediaPlayer::initPlaylist()
+{
+    addPlaylistButton = new QPushButton();
+    addPlaylistButton->setIcon(QIcon(":/buttons/img/buttons/plus-16.png"));
+    addPlaylistButton->setFlat(true);
+    connect(addPlaylistButton, SIGNAL(clicked(bool)), this, SLOT(openNewPlaylistTab()));
+    ui->playlistTabWidget->setCornerWidget(addPlaylistButton, Qt::TopRightCorner);
+
+    // add initial tab playlist
+    ui->playlistTabWidget->clear();
+    playlists_str newPlaylist = m_playlist.createNewPlaylist();
+    ui->playlistTabWidget->addTab(newPlaylist.playlistWidget, newPlaylist.tabName);
+    ui->playlistTabWidget->currentWidget()->setObjectName(newPlaylist.tabId);
+    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+    ui->playlistTabWidget->setTabsClosable(false);
+}
+
+void MediaPlayer::openNewPlaylistTab()
+{
+    playlists_str newPlaylist = m_playlist.createNewPlaylist();
+    int id = ui->playlistTabWidget->addTab(newPlaylist.playlistWidget, newPlaylist.tabName);
+    ui->playlistTabWidget->setCurrentIndex(id);
+    ui->playlistTabWidget->currentWidget()->setObjectName(newPlaylist.tabId);
+    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+    ui->playlistTabWidget->setTabsClosable(true);
+}
+
 void MediaPlayer::onKeyPressed()
 {
     m_keyPressNumber = 0;
-}
-
-void MediaPlayer::initContextMenu()
-{
-    auto actInsert = new QAction("Add item", this);
-    auto actDelete = new QAction("Delete", this);
-
-    actInsert->setIcon(QIcon(":/buttons/img/buttons/add-file-16.ico"));
-    actDelete->setIcon(QIcon(":/buttons/img/buttons/x-mark-16.ico"));
-
-    connect(actInsert, &QAction::triggered, [=]() { m_mediaFile->openFile(); });
-    connect(actDelete, &QAction::triggered, [=]() { removeItemFromPlaylist(); });
-
-    ui->playlistWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
-    ui->playlistWidget->addActions({ actInsert, actDelete });
 }
 
 void MediaPlayer::resizeMovieLabel()
@@ -500,7 +518,7 @@ void MediaPlayer::resizeEvent(QResizeEvent* event)
     m_movieMusic->setScaledSize(QSize(m_movieImageSize.width() * diffPercent, m_movieImageSize.height() * diffPercent));
 
     if (!ui->playlistLabel->isHidden())
-        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+        m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
 }
 
 void MediaPlayer::initMenu()
@@ -709,30 +727,30 @@ void MediaPlayer::onPlaylistUpdate()
 	int row = 0;
 
 	m_timer->stop();
-	ui->playlistWidget->setRowCount(row);
-	ui->playlistWidget->setColumnCount(PLAYLIST_COLUMN_COUNT);
+    m_playlist.getCurrentPlaylistWidget()->setRowCount(row);
+    m_playlist.getCurrentPlaylistWidget()->setColumnCount(PLAYLIST_COLUMN_COUNT);
 
 	QStringList playlistHeader;
 	playlistHeader << "#" << "Name" << "Time";
-	ui->playlistWidget->setHorizontalHeaderLabels(playlistHeader);
-	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-	ui->playlistWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-	ui->playlistWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_playlist.getCurrentPlaylistWidget()->setHorizontalHeaderLabels(playlistHeader);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    m_playlist.getCurrentPlaylistWidget()->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
 	// insert filenames from QMap as items to playlist widget
-	for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+    for (auto it = m_playlist.getCurrentPlaylistContainer()->begin(); it != m_playlist.getCurrentPlaylistContainer()->end(); ++it)
 	{
 		QString item = it.key();
-		ui->playlistWidget->insertRow(row);
-		ui->playlistWidget->setItem(row, PLAYLIST_NUM_COLUMN, new QTableWidgetItem(QString::number(row + 1) + "."));
-		ui->playlistWidget->setItem(row, PLAYLIST_NAME_COLUMN, new QTableWidgetItem(item));
-		ui->playlistWidget->setItem(row, PLAYLIST_TIME_COLUMN, new QTableWidgetItem(m_playlist.getAudioTime(it.value())));
+        m_playlist.getCurrentPlaylistWidget()->insertRow(row);
+        m_playlist.getCurrentPlaylistWidget()->setItem(row, PLAYLIST_NUM_COLUMN, new QTableWidgetItem(QString::number(row + 1) + "."));
+        m_playlist.getCurrentPlaylistWidget()->setItem(row, PLAYLIST_NAME_COLUMN, new QTableWidgetItem(item));
+        m_playlist.getCurrentPlaylistWidget()->setItem(row, PLAYLIST_TIME_COLUMN, new QTableWidgetItem(m_playlist.getAudioTime(it.value())));
 		++row;
 	}
 
     ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
-    ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(ui->playlistWidget->rowCount()));   // set count of tracks
+    ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(m_playlist.getCurrentPlaylistWidget()->rowCount()));   // set count of tracks
 
 	// if added new files - shuffle it all
 	if (m_shuffleMode)
@@ -747,17 +765,17 @@ void MediaPlayer::onPlaylistUpdate()
 	// while loaded playlist first time - prepare first file for playing
 	// and don't prepare first file after adding files to existing playlist
 	// because then current media file stops playing and sets first file as media file
-    if (!m_isPlaylistLoaded && !m_playlist.m_plData.isEmpty())
+    if (!m_isPlaylistLoaded && !m_playlist.m_plData->isEmpty())
 	{
-		QListWidgetItem* item = new QListWidgetItem(m_playlist.m_plData.value(m_playlist.m_plData.firstKey()));
+        QListWidgetItem* item = new QListWidgetItem(m_playlist.m_plData->value(m_playlist.m_plData->firstKey()));
 		m_playerControls->setFirstFile(item);
 		m_isPlaylistLoaded = true;
 	}
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
 
-    if (!ui->playlistWidget->isHidden())
-        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+    if (!m_playlist.getCurrentPlaylistWidget()->isHidden())
+        m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
 
     focusItem(m_playerControls->getCurrentMediaItem());
     m_isUpdateOnRemove = false;
@@ -776,7 +794,7 @@ void MediaPlayer::onPlaylistDoubleClicked(int row, int column)
 	column = PLAYLIST_NAME_COLUMN;
 	ui->progressSlider->setValue(0);
 	m_sliderInFullScreen->setValue(0);
-	QString item = ui->playlistWidget->item(row, column)->text();
+    QString item = m_playlist.getCurrentPlaylistWidget(true)->item(row, column)->text();
 	m_playerControls->setMediaFile(item);
 }
 
@@ -839,7 +857,7 @@ void MediaPlayer::updateTimeProgress(int playTime)
 void MediaPlayer::focusItem(QString path)
 {
 	int row = 0;
-	for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+    for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
 	{
 #ifdef WIN32
 		QString canonical_path = "file:///" + it.value();
@@ -849,8 +867,8 @@ void MediaPlayer::focusItem(QString path)
 
 		if (path == canonical_path)
 		{
-		  ui->playlistWidget->selectRow(row);
-		  ui->playlistWidget->scrollToItem(ui->playlistWidget->selectedItems().at(0));
+          m_playlist.getCurrentPlaylistWidget(true)->selectRow(row);
+          m_playlist.getCurrentPlaylistWidget(true)->scrollToItem(m_playlist.getCurrentPlaylistWidget(true)->selectedItems().at(0));
 		  ui->currentItemLabel->setText(QString::number(row + 1));              // set number of current track
 		}
 		++row;
@@ -860,10 +878,10 @@ void MediaPlayer::focusItem(QString path)
 void MediaPlayer::clearPlaylist()
 {
 	// clear palylist
-	if (ui->playlistWidget->rowCount() == 0)
+    if (m_playlist.getCurrentPlaylistWidget()->rowCount() == 0)
 		return;
 
-	ui->playlistWidget->clear();
+    m_playlist.getCurrentPlaylistWidget()->clear();
 	if (m_playlist.clearPlaylistData() != 0)
 		qCritical() << "Can't clear playlist data" << endl;
 
@@ -909,6 +927,7 @@ void MediaPlayer::updateTheme()
 
     m_search->updateTheme(m_style);
     m_aboutPlayer->updateTheme(m_style);
+    m_playlist.updateTheme(m_style);
     PluginDialog::updateTheme(m_style);
 
     ui->addFileButton->setStyleSheet(m_style->backcolor);
@@ -923,8 +942,11 @@ void MediaPlayer::updateTheme()
     ui->nextButton->setStyleSheet(m_style->backcolor);
     ui->pauseButton->setStyleSheet(ui->pauseButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
     ui->playButton->setStyleSheet(ui->playButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
-    ui->playlistWidget->setStyleSheet(m_style->playlistTheme);
-    ui->playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
+//    ui->playlistWidget->setStyleSheet(m_style->playlistTheme);
+//    ui->playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
+    ui->playlistTabWidget->setStyleSheet(m_style->playlistTabsTheme);
+    ui->playlistTabWidget->tabBar()->setStyleSheet(m_style->playlistTabsTheme);
+    ui->playlistTabWidget->cornerWidget()->setStyleSheet(m_style->playlistTabsTheme);
     ui->prevButton->setStyleSheet(m_style->backcolor);
     ui->progressSlider->setStyleSheet(m_style->progressSliderTheme);
     ui->volumeSlider->setStyleSheet(m_style->volumeSliderTheme);
@@ -1020,7 +1042,7 @@ void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool statu
 	}
 
     if (!ui->playlistLabel->isHidden())
-        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+        m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
 }
 
 void MediaPlayer::setWindowSize()
@@ -1189,7 +1211,7 @@ void MediaPlayer::clearLayout(QLayout *layout)
 void MediaPlayer::showHidePlaylist()
 {
 	ui->playlistLabel->setHidden(!ui->playlistLabel->isHidden());
-	ui->playlistWidget->setHidden(!ui->playlistWidget->isHidden());
+    ui->playlistTabWidget->setHidden(!ui->playlistTabWidget->isHidden());
 	ui->indexAudioLabel->setHidden(!ui->indexAudioLabel->isHidden());
 	ui->indexVideoLabel->setHidden(!ui->indexVideoLabel->isHidden());
 	ui->indexInfoLabel->setHidden(!ui->indexInfoLabel->isHidden());
@@ -1206,7 +1228,7 @@ void MediaPlayer::showHidePlaylist()
 	ui->underPlaylistLabel->setHidden(!ui->underPlaylistLabel->isHidden());
 	ui->totalTimeLabel->setHidden(!ui->totalTimeLabel->isHidden());
 
-	if (ui->playlistWidget->isHidden())
+    if (ui->playlistTabWidget->isHidden())
 	{
         m_menuBar->setFixedWidth(13);
 		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/show-arrow-48.ico"));
@@ -1214,7 +1236,7 @@ void MediaPlayer::showHidePlaylist()
 	}
 	else
 	{
-        m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+        m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
 		ui->showHidePlaylistButton->setIcon(QIcon(":/buttons/img/buttons/hide-arrow-48.ico"));
 		ui->showHidePlaylistButton->setToolTip("Hide playlist");
 	}
@@ -1268,7 +1290,7 @@ void MediaPlayer::stopAnimation(bool isPaused)
 
 void MediaPlayer::postInit()
 {
-    m_menuBar->setFixedWidth(ui->playlistWidget->geometry().width());
+    m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
 }
 
 void MediaPlayer::closeEvent(QCloseEvent *event)
@@ -1297,10 +1319,10 @@ void MediaPlayer::toggleVideoWidgetFullscreen()
 
 void MediaPlayer::removeItemFromPlaylist()
 {
-    if (!ui->playlistWidget->item(ui->playlistWidget->currentRow(), 1))
+    if (!m_playlist.getCurrentPlaylistWidget()->item(m_playlist.getCurrentPlaylistWidget()->currentRow(), 1))
         return;
 
-    QList<QTableWidgetItem*> selectedRows = ui->playlistWidget->selectedItems();
+    QList<QTableWidgetItem*> selectedRows = m_playlist.getCurrentPlaylistWidget()->selectedItems();
 
     foreach(QTableWidgetItem *obj, selectedRows)
     {
@@ -1321,4 +1343,42 @@ void MediaPlayer::removeItemFromPlaylist()
 
     m_isUpdateOnRemove = true;
     updatePlaylist();
+}
+
+void MediaPlayer::playlistTabChanged(int id)
+{
+    if (id < 0)
+        return;
+
+    // always keep one tab opened
+    if (id == 0 && ui->playlistTabWidget->count() == 1)
+        ui->playlistTabWidget->setTabsClosable(false);
+
+#if DEBUG
+    qDebug() << "Switch to ID" << id << ":" << ui->playlistTabWidget->currentWidget()->objectName();
+#endif
+
+    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+}
+
+void MediaPlayer::closePlaylistTab(int id)
+{
+    if (id < 0)
+        return;
+
+#if DEBUG
+    qDebug() << "Close playlist ID" << id << "of" << ui->playlistTabWidget->count() << ":" << ui->playlistTabWidget->widget(id)->objectName();
+#endif
+
+    m_playlist.removePlaylist(ui->playlistTabWidget->widget(id)->objectName());
+    QWidget *tab = ui->playlistTabWidget->widget(id);
+    ui->playlistTabWidget->removeTab(id);
+    delete tab;
+    tab = NULL;
+
+    if (ui->playlistTabWidget->count() == 1)
+    {
+        ui->playlistTabWidget->setTabsClosable(false);
+        return;
+    }
 }

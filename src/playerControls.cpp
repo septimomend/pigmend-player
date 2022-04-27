@@ -137,7 +137,7 @@ void PlayerControls::nextForced()
     QString path = m_player->currentMedia().canonicalUrl().toString();
 
     // pass QMap with playlist data
-    for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+    for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
     {
 #ifdef WIN32
         QString canonical_path = "file:///" + it.value();
@@ -148,7 +148,7 @@ void PlayerControls::nextForced()
         if (path == canonical_path)
         {
             // and this is not last item so set next item to media playing
-            if (it != m_playlist.m_plData.end() - 1)
+            if (it != m_playlist.m_plData->end() - 1)
             {
                 ++it;
                 m_player->setMedia(QUrl::fromLocalFile(it.value()));
@@ -188,7 +188,7 @@ void PlayerControls::prev()
     QString path = m_player->currentMedia().canonicalUrl().toString();
 
     // pass QMap with playlist data
-    for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+    for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
     {
         // if here is accordance with current path
 #ifdef WIN32
@@ -199,7 +199,7 @@ void PlayerControls::prev()
         if (path == canonical_path)
         {
             // and this is not first item so set previous item to media playing
-            if (it != m_playlist.m_plData.begin())
+            if (it != m_playlist.m_plData->begin())
             {
                 --it;
                 m_player->setMedia(QUrl::fromLocalFile(it.value()));
@@ -226,8 +226,8 @@ void PlayerControls::setMediaFile(QString item)
     // set media file. When make double click on playlist widget item, then send this item to here
     // and check if this item text (ie filename) is in QMap container
     // then set its path to media playing
-	auto iter = m_playlist.m_plData.find(item);
-    if (iter != m_playlist.m_plData.end() && iter.key() == item)
+    auto iter = m_playlist.m_plData->find(item);
+    if (iter != m_playlist.m_plData->end() && iter.key() == item)
     {
        m_player->setMedia(QUrl::fromLocalFile(iter.value()));
        play();

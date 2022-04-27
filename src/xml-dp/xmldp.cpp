@@ -60,6 +60,7 @@ styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
             themes_data->preferencesTheme = theme_data_node->first_node("preferences_theme")->value();
             themes_data->playlistScrollBar = theme_data_node->first_node("playlistScrollBar")->value();
             themes_data->pluginsTheme = theme_data_node->first_node("plugins_theme")->value();
+            themes_data->playlistTabsTheme = theme_data_node->first_node("playlistTabsTheme")->value();
 		}
 	}
 

@@ -55,9 +55,9 @@ private:
     void adjustVideoWidget();
     void deleteObjectsInFullScreen();
 	void initAnimations();
-    void initContextMenu();
     void resizeMovieLabel();
     void unfocusButtons();
+    void initPlaylist();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
@@ -101,6 +101,9 @@ private slots:
     void onKeyPressed();
     void toggleVideoWidgetFullscreen();
     void removeItemFromPlaylist();
+    void openNewPlaylistTab();
+    void playlistTabChanged(int id);
+    void closePlaylistTab(int id);
 
 private:
     int m_global_height;
@@ -125,6 +128,7 @@ private:
     QString m_theme_config_path;
 	QTimer *m_timer;
     QTimer *m_videoControlTimer;
+    QPushButton *addPlaylistButton;
 
     // shortcuts
     QShortcut *m_playSC;

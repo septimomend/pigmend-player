@@ -56,6 +56,7 @@ struct styles_data_t
     QString playlistScrollBar;
     QString preferencesTheme;
     QString pluginsTheme;
+    QString playlistTabsTheme;
 };
 
 struct about_data_t

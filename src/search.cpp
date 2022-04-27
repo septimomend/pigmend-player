@@ -46,7 +46,7 @@ void SearchDialog::setStartTips()
     setPlaceholer();
     ui->searchPicLabel->hide();
     ui->noMatchesLabel->clear();
-    if (m_playlist.m_plData.empty())
+    if (m_playlist.m_plData->empty())
     {
         ui->noMatchesLabel->setText(QString("Playlist is empty, here is nothing to search"));
         return;
@@ -65,7 +65,7 @@ void SearchDialog::checkMatches()
     //QListWidgetItem *item = new QListWidgetItem();
     if(!ui->searchLineEdit->text().isEmpty())
     {
-        for(auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+        for(auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
         {
             // if here is accordance with current filename
             if (it.key().toLower().contains(QString(ui->searchLineEdit->text().toLower())))
@@ -76,14 +76,14 @@ void SearchDialog::checkMatches()
                 close();
                 break;
             }
-            else if(it == m_playlist.m_plData.end()-1)
+            else if(it == m_playlist.m_plData->end()-1)
             {
                 ui->noMatchesLabel->setText(QString("No matches found..."));
                 ui->searchPicLabel->show();
             }
         }
     }
-    else if (!m_playlist.m_plData.empty())
+    else if (!m_playlist.m_plData->empty())
         ui->noMatchesLabel->setText(QString("Please, input data or press cancel"));
 }
 

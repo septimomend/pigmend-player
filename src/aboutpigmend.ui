@@ -76,7 +76,7 @@
     <string notr="true">color: rgb(243, 243, 243);</string>
    </property>
    <property name="text">
-    <string>Ok</string>
+    <string/>
    </property>
    <property name="icon">
     <iconset resource="playerui.qrc">

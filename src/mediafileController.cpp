@@ -18,7 +18,7 @@ int MediafileController::s_videofiles = 0;
 MediafileController::MediafileController(QWidget *parent) : QWidget(parent)
 {
     m_lastPath = "/home";
-    m_playlist.m_plData.clear();
+    m_playlist.getCurrentPlaylistContainer()->clear();
 
     std::thread thr(&indexFiles, this);
     thr.detach();
@@ -43,7 +43,7 @@ void MediafileController::openFile()
         {
             QFile f(filenames.at(i));
             QFileInfo fileInfo(f.fileName());
-            m_playlist.m_plData.insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
+            m_playlist.getCurrentPlaylistContainer()->insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
         }
 
         m_lastPath = filenames.last(); // remember last path
@@ -70,7 +70,7 @@ void MediafileController::openFolder()
 	while (dir_it.hasNext())
 	{
 		QFileInfo fileInfo(dir_it.next());
-		m_playlist.m_plData.insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
+        m_playlist.getCurrentPlaylistContainer()->insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
 	}
 
     // read all files from folder in accordance to pattern
@@ -92,7 +92,7 @@ void MediafileController::openFolder()
     int pos = dir.lastIndexOf(QChar('/'));
     m_lastPath = dir.left(pos);
 
-	if (!m_playlist.m_plData.isEmpty())
+    if (!m_playlist.getCurrentPlaylistContainer()->isEmpty())
 		emit filesChosen();            // signal to filling playlist widget by filenames
 }
 
