@@ -107,6 +107,7 @@ private slots:
     void closePlaylistTab(int id);
     void renamePlaylistTab(int id);
     void playlistTabRenamed(QString text, int id);
+    void onMenuResize();
 
 private:
     int m_global_height;
@@ -132,6 +133,7 @@ private:
     QString m_theme_config_path;
 	QTimer *m_timer;
     QTimer *m_videoControlTimer;
+    QTimer *m_menuWidthTimer;
     QPushButton *addPlaylistButton;
 
     // shortcuts

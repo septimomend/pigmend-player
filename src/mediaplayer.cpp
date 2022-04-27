@@ -47,6 +47,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
     m_renameDialog = new renameDialog(this);
 	m_timer = new QTimer(this);
+    m_menuWidthTimer = new QTimer(this);
     m_videoControlTimer = new QTimer(this);
     m_keyPressNumber = 0;
     m_style = NULL;
@@ -114,6 +115,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_wideWindowAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
 	connect(m_maximizeAction, SIGNAL(triggered(bool)), this, SLOT(setWindowSize()));
     connect(m_preferencesAction, SIGNAL(triggered(bool)), m_preferences, SLOT(showPreferences()));
+    connect(&m_playlist, SIGNAL(addActionTriggered()), m_mediaFile, SLOT(openFile()));
 
 	// ui operations
 	connect(ui->addFileButton, SIGNAL(clicked(bool)), m_mediaFile, SLOT(openFile()));
@@ -176,6 +178,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_playerControls, SIGNAL(mousePositionChanged(QPoint*)), this, SLOT(updateCursorPosition(QPoint*)));
 	connect(m_playerControls, SIGNAL(volumeMutedChanged(bool)), this, SLOT(onVolumeMute(bool)));
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(onPlaylistUpdate()));
+    connect(m_menuWidthTimer, SIGNAL(timeout()), this, SLOT(onMenuResize()));
 	connect(m_playerControls, SIGNAL(isMusicContent(bool)), this, SLOT(onContentTypeChange(bool)));
 	connect(m_playerControls, SIGNAL(paused(bool)), this, SLOT(stopAnimation(bool)));
     connect(this, SIGNAL(closeMainWindow()), m_playerControls, SLOT(interrupt()));
@@ -200,7 +203,8 @@ MediaPlayer::~MediaPlayer()
 	delete m_playSC;
 	delete m_nextSC;
 	delete m_prevSC;
-	delete m_stopSC;
+    delete m_stopSC;
+    delete m_menuWidthTimer;
     delete m_videoControlTimer;
 	delete m_timer;
 	delete m_movieMusic;
@@ -728,6 +732,14 @@ void MediaPlayer::initAnimations()
 	m_movieMusic = new QMovie(pathMusicAnimation);
 }
 
+void MediaPlayer::onMenuResize()
+{
+    m_menuWidthTimer->stop();
+
+    if (!m_playlist.getCurrentPlaylistWidget()->isHidden())
+        m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
+}
+
 void MediaPlayer::onPlaylistUpdate()
 {
 	int row = 0;
@@ -779,10 +791,7 @@ void MediaPlayer::onPlaylistUpdate()
 	}
 
 	ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
-
-    if (!m_playlist.getCurrentPlaylistWidget()->isHidden())
-        m_menuBar->setFixedWidth(ui->playlistTabWidget->geometry().width());
-
+    m_menuWidthTimer->start(0);
     focusItem(m_playerControls->getCurrentMediaItem());
     m_isUpdateOnRemove = false;
 }

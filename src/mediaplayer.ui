@@ -168,6 +168,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <bold>true</bold>
@@ -1299,6 +1305,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <bold>true</bold>
@@ -1332,8 +1344,15 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
         <property name="font">
          <font>
+          <pointsize>11</pointsize>
           <bold>true</bold>
          </font>
         </property>
