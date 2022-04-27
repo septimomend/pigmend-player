@@ -467,8 +467,9 @@ void MediaPlayer::initPlaylist()
     playlists_str newPlaylist = m_playlist.createNewPlaylist();
     ui->playlistTabWidget->addTab(newPlaylist.playlistWidget, newPlaylist.tabName);
     ui->playlistTabWidget->currentWidget()->setObjectName(newPlaylist.tabId);
-    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
     ui->playlistTabWidget->setTabsClosable(false);
+    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+    m_playlist.makeShuffle(m_shuffleMode);
 }
 
 void MediaPlayer::openNewPlaylistTab()
@@ -477,8 +478,9 @@ void MediaPlayer::openNewPlaylistTab()
     int id = ui->playlistTabWidget->addTab(newPlaylist.playlistWidget, newPlaylist.tabName);
     ui->playlistTabWidget->setCurrentIndex(id);
     ui->playlistTabWidget->currentWidget()->setObjectName(newPlaylist.tabId);
-    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
     ui->playlistTabWidget->setTabsClosable(true);
+    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+    m_playlist.makeShuffle(m_shuffleMode);
 }
 
 void MediaPlayer::onKeyPressed()
@@ -1362,6 +1364,7 @@ void MediaPlayer::playlistTabChanged(int id)
 #endif
 
     m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+    m_playlist.makeShuffle(m_shuffleMode);
 }
 
 void MediaPlayer::closePlaylistTab(int id)
