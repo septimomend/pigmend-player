@@ -942,8 +942,6 @@ void MediaPlayer::updateTheme()
     ui->nextButton->setStyleSheet(m_style->backcolor);
     ui->pauseButton->setStyleSheet(ui->pauseButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
     ui->playButton->setStyleSheet(ui->playButton->isChecked() ? m_style->buttonCheckedTheme : m_style->backcolor);
-//    ui->playlistWidget->setStyleSheet(m_style->playlistTheme);
-//    ui->playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
     ui->playlistTabWidget->setStyleSheet(m_style->playlistTabsTheme);
     ui->playlistTabWidget->tabBar()->setStyleSheet(m_style->playlistTabsTheme);
     ui->playlistTabWidget->cornerWidget()->setStyleSheet(m_style->playlistTabsTheme);
@@ -1367,7 +1365,7 @@ void MediaPlayer::closePlaylistTab(int id)
         return;
 
 #if DEBUG
-    qDebug() << "Close playlist ID" << id << "of" << ui->playlistTabWidget->count() << ":" << ui->playlistTabWidget->widget(id)->objectName();
+    qDebug() << "Close playlist ID" << id + 1 << "of" << ui->playlistTabWidget->count() << ":" << ui->playlistTabWidget->widget(id)->objectName();
 #endif
 
     m_playlist.removePlaylist(ui->playlistTabWidget->widget(id)->objectName());

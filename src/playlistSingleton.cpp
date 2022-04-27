@@ -27,6 +27,7 @@ PlaylistSingleton::PlaylistSingleton(QObject *parent)
 {
     (void)parent;
     m_style = nullptr;
+    m_playilstCounter = 1;
 
     m_actInsert = new QAction("Add item", this);
     m_actDelete = new QAction("Delete", this);
@@ -149,7 +150,8 @@ QString PlaylistSingleton::getAudioTime(QString &audio_file)
 playlists_str PlaylistSingleton::createNewPlaylist()
 {
     playlists_str newPlaylist = {};
-    newPlaylist.tabName = newPlaylist.tabId = "Playlist #" + QString::number(m_playlists.count() + 1);
+    newPlaylist.tabName = "Playlist #" + QString::number(m_playilstCounter++);
+    newPlaylist.tabId = "pltab" + QString::number(QDateTime::currentSecsSinceEpoch());
     newPlaylist.playlistWidget = new QTableWidget();
     newPlaylist.playlistWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
     newPlaylist.playlistWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -249,18 +251,18 @@ QMap<QString, QString> *PlaylistSingleton::getCurrentPlaylistContainer()
 
 bool PlaylistSingleton::removePlaylist(QString id)
 {
-    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
-    {
-        if (it.key() == id)
-            m_playlists.remove(id);
+    m_playlists.remove(id);
 
-        if (m_current_playlist->tabId == id)
-        {
-            m_plData = &it.value().plData;
-            m_playing_widget = it.value().playlistWidget;
-        }
+    if (m_current_playlist->tabId == id)
+    {
+        m_plData = &m_playlists.begin().value().plData;
+        m_playing_widget = m_playlists.begin().value().playlistWidget;
     }
 
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        qDebug() << it.key() << it->tabId;
+    }
     return true;
 }
 

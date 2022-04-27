@@ -79,6 +79,7 @@ private:
     styles_data_t *m_style;
     playlists_str *m_current_playlist;
     QTableWidget *m_playing_widget;
+    int m_playilstCounter;
     QAction *m_actInsert;
     QAction *m_actDelete;
 };
