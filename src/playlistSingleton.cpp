@@ -62,7 +62,7 @@ size_t PlaylistSingleton::clearPlaylistData()
 
 void PlaylistSingleton::deletePlaylistItem(QTableWidgetItem *item)
 {
-    m_plData->remove(item->text());
+    m_current_playlist->plData.remove(item->text());
 }
 
 size_t PlaylistSingleton::makeShuffle(bool shuffleMode)

@@ -33,6 +33,7 @@ E-mail: chapkailo.ivan@gmail.com
 #include "search.h"
 #include "aboutpigmend.h"
 #include "preferencesdialog.h"
+#include "renamedialog.h"
 
 namespace Ui
 {
@@ -104,6 +105,8 @@ private slots:
     void openNewPlaylistTab();
     void playlistTabChanged(int id);
     void closePlaylistTab(int id);
+    void renamePlaylistTab(int id);
+    void playlistTabRenamed(QString text, int id);
 
 private:
     int m_global_height;
@@ -122,6 +125,7 @@ private:
     SearchDialog *m_search;
     PreferencesDialog *m_preferences;
     AboutPigmend *m_aboutPlayer;
+    renameDialog *m_renameDialog;
     QMovie *m_movieLoading, *m_movieDone;
 	QMovie *m_movieMusic;
     QSize m_movieImageSize;

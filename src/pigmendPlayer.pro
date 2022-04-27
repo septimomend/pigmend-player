@@ -38,6 +38,7 @@ SOURCES += \
         mediaplayer.cpp \
     plugin_installer/plugindialog.cpp \
     preferencesdialog.cpp \
+    renamedialog.cpp \
     translator_injector/translatorinjector.cpp \
     videoWidget.cpp \
     playerControls.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
         mediaplayer.h \
     plugin_installer/plugindialog.h \
     preferencesdialog.h \
+    renamedialog.h \
     translator_injector/translatorinjector.h \
     videoWidget.h \
     playerControls.h \
@@ -71,6 +73,7 @@ HEADERS += \
 FORMS += \
         mediaplayer.ui \
     plugin_installer/plugindialog.ui \
+    renamedialog.ui \
     searchdialog.ui \
     aboutpigmend.ui
 

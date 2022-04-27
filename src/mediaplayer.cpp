@@ -45,6 +45,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	m_search = new SearchDialog(this);
     m_preferences = new PreferencesDialog();
 	m_aboutPlayer = new AboutPigmend(conf_data, this);
+    m_renameDialog = new renameDialog(this);
 	m_timer = new QTimer(this);
     m_videoControlTimer = new QTimer(this);
     m_keyPressNumber = 0;
@@ -144,6 +145,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
     connect(&m_playlist, SIGNAL(removeActionTriggered()), this, SLOT(removeItemFromPlaylist()));
     connect(ui->playlistTabWidget, SIGNAL(currentChanged(int)), this, SLOT(playlistTabChanged(int)));
     connect(ui->playlistTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closePlaylistTab(int)));
+    connect(ui->playlistTabWidget, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(renamePlaylistTab(int)));
 
     // full screen
 	connect(m_playInFullScreen, SIGNAL(clicked(bool)), m_playerControls, SLOT(play()));
@@ -177,6 +179,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_playerControls, SIGNAL(isMusicContent(bool)), this, SLOT(onContentTypeChange(bool)));
 	connect(m_playerControls, SIGNAL(paused(bool)), this, SLOT(stopAnimation(bool)));
     connect(this, SIGNAL(closeMainWindow()), m_playerControls, SLOT(interrupt()));
+    connect(m_renameDialog, SIGNAL(renamed(QString,int)), this, SLOT(playlistTabRenamed(QString,int)));
 
 	setGeometry(screen_size.x(), screen_size.y(), m_global_width / 2, m_global_height / 2);
 }
@@ -189,6 +192,7 @@ MediaPlayer::~MediaPlayer()
 	delete m_playerControls;
 	delete m_mediaFile;
 	delete m_search;
+    delete m_renameDialog;
 	delete m_aboutPlayer;
 	delete m_movieLoading;
 	delete m_movieDone;
@@ -927,6 +931,7 @@ void MediaPlayer::updateTheme()
 
     m_search->updateTheme(m_style);
     m_aboutPlayer->updateTheme(m_style);
+    m_renameDialog->updateTheme(m_style);
     m_playlist.updateTheme(m_style);
     PluginDialog::updateTheme(m_style);
 
@@ -1379,4 +1384,14 @@ void MediaPlayer::closePlaylistTab(int id)
         ui->playlistTabWidget->setTabsClosable(false);
         return;
     }
+}
+void MediaPlayer::renamePlaylistTab(int id)
+{
+    m_renameDialog->setPlaceholer(ui->playlistTabWidget->tabText(id), id);
+    m_renameDialog->show();
+}
+
+void MediaPlayer::playlistTabRenamed(QString text, int id)
+{
+    ui->playlistTabWidget->setTabText(id, text);
 }
