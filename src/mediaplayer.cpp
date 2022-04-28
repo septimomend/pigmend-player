@@ -871,6 +871,11 @@ void MediaPlayer::updateTimeProgress(int playTime)
 
 void MediaPlayer::focusItem(QString path)
 {
+    if (m_playlist.getCurrentPlaylistWidget(true) != m_playlist.getCurrentPlaylistWidget())
+    {
+        return;
+    }
+
 	int row = 0;
     for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
 	{
@@ -892,6 +897,7 @@ void MediaPlayer::focusItem(QString path)
 
 void MediaPlayer::clearPlaylist()
 {
+    qDebug() << "clear" << m_playlist.getCurrentPlaylistWidget() << "rows" << m_playlist.getCurrentPlaylistWidget()->rowCount();
 	// clear palylist
     if (m_playlist.getCurrentPlaylistWidget()->rowCount() == 0)
 		return;
@@ -900,7 +906,7 @@ void MediaPlayer::clearPlaylist()
 	if (m_playlist.clearPlaylistData() != 0)
 		qCritical() << "Can't clear playlist data" << endl;
 
-    updatePlaylist();
+    //updatePlaylist();
 	// set false
 	// when new data will be added to empty playlist then enable ability to prepare first file
 	m_isPlaylistLoaded = false;

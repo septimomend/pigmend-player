@@ -52,12 +52,12 @@ PlaylistSingleton& PlaylistSingleton::getInstance()
 
 size_t PlaylistSingleton::clearPlaylistData()
 {
-    if (!m_plData->isEmpty())
+    if (!m_current_playlist->plData.isEmpty())
     {
-        m_plData->clear();
+        m_current_playlist->plData.clear();
         m_shuffledData.clear();
     }
-    return size_t(m_plData->size());
+    return size_t(m_current_playlist->plData.size());
 }
 
 void PlaylistSingleton::deletePlaylistItem(QTableWidgetItem *item)
@@ -105,7 +105,7 @@ QString PlaylistSingleton::convertIntToTimeStr(int hours, int min, int sec)
 QString PlaylistSingleton::getAudioTotalTime()
 {
 	int total = 0, seconds, hours, minutes;
-    for (auto it = m_plData->begin(); it != m_plData->end(); ++it)
+    for (auto it = m_current_playlist->plData.begin(); it != m_current_playlist->plData.end(); ++it)
 	{
 		TagLib::FileRef f(it.value().toStdString().c_str());
 
