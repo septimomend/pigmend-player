@@ -240,6 +240,7 @@ void PlaylistSingleton::onPlaylistDoubleClicked(int row, int column)
 {
     m_plData = &m_current_playlist->plData;
     m_playing_widget = m_current_playlist->playlistWidget;
+    m_playingId = m_current_playlist->tabId;
 
     emit activatePlaylist(row, column);
 }
@@ -253,16 +254,12 @@ bool PlaylistSingleton::removePlaylist(QString id)
 {
     m_playlists.remove(id);
 
-    if (m_current_playlist->tabId == id)
+    if (m_playingId == id)
     {
         m_plData = &m_playlists.begin().value().plData;
         m_playing_widget = m_playlists.begin().value().playlistWidget;
     }
 
-    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
-    {
-        qDebug() << it.key() << it->tabId;
-    }
     return true;
 }
 

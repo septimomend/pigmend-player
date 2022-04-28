@@ -122,7 +122,7 @@ private:
     VideoWidget *m_globalVideoWidget;
     PlayerControls *m_playerControls;
     MediafileController *m_mediaFile;
-    PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();   // singleton instance
+    PlaylistSingleton &m_playlist = PlaylistSingleton::getInstance();
     SearchDialog *m_search;
     PreferencesDialog *m_preferences;
     AboutPigmend *m_aboutPlayer;
