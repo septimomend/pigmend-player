@@ -28,6 +28,8 @@ PlaylistSingleton::PlaylistSingleton(QObject *parent)
     (void)parent;
     m_style = nullptr;
     m_playilstCounter = 1;
+    m_playingId = "";
+    m_plData = nullptr;
 
     m_actInsert = new QAction("Add item", this);
     m_actDelete = new QAction("Delete", this);
@@ -173,12 +175,18 @@ playlists_str PlaylistSingleton::createNewPlaylist()
     {
         if (it.key() == newPlaylist.tabId)
         {
-            m_plData = &it.value().plData;
-            m_playing_widget = it.value().playlistWidget;
+            if (!m_plData)
+            {
+                m_plData = &it.value().plData;
+                m_playing_widget = it.value().playlistWidget;
+            }
             connect(it.value().playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
             break;
         }
     }
+
+    if (m_playingId.isEmpty())
+        m_playingId = newPlaylist.tabId;
 
     updateStylesheet();
     initContextMenu();

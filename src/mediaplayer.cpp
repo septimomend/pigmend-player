@@ -809,7 +809,7 @@ void MediaPlayer::onPlaylistDoubleClicked(int row, int column)
 	column = PLAYLIST_NAME_COLUMN;
 	ui->progressSlider->setValue(0);
 	m_sliderInFullScreen->setValue(0);
-    QString item = m_playlist.getCurrentPlaylistWidget(true)->item(row, column)->text();
+    QString item = m_playlist.getCurrentPlaylistWidget()->item(row, column)->text();
 	m_playerControls->setMediaFile(item);
 }
 
@@ -871,11 +871,6 @@ void MediaPlayer::updateTimeProgress(int playTime)
 
 void MediaPlayer::focusItem(QString path)
 {
-    if (m_playlist.getCurrentPlaylistWidget(true) != m_playlist.getCurrentPlaylistWidget())
-    {
-        return;
-    }
-
 	int row = 0;
     for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
 	{
