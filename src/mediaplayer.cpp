@@ -1375,6 +1375,8 @@ void MediaPlayer::playlistTabChanged(int id)
 
     m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
     m_playlist.makeShuffle(m_shuffleMode);
+    ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(m_playlist.getCurrentPlaylistWidget()->rowCount()));
+    ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());
 }
 
 void MediaPlayer::closePlaylistTab(int id)
