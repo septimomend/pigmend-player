@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=PigmendPlayer
+GenericName=Pigmend Media Player
+Comment=Media Player
+Icon=pigmend
+TryExec=PigmendPlayer
+Exec=PigmendPlayer
+Terminal=false
+Categories=Media;Music;Video;Utility;

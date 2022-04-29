@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Pigmend Player</DisplayName>
+    <Description>Pigmend Player installer</Description>
+    <Version>1.1</Version>
+	<ReleaseDate>2022-04-10</ReleaseDate>
+    <Licenses>
+        <License name="Pigmend Player Public License Agreement" file="license.txt" />
+    </Licenses>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>

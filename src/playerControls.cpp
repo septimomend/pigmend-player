@@ -1,22 +1,21 @@
 /*
-MIT License
 
-Copyright (c) 2018 Ivan Chapkailo
+GPL-2.0 License
+Copyright (c) 2022 Ivan Chapkailo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+See license: https://github.com/septimomend/pigmend-player
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "playerControls.h"
 
 int PlayerControls::m_mediaOrder = -1;
 
-PlayerControls::PlayerControls(QWidget *parent) : m_vw(0)
+PlayerControls::PlayerControls(QWidget *parent) : m_vw(static_cast<VideoWidget*>(parent))
 {
-    parent = parent;
     m_player = new QMediaPlayer();
     m_musicPlayer = new QMediaPlayer();
 
@@ -35,6 +34,11 @@ PlayerControls::PlayerControls(QWidget *parent) : m_vw(0)
     m_repeatMode = false;
     m_shuffleMode = false;
     m_handleSelected = false;
+    m_position = 0;
+    m_stopMouseThread = false;
+
+    m_thread = std::thread(&captureMousePosition, this);
+    m_thread.detach();
 }
 
 PlayerControls::~PlayerControls()
@@ -47,28 +51,39 @@ void PlayerControls::setVideoContent()
 {
     // if this mp3 file - show music gif
     // else show video
-    if (m_player->currentMedia().canonicalUrl().toString().contains(QString(".mp3")))
+	if (m_player->currentMedia().canonicalUrl().toString().contains(QString(".mp3")) ||
+		m_player->currentMedia().canonicalUrl().toString().contains(QString(".wav")) ||
+		m_player->currentMedia().canonicalUrl().toString().contains(QString(".flac")))
     {
         if (!m_isMusic)
-        {
-            /*QString path(PRO_FILE_PWD);                         // path to project folder
-            path.append("/graphic/equalizer.gif");              // add path to gif
-            m_musicPlayer->setMedia(QUrl::fromLocalFile(path)); // set gif to video widget
-            m_musicPlayer->setVideoOutput(m_vw);
-            m_musicPlayer->play();*/
             m_isMusic = true;
-        }
     }
     else
     {
         m_player->setVideoOutput(m_vw);
         m_isMusic = false;
     }
+
+	emit isMusicContent(m_isMusic);
 }
 
 void PlayerControls::play()
 {
+    if (m_player->currentMedia().isNull())
+        return;
+
+    if (!m_player->media().isNull() && m_player->playbackRate() != 1.0)
+	{
+		m_player->setPlaybackRate(1.0); // set normal playback rate if press `play` after some fast forward button
+		return;
+	}
+
     emit currentMediaItem(QString(m_player->currentMedia().canonicalUrl().toString()));  // send signal with path of current media file
+    m_player->setMedia(m_player->currentMedia().canonicalUrl());
+
+#if DEBUG
+    qDebug() << "Play " << QString(m_player->currentMedia().canonicalUrl().toString());
+#endif
 
     if (m_vw == nullptr)
     {
@@ -78,28 +93,34 @@ void PlayerControls::play()
 
     setVideoContent();
 
-    m_player->setPlaybackRate(1.0); // set normal playback rate if press `play` after some fast forward button
+    m_player->setPosition(m_position);
     m_player->play();
     setVolume(m_player->volume());
+    m_position = 0;
 
     m_isKeyClicked = false;
     m_handleSelected = false;
+
+	emit paused(false);
 }
 
 void PlayerControls::pause()
 {
     m_isKeyClicked = true;
+	m_position = int(m_player->position());
     m_player->pause();      // pause play track
-    m_musicPlayer->pause(); // and pause gif
+    //m_musicPlayer->pause(); // and pause gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
+	emit paused(true);
 }
 
 void PlayerControls::stop()
 {
     m_isKeyClicked = true;
     m_player->stop();       // stop play
-    m_musicPlayer->stop();  // and stop gif
+    //m_musicPlayer->stop();  // and stop gif
     m_isMusic = false;      // false to be sure gif will be continue after pressing play button
+	emit paused(true);
 }
 
 void PlayerControls::nextForced()
@@ -116,17 +137,18 @@ void PlayerControls::nextForced()
     QString path = m_player->currentMedia().canonicalUrl().toString();
 
     // pass QMap with playlist data
-    for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+    for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
     {
 #ifdef WIN32
         QString canonical_path = "file:///" + it.value();
 #elif unix
         QString canonical_path = "file://" + it.value();
 #endif
+
         if (path == canonical_path)
         {
             // and this is not last item so set next item to media playing
-            if (it != m_playlist.m_plData.end() - 1)
+            if (it != m_playlist.m_plData->end() - 1)
             {
                 ++it;
                 m_player->setMedia(QUrl::fromLocalFile(it.value()));
@@ -166,7 +188,7 @@ void PlayerControls::prev()
     QString path = m_player->currentMedia().canonicalUrl().toString();
 
     // pass QMap with playlist data
-    for (auto it = m_playlist.m_plData.begin(); it != m_playlist.m_plData.end(); ++it)
+    for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
     {
         // if here is accordance with current path
 #ifdef WIN32
@@ -177,7 +199,7 @@ void PlayerControls::prev()
         if (path == canonical_path)
         {
             // and this is not first item so set previous item to media playing
-            if (it != m_playlist.m_plData.begin())
+            if (it != m_playlist.m_plData->begin())
             {
                 --it;
                 m_player->setMedia(QUrl::fromLocalFile(it.value()));
@@ -196,7 +218,7 @@ void PlayerControls::setFirstFile(QListWidgetItem* item)
     m_player->setMedia(QUrl::fromLocalFile(item->text()));
 }
 
-void PlayerControls::setMediaFile(QListWidgetItem* item)
+void PlayerControls::setMediaFile(QString item)
 {
     m_handleSelected = true;
     m_isKeyClicked = true;
@@ -204,14 +226,12 @@ void PlayerControls::setMediaFile(QListWidgetItem* item)
     // set media file. When make double click on playlist widget item, then send this item to here
     // and check if this item text (ie filename) is in QMap container
     // then set its path to media playing
-    auto iter = m_playlist.m_plData.find(item->text());
-    if (iter != m_playlist.m_plData.constEnd() && iter.key() == item->text())
+    auto iter = m_playlist.m_plData->find(item);
+    if (iter != m_playlist.m_plData->end() && iter.key() == item)
     {
        m_player->setMedia(QUrl::fromLocalFile(iter.value()));
        play();
     }
-
-    qDebug() << "Play" << item->text();
 }
 
 void PlayerControls::setVolume(int volume)
@@ -222,15 +242,15 @@ void PlayerControls::setVolume(int volume)
 
 void PlayerControls::changeDuration(qint64 duration)
 {
-    emit durationChanged(duration);
+	emit durationChanged(int(duration));
 }
 
 void PlayerControls::setMetaData()
 {
     // read metadata and write it to string list
     QStringList title;
-    title << m_player->metaData(QMediaMetaData::Title).toString() <<
-             m_player->metaData(QMediaMetaData::Author).toString() <<
+    title << m_player->metaData(QMediaMetaData::ContributingArtist).toString() <<
+             m_player->metaData(QMediaMetaData::Title).toString() <<
              m_player->metaData(QMediaMetaData::Genre).toString() <<
              m_player->metaData(QMediaMetaData::Year).toString();
 
@@ -248,7 +268,7 @@ void PlayerControls::setVideoWidget(VideoWidget *vw)
 
 void PlayerControls::setTimeProgress(qint64 timeProgress)
 {
-    emit timeProgressChanged(timeProgress);
+	emit timeProgressChanged(int(timeProgress));
 }
 
 void PlayerControls::processState(QMediaPlayer::State state)
@@ -345,4 +365,37 @@ bool PlayerControls::prevInShuffle()
     }
 
     return false;
+}
+
+void PlayerControls::captureMousePosition(PlayerControls *pc)
+{
+    std::lock_guard<std::mutex> locker(pc->m_mtx);
+
+    while (!pc->m_stopMouseThread)
+    {
+        QPoint cursor_position = pc->mapFromGlobal(QCursor::pos());
+        emit pc->mousePositionChanged(&cursor_position);
+    }
+}
+
+void PlayerControls::setVolumeMuted()
+{
+	m_player->setMuted(!m_player->isMuted());
+	emit volumeMutedChanged(m_player->isMuted());
+}
+
+void PlayerControls::interrupt()
+{
+    m_stopMouseThread = true;
+}
+
+QString PlayerControls::getCurrentMediaItemValue()
+{
+    QStringList sl = m_player->currentMedia().canonicalUrl().toString().split("/");
+    return sl.at(sl.count() - 1);
+}
+
+QString PlayerControls::getCurrentMediaItem()
+{
+    return m_player->currentMedia().canonicalUrl().toString();
 }

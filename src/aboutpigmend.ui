@@ -10,8 +10,18 @@
     <height>353</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>About Pigmend Player</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="playerui.qrc">
+    <normaloff>:/icon/pigmend.ico</normaloff>:/icon/pigmend.ico</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <widget class="QLabel" name="player_name">
    <property name="geometry">
@@ -60,13 +70,13 @@
     </sizepolicy>
    </property>
    <property name="toolTip">
-    <string>Search data [Enter]</string>
+    <string/>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(243, 243, 243);</string>
    </property>
    <property name="text">
-    <string>Ok</string>
+    <string/>
    </property>
    <property name="icon">
     <iconset resource="playerui.qrc">

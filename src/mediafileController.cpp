@@ -1,13 +1,13 @@
 /*
-MIT License
 
-Copyright (c) 2018 Ivan Chapkailo
+GPL-2.0 License
+Copyright (c) 2022 Ivan Chapkailo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+See license: https://github.com/septimomend/pigmend-player
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "mediafileController.h"
@@ -18,7 +18,7 @@ int MediafileController::s_videofiles = 0;
 MediafileController::MediafileController(QWidget *parent) : QWidget(parent)
 {
     m_lastPath = "/home";
-    m_playlist.m_plData.clear();
+    m_playlist.getCurrentPlaylistContainer()->clear();
 
     std::thread thr(&indexFiles, this);
     thr.detach();
@@ -43,7 +43,7 @@ void MediafileController::openFile()
         {
             QFile f(filenames.at(i));
             QFileInfo fileInfo(f.fileName());
-            m_playlist.m_plData.insert( fileInfo.fileName(), fileInfo.canonicalFilePath());
+            m_playlist.getCurrentPlaylistContainer()->insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
         }
 
         m_lastPath = filenames.last(); // remember last path
@@ -62,11 +62,19 @@ void MediafileController::openFolder()
     QStringList result;
     QStringList pattern;
     pattern << "*.mp3" << "*.mp4" << "*.avi" << "*.mkv" << "*.flac" << "*.wav";  // set pattern for choosing files
-    QDir currentDir(dir);
-    const QString prefix = dir + QLatin1Char('/');
+    //QDir currentDir(dir);
+    //const QString prefix = dir + QLatin1Char('/');
+
+	QDirIterator dir_it(dir, pattern, QDir::Files, QDirIterator::Subdirectories);
+	
+	while (dir_it.hasNext())
+	{
+		QFileInfo fileInfo(dir_it.next());
+        m_playlist.getCurrentPlaylistContainer()->insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
+	}
 
     // read all files from folder in accordance to pattern
-    foreach (const QString &match, currentDir.entryList(pattern, QDir::Files | QDir::NoSymLinks))
+   /* foreach (const QString &match, currentDir.entryList(pattern, QDir::Files | QDir::NoSymLinks))
         result.append(prefix + match);
 
     if (result.isEmpty())
@@ -78,13 +86,14 @@ void MediafileController::openFolder()
         QFile f(result.at(i));
         QFileInfo fileInfo(f.fileName());
         m_playlist.m_plData.insert(fileInfo.fileName(), fileInfo.canonicalFilePath());
-    }
+	}*/
 
     // delete last part of path '/*'
     int pos = dir.lastIndexOf(QChar('/'));
     m_lastPath = dir.left(pos);
 
-    emit filesChosen();            // signal to filling playlist widget by filenames
+    if (!m_playlist.getCurrentPlaylistContainer()->isEmpty())
+		emit filesChosen();            // signal to filling playlist widget by filenames
 }
 
 void MediafileController::indexFiles(MediafileController* mc)
@@ -146,7 +155,7 @@ void MediafileController::indexFiles(MediafileController* mc)
             ++s_audiofiles;
         if (file.contains(QString(".mp4")) || file.contains(QString(".avi")) || file.contains(QString(".mkv")))
             ++s_videofiles;
-        mc->filesFound(s_audiofiles, s_videofiles, false);
+        emit mc->filesFound(s_audiofiles, s_videofiles, false);
     }
     emit mc->filesFound(s_audiofiles, s_videofiles, true);
 #endif

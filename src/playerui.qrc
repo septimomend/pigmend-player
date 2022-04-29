@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/icon">
         <file>pigmend.ico</file>
+        <file>img/icons/pigmend_setup.png</file>
     </qresource>
     <qresource prefix="/buttons">
         <file>img/buttons/add-file-16.ico</file>
@@ -17,26 +18,55 @@
         <file>img/buttons/mute-2-16.ico</file>
         <file>img/buttons/paint-brush-16.ico</file>
         <file>img/buttons/play-16.ico</file>
-        <file>img/buttons/repeat-16.ico</file>
         <file>img/buttons/search-3-16.ico</file>
-        <file>img/buttons/shuffle-16.ico</file>
         <file>img/buttons/stop-16.ico</file>
-        <file>img/buttons/volume-down-5-16.ico</file>
-        <file>img/buttons/volume-up-4-16.ico</file>
         <file>img/buttons/window-5-16.ico</file>
         <file>img/buttons/x-mark-16.ico</file>
-        <file>img/buttons/fast-forward-16.ico</file>
+        <file>img/buttons/fullscreen-exit-16.ico</file>
+        <file>img/buttons/hide-arrow-48.ico</file>
+        <file>img/buttons/show-arrow-48.ico</file>
+        <file>img/buttons/arrow-playback-16.png</file>
+        <file>img/buttons/repeat-16.png</file>
+        <file>img/buttons/shuffle-16.png</file>
+        <file>img/buttons/volume-down-5-16.png</file>
+        <file>img/buttons/volume-up-4-16.png</file>
+        <file>img/buttons/audio-spectrum-16.ico</file>
+        <file>img/buttons/preferences-24.png</file>
+        <file>img/buttons/delete-row-30.png</file>
+        <file>img/buttons/close-16.png</file>
+        <file>img/buttons/plus-16.png</file>
     </qresource>
     <qresource prefix="/custom">
         <file>img/custom/bluemend.ico</file>
         <file>img/custom/darkgreymend.ico</file>
-        <file>img/custom/equalizer.gif</file>
         <file>img/custom/greymend.ico</file>
         <file>img/custom/load2.gif</file>
         <file>img/custom/loader.gif</file>
-        <file>img/custom/music.gif</file>
         <file>img/custom/okload.gif</file>
         <file>img/custom/orangemend.ico</file>
         <file>img/custom/pigmendback.png</file>
+        <file>img/custom/search_no_match.png</file>
+        <file>img/custom/headphones-48.png</file>
+        <file>img/custom/video-camera-100.png</file>
+    </qresource>
+    <qresource prefix="/animations">
+        <file>img/custom/musgif/defaultAnimation.gif</file>
+        <file>img/custom/musgif/equalizerAnimation.gif</file>
+        <file>img/custom/musgif/equalizerAnimationBig.gif</file>
+        <file>img/custom/musgif/equalizerAnimationBricks.gif</file>
+        <file>img/custom/musgif/astralAnimation.gif</file>
+        <file>img/custom/musgif/playlistItemAnimation.gif</file>
+    </qresource>
+    <qresource prefix="/settings_icons">
+        <file>img/settings_icons/about-50.png</file>
+        <file>img/settings_icons/headphone-66.png</file>
+        <file>img/settings_icons/keyboard-50.png</file>
+        <file>img/settings_icons/video-50.png</file>
+        <file>img/settings_icons/window-settings-50.png</file>
+        <file>img/settings_icons/settings-64.png</file>
+        <file>img/settings_icons/view-64.png</file>
+        <file>img/settings_icons/down-arrow-64.png</file>
+        <file>img/settings_icons/up-arrow-64.png</file>
+        <file>img/settings_icons/check-16.png</file>
     </qresource>
 </RCC>

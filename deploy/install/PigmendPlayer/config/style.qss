@@ -1,0 +1,31 @@
+QWidget
+{
+    color: white;
+    background-color: rgb(53, 53, 53);
+}
+QPushButton
+{
+    background-color: rgb(0, 170, 127);
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(0, 170, 127);
+    border-radius: 5px;
+    min-height: 25px;
+    max-height: 25px;
+    min-width: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+QPushButton:pressed, QPushButton:checked
+{
+    background: rgb(1, 138, 103);
+}
+QProgressBar
+{
+    text-align: center;
+    border-color: rgba(0, 170, 127, 50%);
+}
+QProgressBar::chunk
+{
+    background-color: rgb(0, 170, 127);
+}

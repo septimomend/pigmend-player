@@ -1,37 +1,53 @@
 /*
-MIT License
 
-Copyright (c) 2018 Ivan Chapkailo
+GPL-2.0 License
+Copyright (c) 2022 Ivan Chapkailo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+See license: https://github.com/septimomend/pigmend-player
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "videoWidget.h"
 
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QApplication>
 
-VideoWidget::VideoWidget(QWidget *parent) : QVideoWidget(parent)
+#if DEBUG
+#include <QDebug>
+#endif
+
+#define TIME_TO_HIDE_CURSOR_MS 3000
+
+VideoWidget::VideoWidget(bool isMainScreen, QWidget *parent) : QVideoWidget(parent),
+    m_isGlobalWidget(!isMainScreen)
 {
+    this->setMouseTracking(true);
+    m_timer = new QTimer(this);
+
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
+	m_globalVideoWidget = static_cast<QVideoWidget*>(parent);
+
+    if (isMainScreen)
+        setStyleSheet("image: url(:/custom/img/custom/pigmendback.png)");
+
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(hideCursorOnFullScreen()));
+}
+
+VideoWidget::~VideoWidget()
+{
+    delete m_timer;
 }
 
 void VideoWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Escape && isFullScreen())
     {
-        this->setFullScreen(false);
-        event->accept();
-    }
-    else if (event->key() == Qt::Key_Enter && event->modifiers() & Qt::Key_Alt)
-    {
-        this->setFullScreen(!isFullScreen());
+        emit videoWidgetToggleRequest();
         event->accept();
     }
     else
@@ -40,7 +56,7 @@ void VideoWidget::keyPressEvent(QKeyEvent *event)
 
 void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    this->setFullScreen(!isFullScreen());
+    emit videoWidgetToggleRequest();
     event->accept();
 }
 
@@ -49,14 +65,51 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     QVideoWidget::mousePressEvent(event);
 }
 
-void VideoWidget::enableFullScreen()
+void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    this->setFullScreen(true);
+    QApplication::setOverrideCursor(Qt::ArrowCursor);
+    QApplication::changeOverrideCursor(Qt::ArrowCursor);
+
+    if (m_globalVideoWidget->isFullScreen())
+        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+    else
+        m_timer->stop();
+
+    event->accept();
+}
+
+void VideoWidget::manageFullScreen()
+{
+    emit videoWidgetToggleRequest();
+}
+
+void VideoWidget::hideCursorOnFullScreen()
+{
+    QApplication::setOverrideCursor(Qt::BlankCursor);
+    QApplication::changeOverrideCursor(Qt::BlankCursor);
+
+    m_timer->stop();
+}
+
+void VideoWidget::showCursorOnFullScreen()
+{
+    m_timer->stop();
+}
+
+void VideoWidget::onFullscreenToggled()
+{
+    QApplication::setOverrideCursor(Qt::ArrowCursor);
+    QApplication::changeOverrideCursor(Qt::ArrowCursor);
+
+    if (m_globalVideoWidget->isFullScreen())
+        m_timer->start(TIME_TO_HIDE_CURSOR_MS);
+    else
+        m_timer->stop();
 }
 
 void VideoWidget::paintEvent(QPaintEvent *pe)
 {
-    pe = pe;
+    (void)pe;
     QStyleOption styleOption;
     styleOption.init(this);
     QPainter painter(this);

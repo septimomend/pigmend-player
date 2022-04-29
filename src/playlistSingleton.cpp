@@ -1,20 +1,46 @@
 /*
-MIT License
 
-Copyright (c) 2018 Ivan Chapkailo
+GPL-2.0 License
+Copyright (c) 2022 Ivan Chapkailo
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+See license: https://github.com/septimomend/pigmend-player
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Author: Ivan Chapkailo (https://github.com/septimomend/)
+E-mail: chapkailo.ivan@gmail.com
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "playlistSingleton.h"
 
+#include <QtDebug>
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/tpropertymap.h>
+#include <iostream>
+#include <iomanip>
+#include <QDebug>
+#include <QDateTime>
+
+using namespace std;
+
 PlaylistSingleton::PlaylistSingleton(QObject *parent)
 {
-    parent = parent;
+    (void)parent;
+    m_style = nullptr;
+    m_playilstCounter = 1;
+    m_playingId = "";
+    m_plData = nullptr;
+    m_current_playing_playlist = nullptr;
+    m_current_playlist = nullptr;
+
+    m_actInsert = new QAction("Add item", this);
+    m_actDelete = new QAction("Delete", this);
+
+    m_actInsert->setIcon(QIcon(":/buttons/img/buttons/add-file-16.ico"));
+    m_actDelete->setIcon(QIcon(":/buttons/img/buttons/x-mark-16.ico"));
+
+    connect(m_actInsert, &QAction::triggered, [=]() { emit addActionTriggered(); });
+    connect(m_actDelete, &QAction::triggered, [=]() { emit removeActionTriggered(); });
 }
 
 PlaylistSingleton::~PlaylistSingleton()
@@ -30,27 +56,241 @@ PlaylistSingleton& PlaylistSingleton::getInstance()
 
 size_t PlaylistSingleton::clearPlaylistData()
 {
-    if(!m_plData.isEmpty())
+    if (!m_current_playlist->plData.isEmpty())
     {
-        m_plData.clear();
+        m_current_playlist->plData.clear();
         m_shuffledData.clear();
     }
-    return m_plData.size();
+    return size_t(m_current_playlist->plData.size());
+}
+
+void PlaylistSingleton::deletePlaylistItem(QTableWidgetItem *item)
+{
+    m_current_playlist->plData.remove(item->text());
 }
 
 size_t PlaylistSingleton::makeShuffle(bool shuffleMode)
 {
     // if the suffle mode is enabled - copy filepath of playlist data to the vector
     // and shuffle this vector by random_shuffle() algorithm
+	srand(static_cast<unsigned int>(time(nullptr)));
     m_shuffledData.clear();
-    if(shuffleMode)
+
+	if (shuffleMode)
     {
-        for(auto it = m_plData.begin(); it != m_plData.end(); ++it)
+        for (auto it = m_plData->begin(); it != m_plData->end(); ++it)
             m_shuffledData.push_back(it.value());
         std::random_shuffle(m_shuffledData.begin(), m_shuffledData.end());
     }
     else
         m_shuffledData.clear();
 
-    return m_shuffledData.size();
+    return size_t(m_shuffledData.size());
+}
+
+QString PlaylistSingleton::convertIntToTimeStr(int hours, int min, int sec)
+{
+	QString h_str = QString::number(hours);
+	QString m_str = QString::number(min);
+	QString s_str = QString::number(sec);
+
+	if (h_str.size() < 2)
+		h_str = QString(2 - h_str.size(), '0') + h_str;
+
+	if (m_str.size() < 2)
+		m_str = QString(2 - m_str.size(), '0') + m_str;
+
+	if (s_str.size() < 2)
+		s_str = QString(2 - s_str.size(), '0') + s_str;
+
+	return (h_str + ":" + m_str + ":" + s_str);
+}
+
+QString PlaylistSingleton::getAudioTotalTime()
+{
+	int total = 0, seconds, hours, minutes;
+    for (auto it = m_current_playlist->plData.begin(); it != m_current_playlist->plData.end(); ++it)
+	{
+		TagLib::FileRef f(it.value().toStdString().c_str());
+
+		if(!f.isNull() && f.tag())
+			TagLib::PropertyMap tags = f.file()->properties();
+
+		if (!f.isNull() && f.audioProperties())
+		{
+			TagLib::AudioProperties *properties = f.audioProperties();
+			total += properties->lengthInSeconds();
+		}
+	}
+
+	hours = total / 3600;
+	minutes = (total % 3600) / 60;
+	seconds = (total % 3600) % 60;
+
+	return convertIntToTimeStr(hours, minutes, seconds);
+}
+
+QString PlaylistSingleton::getAudioTime(QString &audio_file)
+{
+	int time = 0, seconds, hours, minutes;
+	TagLib::FileRef f(audio_file.toStdString().c_str());
+
+	if(!f.isNull() && f.tag())
+		TagLib::PropertyMap tags = f.file()->properties();
+
+	if (!f.isNull() && f.audioProperties())
+	{
+		TagLib::AudioProperties *properties = f.audioProperties();
+		time += properties->lengthInSeconds();
+	}
+
+	hours = time / 3600;
+	minutes = (time % 3600) / 60;
+	seconds = (time % 3600) % 60;
+
+	return convertIntToTimeStr(hours, minutes, seconds);
+}
+
+playlists_str PlaylistSingleton::createNewPlaylist()
+{
+    playlists_str newPlaylist = {};
+    newPlaylist.tabName = "Playlist #" + QString::number(m_playilstCounter++);
+    newPlaylist.tabId = "pltab" + QString::number(QDateTime::currentSecsSinceEpoch());
+    newPlaylist.previousRow = 0;
+    newPlaylist.playlistWidget = new QTableWidget();
+    newPlaylist.playlistWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    newPlaylist.playlistWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    newPlaylist.playlistWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    newPlaylist.playlistWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    newPlaylist.playlistWidget->setFont(QFont("Ubuntu", 8));
+    newPlaylist.playlistWidget->setFocusPolicy(Qt::NoFocus);
+    newPlaylist.playlistWidget->setWordWrap(false);
+    newPlaylist.playlistWidget->setShowGrid(false);
+    newPlaylist.playlistWidget->setAutoScroll(true);
+    newPlaylist.playlistWidget->horizontalHeader()->setCascadingSectionResizes(true);
+    newPlaylist.playlistWidget->horizontalHeader()->setMinimumSectionSize(0);
+    newPlaylist.playlistWidget->horizontalHeader()->hide();
+    newPlaylist.playlistWidget->verticalHeader()->hide();
+    newPlaylist.plData.empty();
+    m_playlists.insert(newPlaylist.tabId, newPlaylist);
+
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        if (it.key() == newPlaylist.tabId)
+        {
+            if (!m_plData)
+            {
+                m_plData = &it->plData;
+                m_playing_widget = it->playlistWidget;
+                m_current_playing_playlist = &it.value();
+            }
+            connect(it->playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
+            break;
+        }
+    }
+
+    if (m_playingId.isEmpty())
+        m_playingId = newPlaylist.tabId;
+
+    updateStylesheet();
+    initContextMenu();
+
+    return newPlaylist;
+}
+
+bool PlaylistSingleton::setActivePlaylist(QString id)
+{
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        if (it.key() == id)
+        {
+            m_current_playlist = &it.value();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void PlaylistSingleton::updateTheme(styles_data_t *style)
+{
+    m_style = style;
+    updateStylesheet();
+}
+
+void PlaylistSingleton::updateStylesheet()
+{
+    if (!m_style)
+        return;
+
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        it->playlistWidget->setStyleSheet(m_style->playlistTheme);
+        it->playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
+    }
+}
+
+QTableWidget *PlaylistSingleton::getCurrentPlaylistWidget(bool isCurrentlyPlaying)
+{
+    return isCurrentlyPlaying ? m_playing_widget : m_current_playlist->playlistWidget;
+}
+
+void PlaylistSingleton::initContextMenu()
+{
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    {
+        QTableWidget *widget = it->playlistWidget;
+        if (!widget->actions().isEmpty())
+            continue;
+
+        widget->setContextMenuPolicy(Qt::ActionsContextMenu);
+        widget->addActions({ m_actInsert, m_actDelete });
+    }
+}
+
+void PlaylistSingleton::onPlaylistDoubleClicked(int row, int column)
+{
+    m_plData = &m_current_playlist->plData;
+    m_playing_widget = m_current_playlist->playlistWidget;
+    m_playingId = m_current_playlist->tabId;
+    m_current_playing_playlist = m_current_playlist;
+
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+        it->playlistWidget->removeCellWidget(it->previousRow, 2);
+
+    emit activatePlaylist(row, column);
+}
+
+QMap<QString, QString> *PlaylistSingleton::getCurrentPlaylistContainer()
+{
+    return &m_current_playlist->plData;
+}
+
+bool PlaylistSingleton::removePlaylist(QString id)
+{
+    m_playlists.remove(id);
+
+    if (m_playingId == id)
+    {
+        m_plData = &m_playlists.begin()->plData;
+        m_playing_widget = m_playlists.begin()->playlistWidget;
+        m_current_playing_playlist = &m_playlists.begin().value();
+    }
+
+    return true;
+}
+
+QString PlaylistSingleton::getCurrentTabId()
+{
+    return m_current_playlist->tabId;
+}
+
+int PlaylistSingleton::getPreviousRow()
+{
+    return m_current_playing_playlist->previousRow;
+}
+
+void PlaylistSingleton::setPreviousRow(int row)
+{
+    m_current_playing_playlist->previousRow = row;
 }
