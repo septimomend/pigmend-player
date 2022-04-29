@@ -794,7 +794,7 @@ void MediaPlayer::onPlaylistUpdate()
     // while loaded playlist first time - prepare first file for playing
 	// and don't prepare first file after adding files to existing playlist
 	// because then current media file stops playing and sets first file as media file
-    if (!m_isPlaylistLoaded && !m_playlist.m_plData->isEmpty())
+    if (!m_isPlaylistLoaded && !m_playlist.m_plData->isEmpty() && m_playerControls->getCurrentMediaItem().isEmpty())
 	{
         QListWidgetItem* item = new QListWidgetItem(m_playlist.m_plData->value(m_playlist.m_plData->firstKey()));
 		m_playerControls->setFirstFile(item);
