@@ -758,7 +758,7 @@ void MediaPlayer::onPlaylistUpdate()
     m_playlist.getCurrentPlaylistWidget()->setColumnCount(PLAYLIST_COLUMN_COUNT);
 
 	QStringList playlistHeader;
-    playlistHeader << "#" << "Name" << "Time" << "Playing";
+    playlistHeader << "#" << "Name" << "Playing" << "Time";
     m_playlist.getCurrentPlaylistWidget()->setHorizontalHeaderLabels(playlistHeader);
     m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(PLAYLIST_NUM_COLUMN, QHeaderView::ResizeToContents);
     m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(PLAYLIST_NAME_COLUMN, QHeaderView::Stretch);
