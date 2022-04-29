@@ -30,6 +30,8 @@ PlaylistSingleton::PlaylistSingleton(QObject *parent)
     m_playilstCounter = 1;
     m_playingId = "";
     m_plData = nullptr;
+    m_current_playing_playlist = nullptr;
+    m_current_playlist = nullptr;
 
     m_actInsert = new QAction("Add item", this);
     m_actDelete = new QAction("Delete", this);
@@ -154,6 +156,7 @@ playlists_str PlaylistSingleton::createNewPlaylist()
     playlists_str newPlaylist = {};
     newPlaylist.tabName = "Playlist #" + QString::number(m_playilstCounter++);
     newPlaylist.tabId = "pltab" + QString::number(QDateTime::currentSecsSinceEpoch());
+    newPlaylist.previousRow = 0;
     newPlaylist.playlistWidget = new QTableWidget();
     newPlaylist.playlistWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
     newPlaylist.playlistWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -177,10 +180,11 @@ playlists_str PlaylistSingleton::createNewPlaylist()
         {
             if (!m_plData)
             {
-                m_plData = &it.value().plData;
-                m_playing_widget = it.value().playlistWidget;
+                m_plData = &it->plData;
+                m_playing_widget = it->playlistWidget;
+                m_current_playing_playlist = &it.value();
             }
-            connect(it.value().playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
+            connect(it->playlistWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(onPlaylistDoubleClicked(int,int)));
             break;
         }
     }
@@ -221,8 +225,8 @@ void PlaylistSingleton::updateStylesheet()
 
     for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
     {
-        it.value().playlistWidget->setStyleSheet(m_style->playlistTheme);
-        it.value().playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
+        it->playlistWidget->setStyleSheet(m_style->playlistTheme);
+        it->playlistWidget->verticalScrollBar()->setStyleSheet(m_style->playlistScrollBar);
     }
 }
 
@@ -235,7 +239,7 @@ void PlaylistSingleton::initContextMenu()
 {
     for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
     {
-        QTableWidget *widget = it.value().playlistWidget;
+        QTableWidget *widget = it->playlistWidget;
         if (!widget->actions().isEmpty())
             continue;
 
@@ -249,6 +253,10 @@ void PlaylistSingleton::onPlaylistDoubleClicked(int row, int column)
     m_plData = &m_current_playlist->plData;
     m_playing_widget = m_current_playlist->playlistWidget;
     m_playingId = m_current_playlist->tabId;
+    m_current_playing_playlist = m_current_playlist;
+
+    for (auto it = m_playlists.begin(); it != m_playlists.end(); ++it)
+        it->playlistWidget->removeCellWidget(it->previousRow, 2);
 
     emit activatePlaylist(row, column);
 }
@@ -264,8 +272,9 @@ bool PlaylistSingleton::removePlaylist(QString id)
 
     if (m_playingId == id)
     {
-        m_plData = &m_playlists.begin().value().plData;
-        m_playing_widget = m_playlists.begin().value().playlistWidget;
+        m_plData = &m_playlists.begin()->plData;
+        m_playing_widget = m_playlists.begin()->playlistWidget;
+        m_current_playing_playlist = &m_playlists.begin().value();
     }
 
     return true;
@@ -274,4 +283,14 @@ bool PlaylistSingleton::removePlaylist(QString id)
 QString PlaylistSingleton::getCurrentTabId()
 {
     return m_current_playlist->tabId;
+}
+
+int PlaylistSingleton::getPreviousRow()
+{
+    return m_current_playing_playlist->previousRow;
+}
+
+void PlaylistSingleton::setPreviousRow(int row)
+{
+    m_current_playing_playlist->previousRow = row;
 }

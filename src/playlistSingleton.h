@@ -30,6 +30,7 @@ struct playlists_str
     QString tabName;
     QMap<QString, QString> plData;
     QTableWidget *playlistWidget;
+    int previousRow;
 };
 
 class PlaylistSingleton : public QObject
@@ -64,6 +65,8 @@ public:
     QTableWidget *getCurrentPlaylistWidget(bool isCurrentlyPlaying = false);
     QMap<QString, QString> *getCurrentPlaylistContainer();
     QString getCurrentTabId();
+    void setPreviousRow(int row);
+    int getPreviousRow();
 
 signals:
     void removeActionTriggered();
@@ -78,6 +81,7 @@ private:
     QMap<QString, playlists_str> m_playlists;
     styles_data_t *m_style;
     playlists_str *m_current_playlist;
+    playlists_str *m_current_playing_playlist;
     QTableWidget *m_playing_widget;
     QString m_playingId;
     int m_playilstCounter;

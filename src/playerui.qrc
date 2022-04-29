@@ -55,6 +55,7 @@
         <file>img/custom/musgif/equalizerAnimationBig.gif</file>
         <file>img/custom/musgif/equalizerAnimationBricks.gif</file>
         <file>img/custom/musgif/astralAnimation.gif</file>
+        <file>img/custom/musgif/playlistItemAnimation.gif</file>
     </qresource>
     <qresource prefix="/settings_icons">
         <file>img/settings_icons/about-50.png</file>

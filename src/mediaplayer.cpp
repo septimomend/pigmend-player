@@ -26,9 +26,10 @@ using namespace  tinyxml2;
 
 #define PLAYLIST_NUM_COLUMN 0
 #define PLAYLIST_NAME_COLUMN 1
-#define PLAYLIST_TIME_COLUMN 2
+#define PLAYLIST_MOVIE_COLUMN 2
+#define PLAYLIST_TIME_COLUMN 3
 #define SLIDER_STEP 10
-#define PLAYLIST_COLUMN_COUNT 3
+#define PLAYLIST_COLUMN_COUNT 4
 #define TIME_TO_HIDE_VIDEO_CTRL_MS 1000
 
 MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *parent) : QMainWindow(parent),
@@ -199,6 +200,8 @@ MediaPlayer::~MediaPlayer()
 	delete m_aboutPlayer;
 	delete m_movieLoading;
 	delete m_movieDone;
+    delete m_moviePlayingItem;
+    delete m_playingItemLabel;
 	delete m_menuBar;
 	delete m_playSC;
 	delete m_nextSC;
@@ -716,9 +719,15 @@ void MediaPlayer::adjustVideoWidget()
 
 void MediaPlayer::initAnimations()
 {
+    m_playingItemLabel = new QLabel;
+    m_moviePlayingItem = new QMovie(":/animations/img/custom/musgif/playlistItemAnimation.gif");
 	m_movieLoading = new QMovie(":/custom/img/custom/loader.gif");
 	m_movieDone = new QMovie(":/custom/img/custom/okload.gif");
 
+    m_playingItemLabel->setStyleSheet("background-color: rgba(0,0,0,0%)");
+    m_playingItemLabel->setAlignment(Qt::AlignCenter);
+    m_playingItemLabel->setMovie(m_moviePlayingItem);
+    m_moviePlayingItem->start();
 	ui->loadingLabel->setMovie(m_movieLoading);
 	m_movieLoading->start();
 
@@ -749,12 +758,14 @@ void MediaPlayer::onPlaylistUpdate()
     m_playlist.getCurrentPlaylistWidget()->setColumnCount(PLAYLIST_COLUMN_COUNT);
 
 	QStringList playlistHeader;
-	playlistHeader << "#" << "Name" << "Time";
+    playlistHeader << "#" << "Name" << "Time" << "Playing";
     m_playlist.getCurrentPlaylistWidget()->setHorizontalHeaderLabels(playlistHeader);
-    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(PLAYLIST_NUM_COLUMN, QHeaderView::ResizeToContents);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(PLAYLIST_NAME_COLUMN, QHeaderView::Stretch);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(PLAYLIST_MOVIE_COLUMN, QHeaderView::Fixed);
+    m_playlist.getCurrentPlaylistWidget()->horizontalHeader()->setSectionResizeMode(PLAYLIST_TIME_COLUMN, QHeaderView::ResizeToContents);
     m_playlist.getCurrentPlaylistWidget()->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_playlist.getCurrentPlaylistWidget()->setColumnWidth(PLAYLIST_MOVIE_COLUMN, 16);
 
 	// insert filenames from QMap as items to playlist widget
     for (auto it = m_playlist.getCurrentPlaylistContainer()->begin(); it != m_playlist.getCurrentPlaylistContainer()->end(); ++it)
@@ -765,7 +776,7 @@ void MediaPlayer::onPlaylistUpdate()
         m_playlist.getCurrentPlaylistWidget()->setItem(row, PLAYLIST_NAME_COLUMN, new QTableWidgetItem(item));
         m_playlist.getCurrentPlaylistWidget()->setItem(row, PLAYLIST_TIME_COLUMN, new QTableWidgetItem(m_playlist.getAudioTime(it.value())));
 		++row;
-	}
+    }
 
     ui->allItemsLabel->setFrameStyle(QFrame::StyledPanel);
     ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(m_playlist.getCurrentPlaylistWidget()->rowCount()));   // set count of tracks
@@ -780,7 +791,7 @@ void MediaPlayer::onPlaylistUpdate()
     }
 
 	// prepare first media file
-	// while loaded playlist first time - prepare first file for playing
+    // while loaded playlist first time - prepare first file for playing
 	// and don't prepare first file after adding files to existing playlist
 	// because then current media file stops playing and sets first file as media file
     if (!m_isPlaylistLoaded && !m_playlist.m_plData->isEmpty())
@@ -872,6 +883,9 @@ void MediaPlayer::updateTimeProgress(int playTime)
 void MediaPlayer::focusItem(QString path)
 {
 	int row = 0;
+
+    m_playlist.getCurrentPlaylistWidget(true)->removeCellWidget(m_playlist.getPreviousRow(), PLAYLIST_MOVIE_COLUMN);
+
     for (auto it = m_playlist.m_plData->begin(); it != m_playlist.m_plData->end(); ++it)
 	{
 #ifdef WIN32
@@ -880,11 +894,29 @@ void MediaPlayer::focusItem(QString path)
 		QString canonical_path = "file://" + it.value();
 #endif
 
-		if (path == canonical_path)
-		{
-          m_playlist.getCurrentPlaylistWidget(true)->selectRow(row);
-          m_playlist.getCurrentPlaylistWidget(true)->scrollToItem(m_playlist.getCurrentPlaylistWidget(true)->selectedItems().at(0));
-		  ui->currentItemLabel->setText(QString::number(row + 1));              // set number of current track
+        if (path == canonical_path)
+        {
+            m_playingItemLabel = new QLabel;
+            m_moviePlayingItem = new QMovie(":/animations/img/custom/musgif/playlistItemAnimation.gif");
+            m_playingItemLabel->setStyleSheet("background-color: rgba(0,0,0,0%)");
+            m_playingItemLabel->setAlignment(Qt::AlignCenter);
+            m_playingItemLabel->setMovie(m_moviePlayingItem);
+
+            if (!m_isPaused)
+                m_moviePlayingItem->start();
+
+            if (!(m_playlist.getCurrentPlaylistWidget(true)->selectedItems().count()) ||
+               (m_playlist.getCurrentPlaylistWidget(true)->selectedItems().count() == 3 &&
+               m_playlist.getCurrentPlaylistWidget(true)->selectedItems().at(0)->row() == m_playlist.getPreviousRow()))
+            {
+                m_playlist.getCurrentPlaylistWidget(true)->selectRow(row);
+            }
+
+            m_playlist.getCurrentPlaylistWidget(true)->setCellWidget(row, PLAYLIST_MOVIE_COLUMN, m_playingItemLabel);
+            m_playlist.getCurrentPlaylistWidget(true)->scrollToItem(m_playlist.getCurrentPlaylistWidget(true)->item(row, PLAYLIST_NAME_COLUMN));
+            m_playlist.setPreviousRow(row);
+            ui->currentItemLabel->setText(QString::number(row + 1));
+            break;
 		}
 		++row;
 	}
@@ -1287,6 +1319,9 @@ void MediaPlayer::stopAnimation(bool isPaused)
         m_playInFullScreen->setStyleSheet(m_style->backcolor);
 
 		m_movieMusic->stop();
+
+        if (m_moviePlayingItem)
+            m_moviePlayingItem->stop();
     }
 	else
     {
@@ -1300,6 +1335,9 @@ void MediaPlayer::stopAnimation(bool isPaused)
         m_pauseInFullScreen->setStyleSheet(m_style->backcolor);
 
 		m_movieMusic->start();
+
+        if (m_moviePlayingItem)
+            m_moviePlayingItem->start();
     }
 }
 

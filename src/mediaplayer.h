@@ -127,7 +127,7 @@ private:
     PreferencesDialog *m_preferences;
     AboutPigmend *m_aboutPlayer;
     renameDialog *m_renameDialog;
-    QMovie *m_movieLoading, *m_movieDone;
+    QMovie *m_movieLoading, *m_movieDone, *m_moviePlayingItem;
 	QMovie *m_movieMusic;
     QSize m_movieImageSize;
     QString m_theme_config_path;
@@ -135,6 +135,7 @@ private:
     QTimer *m_videoControlTimer;
     QTimer *m_menuWidthTimer;
     QPushButton *addPlaylistButton;
+    QLabel *m_playingItemLabel;
 
     // shortcuts
     QShortcut *m_playSC;
