@@ -32,6 +32,8 @@ public:
     ~PreferencesDialog();
 
     void updateTheme(QString &style);
+    QString getCustomRGB();
+    void setCustomRGB(int r, int g, int b);
 
 private:
     void initParentWidget();
@@ -43,9 +45,14 @@ private:
     void initAudioSection();
     void initVideoSection();
 
+    void applyViewSettings();
+
     QWidget *m_parentWidget;
     QSettings m_preferenceSettings;
     QSettingsDialog m_preferencesDialog;
+
+signals:
+    void updateCustomTheme(QString);
 
 public slots:
     void showPreferences();

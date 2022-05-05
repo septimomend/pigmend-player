@@ -100,6 +100,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_blueAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_greyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
 	connect(m_darkGreyAction, SIGNAL(triggered(bool)), this, SLOT(updateTheme()));
+    connect(m_preferences, SIGNAL(updateCustomTheme(QString)), this, SLOT(updateTheme(QString)));
 	connect(m_noneAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_defaultAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_equalizerAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
@@ -952,14 +953,30 @@ void MediaPlayer::onRepeatButton()
 	m_playerControls->setRepeatMode(ui->repeatButton->isChecked());
 }
 
-void MediaPlayer::updateTheme()
+void MediaPlayer::updateTheme(QString customRGB)
 {
 	QString theme_name = this->sender() ? this->sender()->objectName() : "";
     QString theme_file(getDBXML());
 
 	theme_file.append(static_cast<char*>(config_get_data(THEME_CONFIG, m_conf_data)));
 
-    m_style = m_xmldp.getStylesXML(theme_file, theme_name);
+    if (!customRGB.isEmpty())
+        theme_name = "custom";
+    else
+    {
+        if (theme_name == "blue mend")
+            m_preferences->setCustomRGB(0, 170, 127);
+        else if (theme_name == "orange mend")
+            m_preferences->setCustomRGB(255, 85, 0);
+        else if (theme_name == "grey mend")
+            m_preferences->setCustomRGB(105, 105, 105);
+        else if (theme_name == "dark grey mend")
+            m_preferences->setCustomRGB(47, 79, 79);
+
+        customRGB = m_preferences->getCustomRGB();
+    }
+
+    m_style = m_xmldp.getStylesXML(theme_file, theme_name, customRGB);
 
     if (!m_style)
 	{
@@ -1365,6 +1382,7 @@ void MediaPlayer::toggleVideoWidgetFullscreen()
         ui->videoLayout->removeWidget(m_globalVideoWidget);
         m_globalVideoWidget->setParent(this, Qt::Tool | Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
         m_globalVideoWidget->showFullScreen();
+        stopAnimation(m_isPaused);
     }
 
     emit videoFullscreenToggled();

@@ -90,7 +90,7 @@ private slots:
     void updateCursorPosition(QPoint *);
     void hideControlPanelInNormalMode(bool forcedHide);
     void hideVideoControlPanel();
-	void updateTheme();
+    void updateTheme(QString customRGB = "");
 	void updateAnimation();
 	void stopAnimation(bool isPaused);
 	void showHidePlaylist();
