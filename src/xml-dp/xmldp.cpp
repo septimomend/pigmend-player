@@ -21,7 +21,7 @@ XMLDP::~XMLDP()
 {
 }
 
-styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
+styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name, QString &customRGB)
 {
 	xml_document<> themes_xml;
 	styles_data_t *themes_data = new styles_data_t;
@@ -63,6 +63,23 @@ styles_data_t *XMLDP::getStylesXML(QString &path, QString &theme_name)
             themes_data->playlistTabsTheme = theme_data_node->first_node("playlistTabsTheme")->value();
 		}
 	}
+
+    if (themes_data->current_theme == "custom")
+    {
+        themes_data->backcolor.replace("CUSTOM_RGB", customRGB);
+        themes_data->color.replace("CUSTOM_RGB", customRGB);
+        themes_data->transbackcolor.replace("CUSTOM_RGB", customRGB);
+        themes_data->menucolor.replace("CUSTOM_RGB", customRGB);
+        themes_data->progressSliderTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->volumeSliderTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->playlistTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->buttonTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->buttonCheckedTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->preferencesTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->playlistScrollBar.replace("CUSTOM_RGB", customRGB);
+        themes_data->pluginsTheme.replace("CUSTOM_RGB", customRGB);
+        themes_data->playlistTabsTheme.replace("CUSTOM_RGB", customRGB);
+    }
 
 	if (themes_data->color.isEmpty())
 	{

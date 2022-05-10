@@ -31,7 +31,7 @@ public:
 	XMLDP();	// cstr
 	~XMLDP();	// dstr
 
-	styles_data_t *getStylesXML(QString &path, QString &theme_name);
+    styles_data_t *getStylesXML(QString &path, QString &theme_name, QString &customRGB);
 	int setStylesXML(QString &path, QString &theme_name);
 	about_data_t *getInfoAbout(QString &path);
 	QString getAudioAnimation(QString path_to_xml, QString animation_name = "");

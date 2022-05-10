@@ -45,15 +45,11 @@ PreferencesDialog::~PreferencesDialog()
 void PreferencesDialog::initParentWidget()
 {
     m_parentWidget = new QWidget;
-    //m_parentWidget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
-    if (!m_parentWidget)
-    {
 #if DEBUG
+    if (!m_parentWidget)
         qDebug() << "Failed to allocate preferences parent widget" << endl;
 #endif
-        return;
-    }
 }
 
 void PreferencesDialog::initSections()
@@ -86,14 +82,6 @@ void PreferencesDialog::initShortcutsSection()
 {
     m_preferencesDialog.setCategory(SECTION_SHORTCUTS, SECTION_SHORTCUTS, QIcon(SECTION_SHORTCUTS_ICON));
     m_preferencesDialog.setSection(SECTION_SHORTCUTS);
-
-    /* How to retrieve data:
-    QSettingsSettingsLoader *load = new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/add_file_key");
-    QVariant data;
-    bool userEdit;
-    load->load(data, userEdit);
-    qDebug() << data;
-    */
 
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/add_file_key"), "Add file"));
     m_preferencesDialog.appendEntry(new QSettingsEntry(QMetaType::QKeySequence, new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_SHORTCUTS"/add_folder_key"), "Add folder"));
@@ -153,9 +141,55 @@ void PreferencesDialog::saveSettings(bool closed)
 #if DEBUG
     qDebug() << "Changes saved, close flag: " << closed << endl;
 #endif
+    applyViewSettings();
 }
 
 void PreferencesDialog::updateTheme(QString &style)
 {
     m_parentWidget->setStyleSheet(style);
+
+    QList<QScreen*> screenList = QGuiApplication::screens();
+
+    if (screenList.isEmpty())
+        return;
+
+    QRect sceenGeometry = screenList[0]->geometry();
+    int x = (sceenGeometry.width() - m_parentWidget->width()) / 2;
+    int y = (sceenGeometry.height() - m_parentWidget->height()) / 2;
+    m_parentWidget->move(x, y);
+}
+
+void PreferencesDialog::applyViewSettings()
+{
+    QSettingsSettingsLoader *load = new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_VIEW"/theme_color");
+    QVariant data;
+    bool userEdit;
+    load->load(data, userEdit);
+    QColor *themeColor = (QColor*)data.data();
+    QString rgb = QString::number(themeColor->red()) + ", " + QString::number(themeColor->green()) + ", " + QString::number(themeColor->blue());
+
+    emit updateCustomTheme(rgb);
+}
+
+QString PreferencesDialog::getCustomRGB()
+{
+    QSettingsSettingsLoader *load = new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_VIEW"/theme_color");
+    QVariant data;
+    bool userEdit;
+    load->load(data, userEdit);
+    QColor *themeColor = (QColor*)data.data();
+    QString rgb = QString::number(themeColor->red()) + ", " + QString::number(themeColor->green()) + ", " + QString::number(themeColor->blue());
+
+    return rgb;
+}
+
+void PreferencesDialog::setCustomRGB(int r, int g, int b)
+{
+    QSettingsSettingsLoader *load = new QSettingsSettingsLoader(&m_preferenceSettings, SECTION_VIEW"/theme_color");
+    QVariant data;
+    bool userEdit;
+    load->load(data, userEdit);
+    QColor *themeColor = (QColor*)data.data();
+    themeColor->setRgb(r, g, b);
+    load->save(data);
 }
