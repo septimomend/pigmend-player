@@ -16,14 +16,15 @@
   <widget class="QLabel" name="demoLabel">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>70</y>
-     <width>611</width>
+     <width>601</width>
      <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Manjari</family>
      <pointsize>32</pointsize>
     </font>
    </property>
