@@ -34,6 +34,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Manjari</family>
      <pointsize>30</pointsize>
     </font>
    </property>
