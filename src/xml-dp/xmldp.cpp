@@ -211,3 +211,39 @@ QString XMLDP::getAudioAnimation(QString path_to_xml, QString animation_name)
 
 	return "";
 }
+
+int XMLDP::setAudioAnimation(QString &path, QString &theme_name)
+{
+    int rc = -1;
+    tinyxml2::XMLDocument xml_doc;
+
+    tinyxml2::XMLError eResult = xml_doc.LoadFile(path.toStdString().c_str());
+
+    if (eResult != tinyxml2::XML_SUCCESS)
+    {
+        qCritical() << __FUNCTION__ << ": can't open file " << path << endl;
+        abort();
+    }
+
+    tinyxml2::XMLNode *root = xml_doc.FirstChildElement("PPAnimations");
+
+    if (root == nullptr)
+    {
+        qWarning() << __FUNCTION__ << ": no root child" << endl;
+        return rc;
+    }
+
+    tinyxml2::XMLElement *curr_animation = root->FirstChildElement("CurrentAudioAnimation");
+    if (!curr_animation)
+    {
+        qWarning() << __FUNCTION__ << "Can't set current animation" << endl;
+        return rc;
+    }
+
+    curr_animation->SetText(theme_name.toStdString().c_str());
+
+    xml_doc.SaveFile(path.toStdString().c_str());
+
+    rc = 0;
+    return rc;
+}
