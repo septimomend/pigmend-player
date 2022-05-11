@@ -35,6 +35,7 @@ public:
 	int setStylesXML(QString &path, QString &theme_name);
 	about_data_t *getInfoAbout(QString &path);
 	QString getAudioAnimation(QString path_to_xml, QString animation_name = "");
+    int setAudioAnimation(QString &path, QString &theme_name);
 };
 
 #endif // XMLDP_H

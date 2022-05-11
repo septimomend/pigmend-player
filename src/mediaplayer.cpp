@@ -106,6 +106,7 @@ MediaPlayer::MediaPlayer(QRect screen_size, conf_data_t *conf_data, QWidget *par
 	connect(m_equalizerAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_radioAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
     connect(m_astralAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
+    connect(m_roboticAnimationAction, SIGNAL(triggered(bool)), this, SLOT(updateAnimation()));
 	connect(m_fullScreenAction, SIGNAL(triggered(bool)), m_globalVideoWidget, SLOT(manageFullScreen()));
 	connect(m_clearAction, SIGNAL(triggered(bool)), this, SLOT(clearPlaylist()));
 	connect(m_infoAction, SIGNAL(triggered(bool)), this, SLOT(showInfo()));
@@ -595,11 +596,13 @@ void MediaPlayer::initMenu()
 	m_equalizerAnimationAction = m_animation_menu->addAction("Equalizer");
     m_radioAnimationAction = m_animation_menu->addAction("Equalizer Bricks");
     m_astralAnimationAction = m_animation_menu->addAction("Astral");
+    m_roboticAnimationAction = m_animation_menu->addAction("Robotic");
 	m_noneAnimationAction->setObjectName("noneAnimation");
 	m_defaultAnimationAction->setObjectName("defaultAnimation");
 	m_equalizerAnimationAction->setObjectName("equalizerAnimation");
-    m_radioAnimationAction->setObjectName("equalizerBricksAnimations");
-    m_astralAnimationAction->setObjectName("astralAnimations");
+    m_radioAnimationAction->setObjectName("equalizerBricksAnimation");
+    m_astralAnimationAction->setObjectName("astralAnimation");
+    m_roboticAnimationAction->setObjectName("roboticAnimation");
 
 	// about
 	m_helpmenu = m_menuBar->addMenu("Help");
@@ -1060,8 +1063,11 @@ void MediaPlayer::updateAnimation()
 	}
 	else
 	{
-        m_movieMusic->setFileName(m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)),
-            this->sender()->objectName()));
+        QString animationPath(getDBXML());
+        animationPath.append(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)));
+        QString animationName = this->sender()->objectName();
+        m_movieMusic->setFileName(m_xmldp.getAudioAnimation(static_cast<char*>(config_get_data(ANIMATIONS_CONFIG, m_conf_data)), animationName));
+
         QImageReader movieImg(m_movieMusic->fileName());
         m_movieImageSize = movieImg.size();
         resizeMovieLabel();
@@ -1074,6 +1080,12 @@ void MediaPlayer::updateAnimation()
         {
             m_movieMusic->start();
             m_movieMusic->stop();
+        }
+
+        if (!animationName.isEmpty() && m_xmldp.setAudioAnimation(animationPath, animationName))
+        {
+            qWarning() << __FUNCTION__ << ": can't save " << animationName << " animation to xml" << endl;
+            return;
         }
 	}
 }
@@ -1429,7 +1441,9 @@ void MediaPlayer::playlistTabChanged(int id)
     qDebug() << "Switch to ID" << id << ":" << ui->playlistTabWidget->currentWidget()->objectName();
 #endif
 
-    m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName());
+    if (!m_playlist.setActivePlaylist(ui->playlistTabWidget->currentWidget()->objectName()))
+        return;
+
     m_playlist.makeShuffle(m_shuffleMode);
     ui->allItemsLabel->setText("<font color=\"white\">Amount: </font>" + QString::number(m_playlist.getCurrentPlaylistWidget()->rowCount()));
     ui->totalTimeLabel->setText("<font color=\"white\">Total time: </font>" + m_playlist.getAudioTotalTime());

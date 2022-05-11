@@ -173,6 +173,7 @@ private:
 	QAction *m_equalizerAnimationAction;
 	QAction *m_radioAnimationAction;
     QAction *m_astralAnimationAction;
+    QAction *m_roboticAnimationAction;
     QAction *m_preferencesAction;
 
     // Full screen controls
