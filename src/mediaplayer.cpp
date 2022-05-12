@@ -557,7 +557,7 @@ void MediaPlayer::initMenu()
 
     // edit
     m_editmenu = m_menuBar->addMenu("Edit");
-    m_preferencesAction = m_editmenu->addAction(QIcon(PREFERENCES_ICON_PATH);
+    m_preferencesAction = m_editmenu->addAction(QIcon(PREFERENCES_ICON_PATH), "Preferences");
 
 	// view
 	m_viewmenu = m_menuBar->addMenu("View");
@@ -1106,9 +1106,9 @@ void MediaPlayer::updateIndexedData(int audio_count, int video_count, bool statu
 	}
 
 	if (audio_count == 0)
-        ui->indexAudioLabel->setText(tr("<img src=\":/custom/img/custom/headphones-48.png\" width=\"16\" height=\"16\"/> 0"));
+        ui->indexAudioLabel->setText("<img src=\":/custom/img/custom/headphones-48.png\" width=\"16\" height=\"16\"/> 0");
 	if (video_count == 0)
-        ui->indexVideoLabel->setText(tr("<img src=\":/custom/img/custom/video-camera-100.png\" width=\"16\" height=\"16\"/> 0"));
+        ui->indexVideoLabel->setText("<img src=\":/custom/img/custom/video-camera-100.png\" width=\"16\" height=\"16\"/> 0");
 	else
 	{
         QString audio = "<img src=\":/custom/img/custom/headphones-48.png\" width=\"16\" height=\"16\"/> " + QString::number(audio_count);

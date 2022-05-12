@@ -89,7 +89,7 @@ static const char *DEFAULT_ANIMATION = "defaultAnimation";
 
 namespace main_menu_constants
 {
-#define PREFERENCES_ICON_PATH ":/buttons/img/buttons/preferences-24.png"), "Preferences"
+#define PREFERENCES_ICON_PATH ":/buttons/img/buttons/preferences-24.png"
 }
 
 namespace preferences_constants
